@@ -1,0 +1,60 @@
+{
+  "root": "A",
+  "nodes": [
+    {
+      "id": "A",
+      "name": "A",
+      "value": 12,
+      "type": "persona",
+      "isclick": true
+    },
+    {
+      "id": "B",
+      "name": "B",
+      "value": 8,
+      "type": "persona",
+      "isclick": false
+    },
+    {
+      "id": "C",
+      "name": "C",
+      "value": 2,
+      "type": "institucion",
+      "isclick": false
+    },
+    {
+      "id": "D",
+      "name": "D",
+      "value": 20,
+      "type": "persona",
+      "isclick": true
+    }
+  ],
+  "links": [
+    {
+      "from": "A",
+      "to": "B",
+      "value": 2
+    },
+    {
+      "from": "A",
+      "to": "C",
+      "value": 2
+    },
+    {
+      "from": "A",
+      "to": "D",
+      "value": 1
+    },
+    {
+      "from": "B",
+      "to": "D",
+      "value": 1
+    },
+    {
+      "from": "C",
+      "to": "D",
+      "value": 3
+    }
+  ]
+}

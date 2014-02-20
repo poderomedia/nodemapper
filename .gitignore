@@ -1,0 +1,7 @@
+
+# Bower & Node
+bower_components
+node_modules
+
+# Jekyll
+_site

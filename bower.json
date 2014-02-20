@@ -1,0 +1,30 @@
+{
+  "name": "panama-network",
+  "version": "0.1.0",
+  "authors": [
+    "gregorio <gregorio@masega.co>"
+  ],
+  "description": "Redes de influencias en Panamá, Elecciones 2014",
+  "main": "index.md",
+  "keywords": [
+    "elections",
+    "candidates",
+    "panama"
+  ],
+  "license": "MIT",
+  "homepage": "www.github.io/masegalab",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "d3": "~3.4.2"
+  },
+  "devDependencies": {
+    "bootstrap": "~3.1.1"
+  }
+}
