@@ -9,6 +9,13 @@
       "isclick": true
     },
     {
+      "id": "A",
+      "name": "A",
+      "value": 12,
+      "type": "persona",
+      "isclick": true
+    },
+    {
       "id": "C",
       "name": "C",
       "value": 2,
@@ -31,6 +38,11 @@
     }
   ],
   "links": [
+    {
+      "from": "A",
+      "to": "D",
+      "value": 1
+    },
     {
       "from": "C",
       "to": "D",
