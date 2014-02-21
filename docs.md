@@ -8,10 +8,15 @@ title: Documentation
 
 # Network Chart
 
-<div id="chart01"></div>
+<div class="row">
+    <div class="col-md-12">
+        <div id="chart01"></div>
+    </div>
+</div>
+
 
 <script>
-    var width = 600,
+    var width = parseInt(d3.select('#chart01').style('width'), 10),
         height = 400;
 
 	var chart01 = pty.chart.network()
@@ -42,11 +47,12 @@ title: Documentation
 
 </script>
 
-## Default Settings
+<h3><span class="glyphicon glyphicon-bookmark"></span> Default Settings</h3>
 
-The following script initiates a force chart using the data contained in the file A.json. By default, the central node is colored with aqua-light with and surrounded by a grey stroke. The other nodes are light green and change color when the cursor is on them. A grey stroke around a non-central node indicates that the node has neighbors that are not displayed (as they are not linked to the central node). A different style is used weither the link connects to the central node or not. All the nodes can be dragged.
+The following script initiates a force chart using the data contained in the file `A.json`. By default, the central node is colored with aqua-light with and surrounded by a grey stroke. The other nodes are light green and change color when the cursor is on them. A grey stroke around a non-central node indicates that the node has neighbors that are not displayed (as they are not linked to the central node). A different style is used weither the link connects to the central node or not. All the nodes can be dragged.
 
 {% highlight javascript %}
+// Container DIV
 <div id="example01"></div>
 
 <script>
@@ -62,7 +68,7 @@ The following script initiates a force chart using the data contained in the fil
 </script>
 {% endhighlight %}
 
-<div id="example01"></div>
+<div id="example01" class="example"></div>
 
 <script>
     d3.json('{{ site.baseurl }}/data/B.json', function(error, data) {
@@ -76,11 +82,9 @@ The following script initiates a force chart using the data contained in the fil
     });
 </script>
 
-
-## Setting the Chart Size
+<h3><span class="glyphicon glyphicon-bookmark"></span> Setting the Chart Size</h3>
 
 The width and height of the chart can be set by using the options `.width()` and `.height()` . If omitted, the default parameters are `width = 400` and `height = 400`.
-
 
 {% highlight javascript %}
 // Create a chart with custom width and height
@@ -93,14 +97,14 @@ d3.select('div#example02')
     .call(chart);
 {% endhighlight %}
 
-<div id="example02"></div>
+<div id="example02" class="example"></div>
 
 <script>
     d3.json('{{ site.baseurl }}/data/A.json', function(error, data) {
 
         var chart = pty.chart.network()
             .width(600)
-            .height(200);
+            .height(300);
 
         d3.select('div#example02')
             .data([data])
@@ -108,29 +112,29 @@ d3.select('div#example02')
     });
 </script>
 
-## Setting the radius of the Nodes
+<h3><span class="glyphicon glyphicon-bookmark"></span> Setting the radius of the nodes</h3>
 
-The radius of the nodes can be set using the option '.nodeRadius()'. The default value is 20.
+The radius of the nodes can be set using the option `.nodeRadius()`. The default value is 20.
 
 {% highlight javascript %}
-        // Create a chart with custom node radius
-        var chart = pty.chart.network()
-            .nodeRadius(50);
+// Create a chart with custom node radius
+var chart = pty.chart.network()
+    .nodeRadius(25);
 
-        d3.select('div#example03')
-            .data([data])
-            .call(chart);
+d3.select('div#example03')
+    .data([data])
+    .call(chart);
     });
 {% endhighlight %}
 
-<div id="example03"></div>
+<div id="example03" class="example"></div>
 
 <script>
     d3.json('{{ site.baseurl }}/data/A.json', function(error, data) {
 
         // Create a chart with the default options
         var chart = pty.chart.network()
-            .nodeRadius(50);
+            .nodeRadius(25);
 
         d3.select('div#example03')
             .data([data])
@@ -138,15 +142,20 @@ The radius of the nodes can be set using the option '.nodeRadius()'. The default
     });
 </script>
 
-## Basic Settings of the Force Layout
+<h3><span class="glyphicon glyphicon-bookmark"></span> Basic Settings of the Force Layout</h3>
 
 The user can change the values of the charge, friction, link distance and link strength using the options `.charge()`, `.friction()`, `.linkDistance()` and `linkStrength()` respectively. By default, the central node is initially pinned to the center and stays pinned to any location it is dragged to. This can be changed with the option `.fixCenter(false)`.
 
-## Expanding the graph
+<h3><span class="glyphicon glyphicon-bookmark" class=""></span> Expanding the Graph</h3>
 
 In the following example, node D has neighbors that are not displayed in the initial graph. Clicking on node D will make all his neighbors appear.
 
-<div id="example04"></div>
+<div class="row">
+<div class="col-md-12">
+<div id="example04" class="example"></div>
+</div>
+</div>
+
 
 <script>
 
