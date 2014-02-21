@@ -3,53 +3,32 @@ layout: main
 title: Panama
 ---
 
+<link href="{{ site.baseurl }}/css/index.css" rel="stylesheet">
 <script src="{{ site.baseurl }}/js/lib/d3.min.js"></script>
 <script src="{{ site.baseurl }}/src/pty.js"></script>
 
-<div class="col-md-12">
-<div id="example04" class="example"></div>
-</div>
+<div class="row">
+    <div class="col-md-12">
+        <div id="demo"></div>
+    </div>
 </div>
 
 
 <script>
+d3.json('{{ site.baseurl }}/data/A.json', function(error, data) {
 
-    d3.json('{{ site.baseurl }}/data/A.json', function(error, data) {
+    if (error) { return error; }
 
-        if (error) { return error; }
-
-        var width = 600,
+    var width = parseInt(d3.select('#demo').style('width'), 10),
         height = 400;
 
     var chart01 = pty.chart.network()
         .width(width)
         .height(height)
         .nodeRadius(15)
-        .onClick(function(d) {
+        .nodeLabel(function(d) { return d.name; })
+        .nodeBaseURL(function(d) { return '{{site.baseurl}}/data/' + d.id + '.json'; });
 
-            d.isclick = false;
-
-            var dataurl = "../data/"+d.id+".json";
-
-
-            d3.json(dataurl, function(error, data) {
-
-                if (!error) {
-
-                var olddata = d3.select('div#example04').data()[0];
-
-                olddata.nodes = olddata.nodes.concat(data.nodes);
-                olddata.links = olddata.links.concat(data.links);
-
-                d3.select('div#example04')
-                    .data([olddata])
-                    .call(chart01);}
-            });
-        })
-        .nodeClass(function(d) { return d.type; });
-
-        d3.select('div#example04').data([data]).call(chart01);
-    });
-
+    d3.select('div#demo').data([data]).call(chart01);
+});
 </script>
-</body>

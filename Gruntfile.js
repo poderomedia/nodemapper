@@ -51,7 +51,8 @@ module.exports = function(grunt) {
                     cleancss: true
                 },
                 files: {
-                    'css/pty.css': 'less/pty.less'
+                    'css/pty.css': 'less/pty.less',
+                    'css/index.css': 'less/index.less'
                 }
             }
         }

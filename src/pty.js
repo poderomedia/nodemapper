@@ -56,8 +56,6 @@ pty.chart.network = function() {
                 d.internalcn = 0;
             });
 
-            //console.log(dataNodes);
-
             // Identify unique links and set the source and target of each one
             k = 0;
             var idxLinks = {}, dataLinks = [];
@@ -112,33 +110,14 @@ pty.chart.network = function() {
             // Initialize the SVG element
             var svgEnter = svg.enter().append('svg')
                 .attr('width', me.width)
-                .attr('height', me.height);
-
-            // Create the container group, and groups for the nodes and links
-            svgEnter.append('g').attr('class', 'network-chart');
-
-            // Add a background group and rectangle
-            svgEnter.select('g.network-chart').append('g')
-                .attr('class', 'background')
-                .append('rect')
-                .attr('width', me.width)
                 .attr('height', me.height)
-                .attr('class', 'background');
-
-            svgEnter.select('g.network-chart').append('g')
-                .attr('class', 'links');
-
-            svgEnter.select('g.network-chart').append('g')
-                .attr('class', 'nodes');
-
-            svgEnter.select('g.network-chart').append('g')
-                .attr('class', 'labels');
+                .call(chart.init);
 
             var g = svg.select('g.network-chart'),
                 glinks = g.select('g.links'),
                 gnodes = g.select('g.nodes'),
-                glabels = g.select('g.labels');
-
+                glabels = g.select('g.labels'),
+                gbrand = g.select('g.brand');
 
             // Force layout
             // ------------
@@ -239,6 +218,38 @@ pty.chart.network = function() {
 
         });
     }
+
+
+    chart.init = function(selection) {
+        selection.each(function(data) {
+
+            var svgEnter = d3.select(this),
+                gcont = svgEnter.append('g').attr('class', 'network-chart');
+
+            // Add a background group and rectangle
+            gcont.append('g')
+                .attr('class', 'background')
+                .append('rect')
+                .attr('width', me.width)
+                .attr('height', me.height)
+                .attr('class', 'background');
+
+            gcont.append('g').attr('class', 'links');
+            gcont.append('g').attr('class', 'nodes');
+            gcont.append('g').attr('class', 'labels');
+
+            var gbrand = gcont.append('g')
+                .attr('class', 'brand')
+                .attr('transform', 'translate(' + [me.width - 4, me.height - 4] + ')');
+
+            var brandLabel = gbrand.append('a')
+                .attr('xlink:href', 'http://www.masega.co')
+                .append('text')
+                .attr('class', 'masega-brand')
+                .attr('text-anchor', 'end')
+                .text('masega.co');
+        });
+    };
 
 
     // Accessor Methods

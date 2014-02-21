@@ -3,6 +3,7 @@ layout: embed
 title: Embed
 ---
 
+<link href="{{ site.baseurl }}/css/pty.css" rel="stylesheet">
 <script src="{{ site.baseurl }}/js/lib/d3.min.js"></script>
 <script src="{{ site.baseurl }}/src/pty.js"></script>
 
