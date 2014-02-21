@@ -17,11 +17,13 @@ pty.chart.network = function() {
         width: 400,
         height: 400,
         nodeRadius: 20,
-        charge: function(d, i) { return -200; },
+        charge: function(d, i) { return -4e3; },
+        friction: 0.5,
         linkStrength: 0.2,
         linkDistance: 120,
         onClick: function(d, i) {},
         nodeClass: function(d, i) { return ''; },
+        fixCenter: true
     };
 
 
@@ -65,14 +67,14 @@ pty.chart.network = function() {
                 }
             });
 
+            // Fix the center node
             dataNodes.forEach(function(d) {
                 if (d.id === data.root) {
                     d.x = me.width / 2;
                     d.y = me.height / 2;
-                    d.fixed = true;
+                    d.fixed = me.fixCenter;
                 }
             });
-
 
             // Initialization
             // --------------
@@ -85,6 +87,7 @@ pty.chart.network = function() {
             // Create the container group, and groups for the nodes and links
             svgEnter.append('g').attr('class', 'network-chart');
 
+            // Add a background group and rectangle
             svgEnter.select('g.network-chart').append('g')
                 .attr('class', 'background')
                 .append('rect')
@@ -94,13 +97,17 @@ pty.chart.network = function() {
 
             svgEnter.select('g.network-chart').append('g')
                 .attr('class', 'links');
+
             svgEnter.select('g.network-chart').append('g')
                 .attr('class', 'nodes');
 
+            svgEnter.select('g.network-chart').append('g')
+                .attr('class', 'labels');
 
             var g = svg.select('g.network-chart'),
                 glinks = g.select('g.links'),
-                gnodes = g.select('g.nodes');
+                gnodes = g.select('g.nodes'),
+                glabels = g.select('g.labels');
 
 
             // Force layout
@@ -108,7 +115,10 @@ pty.chart.network = function() {
 
             var force = d3.layout.force()
                 .charge(me.charge)
-                .linkDistance(me.linkDistance)
+                .friction(me.friction)
+                // .chargeDistance(me.linkDistance * 1.3)
+                // .gravity(0)
+                // .linkDistance(me.linkDistance)
                 .linkStrength(me.linkStrength)
                 .size([me.width, me.height]);
 
@@ -140,8 +150,8 @@ pty.chart.network = function() {
             var circles = gnodes.selectAll('circle.node')
                 .data(force.nodes(), function(d) { return d.id; });
 
-            circles.transition()
-                .attr('fill', 'blue');
+            // circles.transition()
+            //     .attr('fill', 'blue');
 
             circles.enter().append('circle')
                 .attr('class', 'node')
@@ -167,15 +177,14 @@ pty.chart.network = function() {
             circles.exit().remove();
 
             //Labels
-            var words = g.selectAll('text')
+            var words = glabels.selectAll('text.node-label')
                 .data(force.nodes(), function(d) { return d.id; });
 
             words.enter().append('text')
                 .text(function(d) { return d.name; })
-                .attr('text-anchor','start')
                 .attr('x', function(d, i) { return d.x + me.nodeRadius; })
                 .attr('y', function(d, i) { return d.y - me.nodeRadius; })
-                .attr('fill','black');
+                .attr('class', 'node-label');
 
             words.exit().remove();
 
