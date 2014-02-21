@@ -179,6 +179,8 @@ In the following example, node D has neighbors that are not displayed in the ini
 
             d3.json(dataurl, function(error, data) {
 
+                if (!error) {
+
                 var olddata = d3.select('div#example04').data()[0];
 
                 olddata.nodes = olddata.nodes.concat(data.nodes);
@@ -186,7 +188,7 @@ In the following example, node D has neighbors that are not displayed in the ini
 
                 d3.select('div#example04')
                     .data([olddata])
-                    .call(chart01);
+                    .call(chart01);}
             });
         })
         .nodeClass(function(d) { return d.type; });
