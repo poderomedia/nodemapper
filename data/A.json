@@ -3,28 +3,28 @@
   "nodes": [
     {
       "id": "A",
-      "name": "A",
+      "name": "Mr. A",
       "value": 12,
       "type": "persona",
       "isclick": true
     },
     {
       "id": "B",
-      "name": "B",
+      "name": "Miss B",
       "value": 8,
       "type": "persona",
-      "isclick": false
+      "isclick": true
     },
     {
       "id": "C",
-      "name": "C",
+      "name": "C corp",
       "value": 2,
       "type": "institucion",
       "isclick": false
     },
     {
       "id": "D",
-      "name": "D",
+      "name": "Dr. D",
       "value": 20,
       "type": "persona",
       "isclick": true

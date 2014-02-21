@@ -3,7 +3,7 @@
   "nodes": [
     {
       "id": "B",
-      "name": "B",
+      "name": "Miss B",
       "value": 8,
       "type": "persona",
       "numcn":3,
@@ -11,7 +11,7 @@
     },
     {
       "id": "A",
-      "name": "A",
+      "name": "Mr. A",
       "value": 12,
       "type": "persona",
       "numcn":3,
@@ -19,7 +19,7 @@
     },
     {
       "id": "D",
-      "name": "D",
+      "name": "Dr. D",
       "value": 20,
       "type": "persona",
       "numcn":5,
@@ -27,7 +27,7 @@
     },
     {
       "id": "G",
-      "name": "G",
+      "name": "Dr. G",
       "value": 3,
       "type": "persona",
       "numcn":3,
@@ -35,7 +35,7 @@
     },
     {
       "id": "E",
-      "name": "E",
+      "name": "E Navarro",
       "value": 20,
       "type": "candidato",
       "numcn": 4,

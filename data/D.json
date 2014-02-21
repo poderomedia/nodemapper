@@ -3,35 +3,35 @@
   "nodes": [
     {
       "id": "D",
-      "name": "D",
+      "name": "Dr. D",
       "value": 20,
       "type": "persona",
       "isclick": true
     },
     {
       "id": "A",
-      "name": "A",
+      "name": "Mr. A",
       "value": 12,
       "type": "persona",
       "isclick": true
     },
     {
       "id": "C",
-      "name": "C",
+      "name": "C corp",
       "value": 2,
       "type": "institucion",
       "isclick": false
     },
     {
       "id": "F",
-      "name": "F",
+      "name": "Mr. F",
       "value": 8,
       "type": "persona",
       "isclick": false
     },
     {
       "id": "G",
-      "name": "G",
+      "name": "Dr. G",
       "value": 3,
       "type": "persona",
       "isclick": false
