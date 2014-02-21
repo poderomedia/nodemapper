@@ -50,19 +50,6 @@ pty.chart.network = function() {
                 }
             });
 
-            //Return index for each id in dataNodes
-            /*var idx2 = {};
-            l=0;
-            dataNodes.forEach(function(d) {
-                if (!idx2.hasOwnProperty(d.id)) {
-                    idx2[d.id] = l;
-                    l += 1;
-                }
-            });
-
-            console.log(idx);
-            console.log(idx2);*/
-
             dataNodes.forEach( function(d) {
                 d.internalcn = 0;
             });
@@ -155,11 +142,10 @@ pty.chart.network = function() {
             // ----------------
 
             // Links
+            // -----
+
             var links = glinks.selectAll('line.link')
                 .data(force.links(), function(d) { return d.linkID; });
-
-            links.transition()
-                .attr('stroke', 'blue');
 
             links.enter().append('line')
                 .attr('class', 'link')
@@ -170,15 +156,19 @@ pty.chart.network = function() {
             // Remove unused links
             links.exit().remove();
 
-            // Circles
-            // -------
+            // Nodes
+            // -----
+
             var circles = gnodes.selectAll('circle.node')
                 .data(force.nodes(), function(d) { return d.id; });
 
+            // Update
             circles.classed('node-clickable', function(d) { return d.isclick; });
 
             circles.enter().append('circle')
-                .attr('class', 'node')
+                .attr('class', function(d, i) {
+                    return me.nodeClass(d, i) + ' node';
+                })
                 .attr('r', me.nodeRadius)
                 .classed('node', true)
                 .classed('node-center', function(d) { return d.id === data.root; })

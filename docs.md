@@ -22,21 +22,7 @@ title: Documentation
 	var chart01 = pty.chart.network()
 		.width(width)
 		.height(height)
-        .nodeRadius(15)
-		.onClick(function(d) {
-            d3.json('../data/A.json', function(error, data) {
-
-                var olddata = d3.select('#chart01').data()[0];
-
-                olddata.nodes = olddata.nodes.concat(data.nodes);
-                olddata.links = olddata.links.concat(data.links);
-
-                d3.select('#chart01')
-                    .data([olddata])
-                    .call(chart01);
-            });
-        })
-        .nodeClass(function(d) { return d.type; });
+        .nodeRadius(10);
 
 	d3.json('{{ site.baseurl }}/data/D.json', function(error, data) {
 
@@ -47,7 +33,7 @@ title: Documentation
 
 </script>
 
-<h3><span class="glyphicon glyphicon-bookmark"></span> Default Settings</h3>
+<h3><span class="glyphicon glyphicon-bookmark"></span> Default settings</h3>
 
 The following script initiates a force chart using the data contained in the file `A.json`. By default, the central node is colored with aqua-light with and surrounded by a grey stroke. The other nodes are light green and change color when the cursor is on them. A grey stroke around a non-central node indicates that the node has neighbors that are not displayed (as they are not linked to the central node). A different style is used weither the link connects to the central node or not. All the nodes can be dragged.
 
@@ -82,7 +68,7 @@ The following script initiates a force chart using the data contained in the fil
     });
 </script>
 
-<h3><span class="glyphicon glyphicon-bookmark"></span> Setting the Chart Size</h3>
+<h3><span class="glyphicon glyphicon-bookmark"></span> Setting the chart size</h3>
 
 The width and height of the chart can be set by using the options `.width()` and `.height()` . If omitted, the default parameters are `width = 400` and `height = 400`.
 
@@ -124,7 +110,6 @@ var chart = pty.chart.network()
 d3.select('div#example03')
     .data([data])
     .call(chart);
-    });
 {% endhighlight %}
 
 <div id="example03" class="example"></div>
@@ -142,6 +127,58 @@ d3.select('div#example03')
     });
 </script>
 
+<h3><span class="glyphicon glyphicon-bookmark"></span> Setting the node class</h3>
+
+Set the styles for circles of class `persona` and `institucion`.
+{% highlight css %}
+.network-chart circle.persona {
+    fill: #C44D58;
+}
+
+.network-chart circle.institucion {
+    fill: #556270;
+}
+{% endhighlight %}
+
+Set the function to determine the node class using the attributes of each node element.
+
+{% highlight javascript %}
+// Create a chart and set the class for the nodes
+var chart = pty.chart.network()
+    .nodeClass(function(d) { return d.type; });
+
+d3.select('div#example04')
+    .data([data])
+    .call(chart);
+{% endhighlight %}
+
+<div>
+    <style>
+        .network-chart circle.persona {
+            fill: #C44D58;
+        }
+
+        .network-chart circle.institucion {
+            fill: #556270;
+        }
+    </style>
+</div>
+
+<div id="example04" class="example"></div>
+
+<script>
+    d3.json('{{ site.baseurl }}/data/A.json', function(error, data) {
+
+        // Create a chart with the default options
+        var chart = pty.chart.network()
+            .nodeClass(function(d) { return d.type; });
+
+        d3.select('div#example04')
+            .data([data])
+            .call(chart);
+    });
+</script>
+
 <h3><span class="glyphicon glyphicon-bookmark"></span> Basic Settings of the Force Layout</h3>
 
 The user can change the values of the charge, friction, link distance and link strength using the options `.charge()`, `.friction()`, `.linkDistance()` and `linkStrength()` respectively. These are standard properties of the force layout and a complete documentation can be found [here](https://github.com/mbostock/d3/wiki/Force-Layout). By default, the central node is initially pinned to the center and stays pinned to any location it is dragged to. This can be changed with the option `.fixCenter(false)`.
@@ -152,7 +189,7 @@ In the following example, nodes B and D have neighbors that are not displayed in
 
 <div class="row">
 <div class="col-md-12">
-<div id="example04" class="example"></div>
+<div id="example05" class="example"></div>
 </div>
 </div>
 
@@ -181,19 +218,19 @@ In the following example, nodes B and D have neighbors that are not displayed in
 
                 if (!error) {
 
-                var olddata = d3.select('div#example04').data()[0];
+                var olddata = d3.select('div#example05').data()[0];
 
                 olddata.nodes = olddata.nodes.concat(data.nodes);
                 olddata.links = olddata.links.concat(data.links);
 
-                d3.select('div#example04')
+                d3.select('div#example05')
                     .data([olddata])
                     .call(chart01);}
             });
         })
         .nodeClass(function(d) { return d.type; });
 
-        d3.select('div#example04').data([data]).call(chart01);
+        d3.select('div#example05').data([data]).call(chart01);
     });
 
 </script>
