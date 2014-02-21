@@ -49,6 +49,11 @@
       "value": 2
     },
     {
+      "from": "B",
+      "to": "G",
+      "value": 2
+    },
+    {
       "from": "E",
       "to": "B",
       "value": 2

@@ -6,6 +6,7 @@
       "name": "Dr. D",
       "value": 20,
       "type": "persona",
+      "numcn": 5,
       "isclick": true
     },
     {
@@ -13,6 +14,7 @@
       "name": "Mr. A",
       "value": 12,
       "type": "persona",
+      "numcn": 3,
       "isclick": true
     },
     {
@@ -20,6 +22,7 @@
       "name": "C corp",
       "value": 2,
       "type": "institucion",
+      "numcn": 2,
       "isclick": false
     },
     {
@@ -27,6 +30,7 @@
       "name": "Mr. F",
       "value": 8,
       "type": "persona",
+      "numcn": 2,
       "isclick": false
     },
     {
@@ -34,6 +38,7 @@
       "name": "Dr. G",
       "value": 3,
       "type": "persona",
+      "numcn": 3,
       "isclick": false
     }
   ],
