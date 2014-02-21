@@ -1,0 +1,72 @@
+{
+  "root": "B",
+  "nodes": [
+    {
+      "id": "B",
+      "name": "Miss B",
+      "value": 8,
+      "type": "persona",
+      "numcn":3,
+      "isclick": true
+    },
+    {
+      "id": "A",
+      "name": "Mr. A",
+      "value": 12,
+      "type": "persona",
+      "numcn":3,
+      "isclick": true
+    },
+    {
+      "id": "D",
+      "name": "Dr. D",
+      "value": 20,
+      "type": "persona",
+      "numcn":5,
+      "isclick": true
+    },
+    {
+      "id": "G",
+      "name": "Dr. G",
+      "value": 3,
+      "type": "persona",
+      "numcn":3,
+      "isclick": false
+    },
+    {
+      "id": "E",
+      "name": "E Navarro",
+      "value": 20,
+      "type": "candidato",
+      "numcn": 4,
+      "isclick": true
+    }
+  ],
+  "links": [
+    {
+      "from": "E",
+      "to": "G",
+      "value": 2
+    },
+    {
+      "from": "E",
+      "to": "B",
+      "value": 2
+    },
+    {
+      "from": "D",
+      "to": "G",
+      "value": 2
+    },
+    {
+      "from": "B",
+      "to": "D",
+      "value": 2
+    },
+    {
+      "from": "A",
+      "to": "B",
+      "value": 2
+    }
+  ]
+}
