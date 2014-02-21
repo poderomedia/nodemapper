@@ -48,7 +48,7 @@ pty.chart.network = function() {
                 }
             });
 
-            console.log(dataLinks);
+            //console.log(dataLinks);
 
             var svgEnter = svg.enter().append('svg')
                 .attr('width', width)
@@ -61,7 +61,7 @@ pty.chart.network = function() {
             var g = svg.select('g.network-chart');
 
             var force = d3.layout.force()
-                .charge(-500)
+                .charge(-5000)
                 .size([width, height]);
 
             force.nodes(dataNodes)
@@ -78,7 +78,10 @@ pty.chart.network = function() {
                 .attr('stroke', 'blue');
 
             links.enter().append('line')
-                .attr('class', 'link')
+                .attr('class', function(d) {
+                    if(d.from === data.root) { return 'link'; }
+                    else { return 'link'; }
+                } )
                 .attr('stroke', 'red');
 
             links.exit().remove();
@@ -96,14 +99,34 @@ pty.chart.network = function() {
                 .attr('r', radius)
                 .classed('node', true)
                 .classed('center', function(d) { return d.id === data.root; })
+                //.classed('isclick',function(d) {return d.isclick; })
                 .attr('fill', 'red')
-                .on('click', onClick)
+                .on('click', function(d) { if(d.isclick) {if(d.id !== data.root) { onClick(); } }}) //Ok, no se hacer AND,...
                 .on('mouseover', function(d) { d3.select(this).classed('highlight', true); })
                 .on('mouseout', function(d) { d3.select(this).classed('highlight', false); });
+
 
             circles.call(force.drag);
 
             circles.exit().remove();
+
+            //Labels
+            var words = g.selectAll('text')
+                .data(force.nodes(), function(d) { return d.id; });
+
+            words.transition();
+
+            words.enter()
+                .append('text')
+                .text(function(d) { return d.name})
+                .attr('text-anchor','start')
+                .attr('x',function(d) { return d.x + 10; })
+                .attr('y', function(d) { return d.y -10; })
+                .attr('width',10)
+                .attr('height',10)
+                .attr('fill','black');
+
+            words.exit().remove();
 
 
             // Force On Tick
@@ -117,6 +140,10 @@ pty.chart.network = function() {
                 circles
                     .attr('cx', function(d) { return d.x; })
                     .attr('cy', function(d) { return d.y; });
+
+                words.attr('x', function(d) { return d.x + 10; })
+                            .attr('y', function(d) { return d.y - 10; });
+
             });
 
         });

@@ -9,14 +9,19 @@ title: Documentation
 		}
 		.link {
   			stroke: #999;
-  			stroke-opacity: .8;
-  			stroke-width: 5;
+  			stroke-opacity: .2;
+  			stroke-width: 3
 		}
 		.minorlink {
 			stroke: #999;
 			stroke-opacity: .2;
-			stroke-width: 3;
+			stroke-width: 10;
 		}
+        .biglink {
+            stroke: #000;
+            stroke-opacity: .8;
+            stroke-width: 10;
+        }
 		.center{
 			fill: #aaa;
 			stroke: #555;
