@@ -163,11 +163,10 @@ In the following example, node D has neighbors that are not displayed in the ini
         .nodeRadius(15)
         .onClick(function(d) {
 
-            console.log(d.id);
+            d.isclick = false;
 
             var dataurl = "../data/"+d.id+".json";
 
-            console.log(dataurl);
 
             d3.json(dataurl, function(error, data) {
 
