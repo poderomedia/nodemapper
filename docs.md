@@ -144,11 +144,11 @@ d3.select('div#example03')
 
 <h3><span class="glyphicon glyphicon-bookmark"></span> Basic Settings of the Force Layout</h3>
 
-The user can change the values of the charge, friction, link distance and link strength using the options `.charge()`, `.friction()`, `.linkDistance()` and `linkStrength()` respectively. By default, the central node is initially pinned to the center and stays pinned to any location it is dragged to. This can be changed with the option `.fixCenter(false)`.
+The user can change the values of the charge, friction, link distance and link strength using the options `.charge()`, `.friction()`, `.linkDistance()` and `linkStrength()` respectively. These are standard properties of the force layout and a complete documentation can be found [here](https://github.com/mbostock/d3/wiki/Force-Layout). By default, the central node is initially pinned to the center and stays pinned to any location it is dragged to. This can be changed with the option `.fixCenter(false)`.
 
 <h3><span class="glyphicon glyphicon-bookmark" class=""></span> Expanding the Graph</h3>
 
-In the following example, node D has neighbors that are not displayed in the initial graph. Clicking on node D will make all his neighbors appear.
+In the following example, nodes B and D have neighbors that are not displayed initially. Clicking any of them will expand the graph. New clickable nodes may emerge.
 
 <div class="row">
 <div class="col-md-12">
@@ -172,13 +172,14 @@ In the following example, node D has neighbors that are not displayed in the ini
         .nodeRadius(15)
         .onClick(function(d) {
 
-            console.log(d.id);
+            d.isclick = false;
 
             var dataurl = "../data/"+d.id+".json";
 
-            console.log(dataurl);
 
             d3.json(dataurl, function(error, data) {
+
+                if (!error) {
 
                 var olddata = d3.select('div#example04').data()[0];
 
@@ -187,7 +188,7 @@ In the following example, node D has neighbors that are not displayed in the ini
 
                 d3.select('div#example04')
                     .data([olddata])
-                    .call(chart01);
+                    .call(chart01);}
             });
         })
         .nodeClass(function(d) { return d.type; });

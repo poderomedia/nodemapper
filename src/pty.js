@@ -50,6 +50,25 @@ pty.chart.network = function() {
                 }
             });
 
+            //Return index for each id in dataNodes
+            /*var idx2 = {};
+            l=0;
+            dataNodes.forEach(function(d) {
+                if (!idx2.hasOwnProperty(d.id)) {
+                    idx2[d.id] = l;
+                    l += 1;
+                }
+            });
+
+            console.log(idx);
+            console.log(idx2);*/
+
+            dataNodes.forEach( function(d) {
+                d.internalcn = 0;
+            });
+
+            //console.log(dataNodes);
+
             // Identify unique links and set the source and target of each one
             k = 0;
             var idxLinks = {}, dataLinks = [];
@@ -63,8 +82,14 @@ pty.chart.network = function() {
                 if (!idxLinks.hasOwnProperty(d.linkID)) {
                     idxLinks[d.linkID] = k;
                     dataLinks.push(d);
+                    dataNodes[idx[d.from]].internalcn += 1;
+                    dataNodes[idx[d.to]].internalcn += 1;
                     k += 1;
                 }
+            });
+
+            dataNodes.forEach( function(d) {
+                d.isclick = (d.internalcn < d.numcn);
             });
 
             // Fix the center node
@@ -150,8 +175,7 @@ pty.chart.network = function() {
             var circles = gnodes.selectAll('circle.node')
                 .data(force.nodes(), function(d) { return d.id; });
 
-            // circles.transition()
-            //     .attr('fill', 'blue');
+            circles.classed('node-clickable', function(d) { return d.isclick; });
 
             circles.enter().append('circle')
                 .attr('class', 'node')
