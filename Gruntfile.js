@@ -31,30 +31,44 @@ module.exports = function(grunt) {
                     }
                 ]
             },
-            
+
             jquery: {
-                src: 'bower_components/jquery/jquery.min.js',
+                src: 'bower_components/jquery/dist/jquery.min.js',
                 dest: 'js/lib/jquery.min.js'
             },
-            
+
             d3: {
                 src: 'bower_components/d3/d3.min.js',
                 dest: 'js/lib/d3.min.js'
             }
-            
-        }        
 
-        
+        },
+
+        less: {
+            dashboard: {
+                options: {
+                    paths: ['css'],
+                    cleancss: true
+                },
+                files: {
+                    'css/pty.css': 'less/pty.less',
+                    'css/index.css': 'less/index.less'
+                }
+            }
+        }
+
+
     });
 
     // Enable the grunt plugins
     grunt.loadNpmTasks('grunt-contrib-copy');
-    
+    grunt.loadNpmTasks('grunt-contrib-less');
+
 
     // Register Tasks
 
     // Test Task
-    grunt.registerTask('build', ['copy']);
+    grunt.registerTask('build', ['copy', 'less']);
     grunt.registerTask('dist', ['build']);
     grunt.registerTask('default', ['build']);
 

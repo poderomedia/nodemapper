@@ -1,0 +1,72 @@
+
+// Named Colors
+@grey-dark:   #333;
+@grey-medium: #777;
+@grey-light:  #ddd;
+
+@slate-dark:   #556270;
+@green-light: #C7F464;
+@aqua-light:  #4ECDC4;
+
+.network-chart {
+
+    // Nodes
+    .node {
+        fill: @green-light;
+    }
+
+    .node-highlight{
+        fill: @aqua-light;
+    }
+
+    .node-center {
+        fill: @aqua-light;
+        stroke: @grey-light;
+        stroke-width: 3;
+    }
+
+    .node-clickable {
+        cursor: pointer;
+        stroke: @aqua-light;
+        stroke-width: 3;
+        stroke-opacity: 1;
+    }
+
+    // Node Labels
+    text.node-label {
+        fill: @grey-light;
+        text-anchor: start;
+        font-family: sans-serif;
+        font-size: 12px;
+    }
+
+    // Links
+    .link {
+        stroke: @aqua-light;
+        stroke-opacity: .5;
+        stroke-width: 2;
+        stroke-dasharray: 5,5
+    }
+
+    .center-link {
+        stroke-opacity: .2;
+        stroke-width: 4;
+        stroke-dasharray: none;
+    }
+
+
+    // Background
+    rect.background {
+        fill: @slate-dark;
+    }
+
+
+    // Brand
+    .brand text {
+        fill: @grey-light;
+        font-family: 'Roboto', sans-serif;
+        font-size: 11px;
+    }
+}
+
+

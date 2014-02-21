@@ -2,75 +2,286 @@
 layout: main
 title: Documentation
 ---
-<div>
-	<style>
-		.highlight{
-			fill: #aaa;
-		}
-		.link {
-  			stroke: #999;
-  			stroke-opacity: .8;
-  			stroke-width: 5;
-		}
-		.minorlink {
-			stroke: #999;
-			stroke-opacity: .2;
-			stroke-width: 3;
-		}
-		.center{
-			fill: #aaa;
-			stroke: #555;
-			stroke-width: 6;
-		}
 
-        .persona {
-            stroke: red;
-            stroke-width: 2;
-        }
-	</style>
-</div>
-
+<link href="{{ site.baseurl }}/css/pty.css" rel="stylesheet">
 <script src="{{ site.baseurl }}/js/lib/d3.min.js"></script>
 <script src="{{ site.baseurl }}/src/pty.js"></script>
+
+# Network Chart
+
+<div class="row">
+    <div class="col-md-12">
+        <div id="chart01"></div>
+    </div>
+</div>
+
+
 <script>
+    var width = parseInt(d3.select('#chart01').style('width'), 10),
+        height = 400;
 
-
-</script>
-
-<h1>Network Chart Documentation</h1>
-
-<a href="#" id="add-nodes">Add</a>
-<div id="chart01"></div>
-
-<script>
-    // var data = data1
 	var chart01 = pty.chart.network()
-		.width(300)
-		.height(500)
-		.onClick(function(d) {
-            d3.json('../data/D.json', function(error, data) {
+		.width(width)
+		.height(height)
+        .nodeRadius(10);
 
-                var olddata = d3.select('#chart01').data()[0];
-
-                olddata.nodes = olddata.nodes.concat(data.nodes);
-                olddata.links = olddata.links.concat(data.links);
-
-                d3.select('#chart01')
-                    .data([olddata])
-                    .call(chart01);
-            });
-        })
-        .nodeClass(function(d) { return d.type; });
-
-	d3.json('{{ site.baseurl }}/data/A.json', function(error, data) {
+	d3.json('{{ site.baseurl }}/data/D.json', function(error, data) {
 
 		if (error) { return error; }
 
-        // console.log(data);
-
-		d3.select('#chart01')
-			.data([data])
-			.call(chart01);
+		d3.select('#chart01').data([data]).call(chart01);
 	});
-
 </script>
+
+<h3><span class="glyphicon glyphicon-bookmark"></span> Data Structure</h3>
+
+The network chart requires a data object with three attributes: root, nodes and links. The nodes should have an `id` and the number of connection with other nodes `numcn`. The `id` will be used to retrieve additional nodes on click. The number of connections is necessary to determine whether the node has additional connections or not.
+
+The links represent the connections between nodes. They should have the `from` and `to` attributes, that should contain the id of the connected nodes. The network chart will discard duplicated links. Links from `A` to `B` or from `B` to `A` will be considered equal.
+
+The `root` attribute indicates which is the central node. For instance, a valid data structure will be:
+
+{% highlight json %}
+{
+  "root": "A",
+  "nodes": [
+    {"id": "A", "name": "Mr. A",  "type": "persona",     "numcn": 3},
+    {"id": "B", "name": "Miss B", "type": "persona",     "numcn": 3},
+    {"id": "C", "name": "C Corp", "type": "institucion", "numcn": 2},
+    {"id": "D", "name": "Dr. D",  "type": "persona",     "numcn": 5}
+  ],
+  "links": [
+    {"from": "A", "to": "B"},
+    {"from": "A", "to": "C"},
+    {"from": "A", "to": "D"},
+    {"from": "B", "to": "D"},
+    {"from": "C", "to": "D"}
+  ]
+}
+{% endhighlight %}
+
+
+<h3><span class="glyphicon glyphicon-bookmark"></span> Default settings</h3>
+
+The following script initiates a force chart using the data contained in the file `A.json`. By default, the central node is colored with aqua-light with and surrounded by a grey stroke. The other nodes are light green and change color when the cursor is on them. A grey stroke around a non-central node indicates that the node has neighbors that are not displayed (as they are not linked to the central node). A different style is used weither the link connects to the central node or not. All the nodes can be dragged.
+
+{% highlight javascript %}
+// Container DIV
+<div id="example01"></div>
+
+<script>
+    d3.json('{{ site.baseurl }}/data/A.json', function(error, data) {
+
+        // Create a chart with the default options
+        var chart = pty.chart.network();
+
+        d3.select('div#example01')
+            .data([data])
+            .call(chart);
+    });
+</script>
+{% endhighlight %}
+
+<div id="example01" class="example"></div>
+
+<script>
+    d3.json('{{ site.baseurl }}/data/B.json', function(error, data) {
+
+        // Create a chart with the default options
+        var chart = pty.chart.network();
+
+        d3.select('div#example01')
+            .data([data])
+            .call(chart);
+    });
+</script>
+
+<h3><span class="glyphicon glyphicon-bookmark"></span> Setting the chart size</h3>
+
+The width and height of the chart can be set by using the options `.width()` and `.height()` . If omitted, the default parameters are `width = 400` and `height = 400`.
+
+{% highlight javascript %}
+// Create a chart with custom width and height
+var chart = pty.chart.network()
+    .width(600)
+    .height(300);
+
+d3.select('div#example02')
+    .data([data])
+    .call(chart);
+{% endhighlight %}
+
+<div id="example02" class="example"></div>
+
+<script>
+    d3.json('{{ site.baseurl }}/data/A.json', function(error, data) {
+
+        var chart = pty.chart.network()
+            .width(600)
+            .height(300);
+
+        d3.select('div#example02')
+            .data([data])
+            .call(chart);
+    });
+</script>
+
+<h3><span class="glyphicon glyphicon-bookmark"></span> Setting the radius of the nodes</h3>
+
+The radius of the nodes can be set using the option `.nodeRadius()`. The default value is 20.
+
+{% highlight javascript %}
+// Create a chart with custom node radius
+var chart = pty.chart.network()
+    .nodeRadius(25);
+
+d3.select('div#example03')
+    .data([data])
+    .call(chart);
+{% endhighlight %}
+
+<div id="example03" class="example"></div>
+
+<script>
+    d3.json('{{ site.baseurl }}/data/A.json', function(error, data) {
+
+        // Create a chart with the default options
+        var chart = pty.chart.network()
+            .nodeRadius(25);
+
+        d3.select('div#example03')
+            .data([data])
+            .call(chart);
+    });
+</script>
+
+<h3><span class="glyphicon glyphicon-bookmark"></span> Setting the node class</h3>
+
+Set the styles for circles of class `persona` and `institucion`.
+{% highlight css %}
+.network-chart circle.persona {
+    fill: #C44D58;
+}
+
+.network-chart circle.institucion {
+    fill: #556270;
+}
+{% endhighlight %}
+
+Set the function to determine the node class using the attributes of each node element.
+
+{% highlight javascript %}
+// Create a chart and set the class for the nodes
+var chart = pty.chart.network()
+    .nodeClass(function(d) { return d.type; });
+
+d3.select('div#example04')
+    .data([data])
+    .call(chart);
+{% endhighlight %}
+
+<div>
+    <style>
+        .network-chart circle.persona {
+            fill: #C44D58;
+        }
+
+        .network-chart circle.institucion {
+            fill: #556270;
+        }
+    </style>
+</div>
+
+<div id="example04" class="example"></div>
+
+<script>
+    d3.json('{{ site.baseurl }}/data/A.json', function(error, data) {
+
+        // Create a chart with the default options
+        var chart = pty.chart.network()
+            .nodeClass(function(d) { return d.type; });
+
+        d3.select('div#example04')
+            .data([data])
+            .call(chart);
+    });
+</script>
+
+
+<h3><span class="glyphicon glyphicon-bookmark"></span> Adding Labels</h3>
+
+{% highlight javascript %}
+var chart = pty.chart.network()
+    .nodeLabel(function(d) { return d.name; });
+
+d3.select('div#example05')
+    .data([data])
+    .call(chart);
+{% endhighlight %}
+
+<div class="example" id="example05"></div>
+
+<script>
+    d3.json('{{ site.baseurl }}/data/A.json', function(error, data) {
+
+        // Create a chart with the default options
+        var chart = pty.chart.network()
+            .nodeLabel(function(d) { return d.name; });
+
+        d3.select('div#example05')
+            .data([data])
+            .call(chart);
+    });
+</script>
+
+
+<h3><span class="glyphicon glyphicon-bookmark"></span> Basic Settings of the Force Layout</h3>
+
+The user can change the values of the charge, friction, link distance and link strength using the options `.charge()`, `.friction()`, `.linkDistance()` and `linkStrength()` respectively. These are standard properties of the force layout and a complete documentation can be found in the [D3 force layout documentation](https://github.com/mbostock/d3/wiki/Force-Layout). By default, the central node is initially pinned to the center and stays pinned to any location it is dragged to. This can be changed with the option `.fixCenter(false)`.
+
+<h3><span class="glyphicon glyphicon-bookmark" class=""></span> Adding new nodes on click</h3>
+
+In the following example, nodes `B` and `D` have neighbors that are not displayed initially, because they are not connected to the central node `A`. If the `nodeBaseURL` attribute is set, clicking on `B` will retrieve the nodes from `data/B.json` and add them to the chart.
+
+{% highlight javascript %}
+// Set the function to generate the URL of each node
+var chart = pty.chart.network()
+    .nodeBaseURL(function(d) { return 'data/' + d.id + '.json'; });
+
+// Bind the container div to the data and invoke the chart
+d3.select('div#chart')
+    .data([data])
+    .call(chart);
+{% endhighlight %}
+
+<div id="example06" class="example"></div>
+
+<script>
+    d3.json('{{ site.baseurl }}/data/A.json', function(error, data) {
+
+        if (error) { return error; }
+
+        var width = 600,
+            height = 400;
+
+        var chart01 = pty.chart.network()
+            .width(width)
+            .height(height)
+            .nodeRadius(15)
+            .nodeBaseURL(function(d) { return '{{site.baseurl}}/data/' + d.id + '.json'; });
+
+        d3.select('div#example06').data([data]).call(chart01);
+    });
+</script>
+
+<h3><span class="glyphicon glyphicon-bookmark"></span> Embed</h3>
+
+Create a page containing a single network chart (see [here]({{site.baseurl}}/embed) for instance) and insert the `embed` tag with appropiate values.
+
+{% highlight html %}
+<embed type="text/html" src="{{ site.baseurl }}/embed" width="640" height="480">
+{% endhighlight %}
+
+<embed type="text/html" src="{{ site.baseurl }}/embed" width="640" height="480">
+
+

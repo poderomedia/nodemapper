@@ -3,34 +3,46 @@
   "nodes": [
     {
       "id": "D",
-      "name": "D",
+      "name": "Dr. D",
       "value": 20,
       "type": "persona",
-      "isclick": true
+      "numcn": 5
+    },
+    {
+      "id": "A",
+      "name": "Mr. A",
+      "value": 12,
+      "type": "persona",
+      "numcn": 3
     },
     {
       "id": "C",
-      "name": "C",
+      "name": "C corp",
       "value": 2,
       "type": "institucion",
-      "isclick": false
+      "numcn": 2
     },
     {
       "id": "F",
-      "name": "F",
+      "name": "Mr. F",
       "value": 8,
       "type": "persona",
-      "isclick": false
+      "numcn": 2
     },
     {
       "id": "G",
-      "name": "G",
+      "name": "Dr. G",
       "value": 3,
       "type": "persona",
-      "isclick": false
+      "numcn": 4
     }
   ],
   "links": [
+    {
+      "from": "A",
+      "to": "D",
+      "value": 1
+    },
     {
       "from": "C",
       "to": "D",

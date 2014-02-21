@@ -1,5 +1,5 @@
 {
-  "root": "B",
+  "root": "G",
   "nodes": [
     {
       "id": "B",
@@ -9,53 +9,57 @@
       "numcn":3
     },
     {
-      "id": "A",
-      "name": "Mr. A",
-      "value": 12,
-      "type": "persona",
-      "numcn":3
-    },
-    {
-      "id": "D",
-      "name": "Dr. D",
-      "value": 20,
-      "type": "persona",
-      "numcn":5
-    },
-    {
-      "id": "G",
-      "name": "Dr. G",
-      "value": 3,
-      "type": "persona",
-      "numcn":4
-    },
-    {
       "id": "E",
       "name": "E Navarro",
       "value": 20,
       "type": "candidato",
-      "numcn": 3
+      "numcn": 4
+    },
+        {
+      "id": "D",
+      "name": "Dr. D",
+      "value": 20,
+      "type": "persona",
+      "numcn": 5
+    },
+    {
+      "id": "F",
+      "name": "Mr. F",
+      "value": 8,
+      "type": "persona",
+      "numcn": 2    },
+      {
+      "id": "G",
+      "name": "Dr. G",
+      "value": 3,
+      "type": "persona",
+      "numcn": 4
     }
   ],
   "links": [
     {
-      "from": "E",
-      "to": "G",
+      "from": "G",
+      "to": "F",
       "value": 2
     },
     {
-      "from": "B",
-      "to": "G",
+      "from": "G",
+      "to": "D",
       "value": 2
     },
     {
-      "from": "E",
+      "from": "G",
+      "to": "E",
+      "value": 2
+    },
+    {
+      "from": "G",
       "to": "B",
       "value": 2
     },
     {
-      "from": "D",
-      "to": "G",
+      "from": "F",
+      "to": "D",
       "value": 2
     },
     {
@@ -64,8 +68,8 @@
       "value": 2
     },
     {
-      "from": "A",
-      "to": "B",
+      "from": "B",
+      "to": "E",
       "value": 2
     }
   ]

@@ -1,0 +1,50 @@
+{
+  "root": "E",
+  "nodes": [
+    {
+      "id": "B",
+      "name": "Miss B",
+      "value": 8,
+      "type": "persona",
+      "numcn":3
+    },
+    {
+      "id": "H",
+      "name": "H corp",
+      "value": 12,
+      "type": "institucion",
+      "numcn":1
+    },
+    {
+      "id": "E",
+      "name": "E Navarro",
+      "value": 20,
+      "type": "candidato",
+      "numcn": 3
+    },
+    {
+      "id": "G",
+      "name": "Dr. G",
+      "value": 3,
+      "type": "persona",
+      "numcn": 4
+    }
+  ],
+  "links": [
+    {
+      "from": "E",
+      "to": "B",
+      "value": 2
+    },
+    {
+      "from": "E",
+      "to": "H",
+      "value": 2
+    },
+    {
+      "from": "E",
+      "to": "G",
+      "value": 2
+    }
+  ]
+}

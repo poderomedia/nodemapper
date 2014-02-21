@@ -1,6 +1,7 @@
 # Jekyll Configuration
 safe: true
 markdown: rdiscount
+pigments: true
 permalink: pretty
 exclude:
     - bower_components
@@ -11,6 +12,6 @@ exclude:
     - README.md
 
 # Site
-name: Panama Election Candidates 
+name: Network Chart
 baseurl: http://masegalab.github.io/panama-network
 github: http://github.com/masegalab/panama-network.git
