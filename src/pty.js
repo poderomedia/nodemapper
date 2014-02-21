@@ -1,16 +1,29 @@
+/* globals d3:false */
+
 var pty = {
-    version: '0.1.0',  // semver
-    chart: {}
+    version: '0.1.0'  // semver
 };
+
+// Charting Module
+pty.chart = {};
+
+// Network Chart
+// -------------
 
 pty.chart.network = function() {
 
     // Chart Attributes
-    var width = 400;
-    var height = 400;
-    var radius = 10;
-    var onClick = function(d, i) {};
-    var nodeClass = function(d, i) { return ''; };
+    var me = {
+        width: 400,
+        height: 400,
+        nodeRadius: 20,
+        charge: function(d, i) { return -200; },
+        linkStrength: 0.2,
+        linkDistance: 120,
+        onClick: function(d, i) {},
+        nodeClass: function(d, i) { return ''; },
+    };
+
 
     // Charting Function
     function chart(selection) {
@@ -19,10 +32,14 @@ pty.chart.network = function() {
             var div = d3.select(this),
                 svg = div.selectAll('svg').data([data]);
 
-            var idx = {};
-            var dataNodes = [];
+            // Data Preprocessing
+            // ------------------
 
-            var k = 0;
+            var idx = {},
+                dataNodes = [],
+                k = 0;
+
+            // Identify unique nodes and construct a dictionary of indices
             data.nodes.forEach(function(d) {
                 if (!idx.hasOwnProperty(d.id)) {
                     idx[d.id] = k;
@@ -31,10 +48,10 @@ pty.chart.network = function() {
                 }
             });
 
-
-            var idxLinks = {};
-            var dataLinks = [];
+            // Identify unique links and set the source and target of each one
             k = 0;
+            var idxLinks = {}, dataLinks = [];
+
             data.links.forEach(function(d) {
 
                 d.source = Math.min(idx[d.from], idx[d.to]);
@@ -48,62 +65,101 @@ pty.chart.network = function() {
                 }
             });
 
-            //console.log(dataLinks);
+            dataNodes.forEach(function(d) {
+                if (d.id === data.root) {
+                    d.x = me.width / 2;
+                    d.y = me.height / 2;
+                    d.fixed = true;
+                }
+            });
 
+
+            // Initialization
+            // --------------
+
+            // Initialize the SVG element
             var svgEnter = svg.enter().append('svg')
-                .attr('width', width)
-                .attr('height', height);
+                .attr('width', me.width)
+                .attr('height', me.height);
 
-            svgEnter
-                .append('g')
-                .attr('class', 'network-chart');
+            // Create the container group, and groups for the nodes and links
+            svgEnter.append('g').attr('class', 'network-chart');
 
-            var g = svg.select('g.network-chart');
+            svgEnter.select('g.network-chart').append('g')
+                .attr('class', 'background')
+                .append('rect')
+                .attr('width', me.width)
+                .attr('height', me.height)
+                .attr('class', 'background');
+
+            svgEnter.select('g.network-chart').append('g')
+                .attr('class', 'links');
+            svgEnter.select('g.network-chart').append('g')
+                .attr('class', 'nodes');
+
+
+            var g = svg.select('g.network-chart'),
+                glinks = g.select('g.links'),
+                gnodes = g.select('g.nodes');
+
+
+            // Force layout
+            // ------------
 
             var force = d3.layout.force()
-                .charge(-5000)
-                .size([width, height]);
+                .charge(me.charge)
+                .linkDistance(me.linkDistance)
+                .linkStrength(me.linkStrength)
+                .size([me.width, me.height]);
 
             force.nodes(dataNodes)
                 .links(dataLinks)
-               // .linkDistance(200)
                 .start();
 
+            // Graphic Elements
+            // ----------------
 
             // Links
-            var links = g.selectAll('line.link')
+            var links = glinks.selectAll('line.link')
                 .data(force.links(), function(d) { return d.linkID; });
 
             links.transition()
                 .attr('stroke', 'blue');
 
             links.enter().append('line')
-                .attr('class', function(d) {
-                    if(d.from === data.root) { return 'link'; }
-                    else { return 'link'; }
-                } )
-                .attr('stroke', 'red');
+                .attr('class', 'link')
+                .classed('center-link', function(d) {
+                    return (d.from === data.root) || (d.to === data.root);
+                });
 
+            // Remove unused links
             links.exit().remove();
 
             // Circles
-            var circles = g.selectAll('circle.node')
+            // -------
+            var circles = gnodes.selectAll('circle.node')
                 .data(force.nodes(), function(d) { return d.id; });
 
             circles.transition()
                 .attr('fill', 'blue');
 
-            circles.enter()
-                .append('circle')
+            circles.enter().append('circle')
                 .attr('class', 'node')
-                .attr('r', radius)
+                .attr('r', me.nodeRadius)
                 .classed('node', true)
-                .classed('center', function(d) { return d.id === data.root; })
-                //.classed('isclick',function(d) {return d.isclick; })
-                .attr('fill', 'red')
-                .on('click', function(d) { if(d.isclick) {if(d.id !== data.root) { onClick(); } }}) //Ok, no se hacer AND,...
-                .on('mouseover', function(d) { d3.select(this).classed('highlight', true); })
-                .on('mouseout', function(d) { d3.select(this).classed('highlight', false); });
+                .classed('node-center', function(d) { return d.id === data.root; })
+                .classed('node-clickable', function(d) { return (d.id !== data.root) && (d.isclick); })
+                .on('mouseover', function(d) {
+                    d3.select(this).classed('node-highlight', true);
+                })
+                .on('mouseout', function(d) {
+                    d3.select(this).classed('node-highlight', false);
+                })
+                .on('click', function(d, i) {
+                    if (d3.select(this).classed('node-clickable')) {
+                        me.onClick(d, i);
+                    }
+                });
 
 
             circles.call(force.drag);
@@ -114,20 +170,14 @@ pty.chart.network = function() {
             var words = g.selectAll('text')
                 .data(force.nodes(), function(d) { return d.id; });
 
-            words.transition();
-
-            words.enter()
-                .append('text')
-                .text(function(d) { return d.name})
+            words.enter().append('text')
+                .text(function(d) { return d.name; })
                 .attr('text-anchor','start')
-                .attr('x',function(d) { return d.x + 10; })
-                .attr('y', function(d) { return d.y -10; })
-                .attr('width',10)
-                .attr('height',10)
+                .attr('x', function(d, i) { return d.x + me.nodeRadius; })
+                .attr('y', function(d, i) { return d.y - me.nodeRadius; })
                 .attr('fill','black');
 
             words.exit().remove();
-
 
             // Force On Tick
             force.on('tick', function() {
@@ -141,8 +191,9 @@ pty.chart.network = function() {
                     .attr('cx', function(d) { return d.x; })
                     .attr('cy', function(d) { return d.y; });
 
-                words.attr('x', function(d) { return d.x + 10; })
-                            .attr('y', function(d) { return d.y - 10; });
+                words
+                    .attr('x', function(d, i) { return d.x + me.nodeRadius; })
+                    .attr('y', function(d, i) { return d.y - me.nodeRadius; });
 
             });
 
@@ -152,35 +203,20 @@ pty.chart.network = function() {
 
     // Accessor Methods
 
-    chart.width = function(value) {
-        if (arguments.length === 0) { return width; }
-        width = value;
-        return chart;
-    };
+    // Generate Accessor Methods
+    function createAccessor(attr) {
+        return function(value) {
+            if (!arguments.length) { return me[attr]; }
+            me[attr] = value;
+            return chart;
+        };
+    }
 
-    chart.height = function(value) {
-        if (arguments.length === 0) { return width; }
-        width = value;
-        return chart;
-    };
-
-    chart.nodeClass = function(value) {
-        if (arguments.length === 0) { return nodeClass; }
-        nodeClass = value;
-        return chart;
-    };
-
-    chart.edgeClass = function(value) {
-        if (arguments.length === 0) { return edgeClass; }
-        edgeClass = value;
-        return chart;
-    };
-
-    chart.onClick = function(value) {
-        if (arguments.length === 0) { return onClick; }
-        onClick = value;
-        return chart;
-    };
+    for (var attr in me) {
+        if ((!chart[attr]) && (me.hasOwnProperty(attr))) {
+            chart[attr] = createAccessor(attr);
+        }
+    }
 
     return chart;
 };

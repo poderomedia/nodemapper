@@ -2,56 +2,22 @@
 layout: main
 title: Documentation
 ---
-<div>
-	<style>
-		.highlight{
-			fill: #aaa;
-		}
-		.link {
-  			stroke: #999;
-  			stroke-opacity: .2;
-  			stroke-width: 3
-		}
-		.minorlink {
-			stroke: #999;
-			stroke-opacity: .2;
-			stroke-width: 10;
-		}
-        .biglink {
-            stroke: #000;
-            stroke-opacity: .8;
-            stroke-width: 10;
-        }
-		.center{
-			fill: #aaa;
-			stroke: #555;
-			stroke-width: 6;
-		}
-
-        .persona {
-            stroke: red;
-            stroke-width: 2;
-        }
-	</style>
-</div>
 
 <script src="{{ site.baseurl }}/js/lib/d3.min.js"></script>
 <script src="{{ site.baseurl }}/src/pty.js"></script>
-<script>
 
+# Network Chart
 
-</script>
-
-<h1>Network Chart Documentation</h1>
-
-<a href="#" id="add-nodes">Add</a>
 <div id="chart01"></div>
 
 <script>
-    // var data = data1
+    var width = 600,
+        height = 400;
+
 	var chart01 = pty.chart.network()
-		.width(300)
-		.height(500)
+		.width(width)
+		.height(height)
+        .nodeRadius(15)
 		.onClick(function(d) {
             d3.json('../data/D.json', function(error, data) {
 
@@ -71,11 +37,7 @@ title: Documentation
 
 		if (error) { return error; }
 
-        // console.log(data);
-
-		d3.select('#chart01')
-			.data([data])
-			.call(chart01);
+		d3.select('#chart01').data([data]).call(chart01);
 	});
 
 </script>
