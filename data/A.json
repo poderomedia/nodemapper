@@ -6,32 +6,28 @@
       "name": "Mr. A",
       "value": 12,
       "type": "persona",
-      "numcn": 3,
-      "isclick": true
+      "numcn": 3
     },
     {
       "id": "B",
       "name": "Miss B",
       "value": 8,
       "type": "persona",
-      "numcn": 3,
-      "isclick": true
+      "numcn": 3
     },
     {
       "id": "C",
       "name": "C corp",
       "value": 2,
       "type": "institucion",
-      "numcn": 2,
-      "isclick": false
+      "numcn": 2
     },
     {
       "id": "D",
       "name": "Dr. D",
       "value": 20,
       "type": "persona",
-      "numcn": 5,
-      "isclick": true
+      "numcn": 5
     }
   ],
   "links": [

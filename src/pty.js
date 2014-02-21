@@ -175,8 +175,7 @@ pty.chart.network = function() {
             var circles = gnodes.selectAll('circle.node')
                 .data(force.nodes(), function(d) { return d.id; });
 
-            // circles.transition()
-            //     .attr('fill', 'blue');
+            circles.classed('node-clickable', function(d) { return d.isclick; });
 
             circles.enter().append('circle')
                 .attr('class', 'node')
