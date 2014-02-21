@@ -162,7 +162,14 @@ In the following example, node D has neighbors that are not displayed in the ini
         .height(height)
         .nodeRadius(15)
         .onClick(function(d) {
-            d3.json('../data/D.json', function(error, data) {
+
+            console.log(d.id);
+
+            var dataurl = "../data/"+d.id+".json";
+
+            console.log(dataurl);
+
+            d3.json(dataurl, function(error, data) {
 
                 var olddata = d3.select('div#example04').data()[0];
 
