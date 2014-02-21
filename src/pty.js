@@ -21,8 +21,10 @@ pty.chart.network = function() {
         friction: 0.5,
         linkStrength: 0.2,
         linkDistance: 120,
-        onClick: function(d, i) {},
+        // onClick: function(d, i) {},
         nodeClass: function(d, i) { return ''; },
+        nodeBaseURL: function(d) { return ''; },
+        nodeLabel: function(d, i) { return ''; },
         fixCenter: true
     };
 
@@ -88,6 +90,22 @@ pty.chart.network = function() {
                 }
             });
 
+            function onClick(d, i) {
+                d3.json(me.nodeBaseURL(d), function(error, data) {
+                    var olddata;
+
+                    if (!error) {
+                        olddata = div.data()[0];
+                        olddata.nodes = olddata.nodes.concat(data.nodes);
+                        olddata.links = olddata.links.concat(data.links);
+
+                        div.data([olddata]).call(chart);
+                    }
+                });
+                d.isclick = false;
+            }
+
+
             // Initialization
             // --------------
 
@@ -128,9 +146,6 @@ pty.chart.network = function() {
             var force = d3.layout.force()
                 .charge(me.charge)
                 .friction(me.friction)
-                // .chargeDistance(me.linkDistance * 1.3)
-                // .gravity(0)
-                // .linkDistance(me.linkDistance)
                 .linkStrength(me.linkStrength)
                 .size([me.width, me.height]);
 
@@ -181,7 +196,7 @@ pty.chart.network = function() {
                 })
                 .on('click', function(d, i) {
                     if (d3.select(this).classed('node-clickable')) {
-                        me.onClick(d, i);
+                        onClick(d, i);
                     }
                 });
 
@@ -190,12 +205,14 @@ pty.chart.network = function() {
 
             circles.exit().remove();
 
-            //Labels
+            // Labels
+            // ------
+
             var words = glabels.selectAll('text.node-label')
                 .data(force.nodes(), function(d) { return d.id; });
 
             words.enter().append('text')
-                .text(function(d) { return d.name; })
+                .text(me.nodeLabel)
                 .attr('x', function(d, i) { return d.x + me.nodeRadius; })
                 .attr('y', function(d, i) { return d.y - me.nodeRadius; })
                 .attr('class', 'node-label');

@@ -30,8 +30,35 @@ title: Documentation
 
 		d3.select('#chart01').data([data]).call(chart01);
 	});
-
 </script>
+
+<h3><span class="glyphicon glyphicon-bookmark"></span> Data Structure</h3>
+
+The network chart requires a data object with three attributes: root, nodes and links. The nodes should have an `id` and the number of connection with other nodes `numcn`. The `id` will be used to retrieve additional nodes on click. The number of connections is necessary to determine whether the node has additional connections or not.
+
+The links represent the connections between nodes. They should have the `from` and `to` attributes, that should contain the id of the connected nodes. The network chart will discard duplicated links. Links from `A` to `B` or from `B` to `A` will be considered equal.
+
+The `root` attribute indicates which is the central node. For instance, a valid data structure will be:
+
+{% highlight json %}
+{
+  "root": "A",
+  "nodes": [
+    {"id": "A", "name": "Mr. A",  "type": "persona",     "numcn": 3},
+    {"id": "B", "name": "Miss B", "type": "persona",     "numcn": 3},
+    {"id": "C", "name": "C Corp", "type": "institucion", "numcn": 2},
+    {"id": "D", "name": "Dr. D",  "type": "persona",     "numcn": 5}
+  ],
+  "links": [
+    {"from": "A", "to": "B"},
+    {"from": "A", "to": "C"},
+    {"from": "A", "to": "D"},
+    {"from": "B", "to": "D"},
+    {"from": "C", "to": "D"}
+  ]
+}
+{% endhighlight %}
+
 
 <h3><span class="glyphicon glyphicon-bookmark"></span> Default settings</h3>
 
@@ -179,58 +206,81 @@ d3.select('div#example04')
     });
 </script>
 
-<h3><span class="glyphicon glyphicon-bookmark"></span> Basic Settings of the Force Layout</h3>
 
-The user can change the values of the charge, friction, link distance and link strength using the options `.charge()`, `.friction()`, `.linkDistance()` and `linkStrength()` respectively. These are standard properties of the force layout and a complete documentation can be found [here](https://github.com/mbostock/d3/wiki/Force-Layout). By default, the central node is initially pinned to the center and stays pinned to any location it is dragged to. This can be changed with the option `.fixCenter(false)`.
+<h3><span class="glyphicon glyphicon-bookmark"></span> Adding Labels</h3>
 
-<h3><span class="glyphicon glyphicon-bookmark" class=""></span> Expanding the Graph</h3>
+{% highlight javascript %}
+var chart = pty.chart.network()
+    .nodeLabel(function(d) { return d.name; });
 
-In the following example, nodes B and D have neighbors that are not displayed initially. Clicking any of them will expand the graph. New clickable nodes may emerge.
+d3.select('div#example05')
+    .data([data])
+    .call(chart);
+{% endhighlight %}
 
-<div class="row">
-<div class="col-md-12">
-<div id="example05" class="example"></div>
-</div>
-</div>
-
+<div class="example" id="example05"></div>
 
 <script>
+    d3.json('{{ site.baseurl }}/data/A.json', function(error, data) {
 
+        // Create a chart with the default options
+        var chart = pty.chart.network()
+            .nodeLabel(function(d) { return d.name; });
+
+        d3.select('div#example05')
+            .data([data])
+            .call(chart);
+    });
+</script>
+
+
+<h3><span class="glyphicon glyphicon-bookmark"></span> Basic Settings of the Force Layout</h3>
+
+The user can change the values of the charge, friction, link distance and link strength using the options `.charge()`, `.friction()`, `.linkDistance()` and `linkStrength()` respectively. These are standard properties of the force layout and a complete documentation can be found in the [D3 force layout documentation](https://github.com/mbostock/d3/wiki/Force-Layout). By default, the central node is initially pinned to the center and stays pinned to any location it is dragged to. This can be changed with the option `.fixCenter(false)`.
+
+<h3><span class="glyphicon glyphicon-bookmark" class=""></span> Adding new nodes on click</h3>
+
+In the following example, nodes `B` and `D` have neighbors that are not displayed initially, because they are not connected to the central node `A`. If the `nodeBaseURL` attribute is set, clicking on `B` will retrieve the nodes from `data/B.json` and add them to the chart.
+
+{% highlight javascript %}
+// Set the function to generate the URL of each node
+var chart = pty.chart.network()
+    .nodeBaseURL(function(d) { return 'data/' + d.id + '.json'; });
+
+// Bind the container div to the data and invoke the chart
+d3.select('div#chart')
+    .data([data])
+    .call(chart);
+{% endhighlight %}
+
+<div id="example06" class="example"></div>
+
+<script>
     d3.json('{{ site.baseurl }}/data/A.json', function(error, data) {
 
         if (error) { return error; }
 
         var width = 600,
-        height = 400;
+            height = 400;
 
-    var chart01 = pty.chart.network()
-        .width(width)
-        .height(height)
-        .nodeRadius(15)
-        .onClick(function(d) {
+        var chart01 = pty.chart.network()
+            .width(width)
+            .height(height)
+            .nodeRadius(15)
+            .nodeBaseURL(function(d) { return '{{site.baseurl}}/data/' + d.id + '.json'; });
 
-            d.isclick = false;
-
-            var dataurl = "../data/"+d.id+".json";
-
-
-            d3.json(dataurl, function(error, data) {
-
-                if (!error) {
-
-                var olddata = d3.select('div#example05').data()[0];
-
-                olddata.nodes = olddata.nodes.concat(data.nodes);
-                olddata.links = olddata.links.concat(data.links);
-
-                d3.select('div#example05')
-                    .data([olddata])
-                    .call(chart01);}
-            });
-        })
-        .nodeClass(function(d) { return d.type; });
-
-        d3.select('div#example05').data([data]).call(chart01);
+        d3.select('div#example06').data([data]).call(chart01);
     });
-
 </script>
+
+<h3><span class="glyphicon glyphicon-bookmark"></span> Embed</h3>
+
+Create a page containing a single network chart (see [here]({{site.baseurl}}/embed) for instance) and insert the `embed` tag with appropiate values.
+
+{% highlight html %}
+<embed type="text/html" src="{{ site.baseurl }}/embed" width="640" height="480">
+{% endhighlight %}
+
+<embed type="text/html" src="{{ site.baseurl }}/embed" width="640" height="480">
+
+
