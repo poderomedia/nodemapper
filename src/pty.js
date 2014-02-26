@@ -24,8 +24,10 @@ pty.chart.network = function() {
         // onClick: function(d, i) {},
         nodeClass: function(d, i) { return ''; },
         nodeBaseURL: function(d) { return ''; },
+        chartURL: function(d) { return ''; },
         nodeLabel: function(d, i) { return ''; },
-        fixCenter: true
+        fixCenter: true,
+        initialData: {} //Implement 'DO NOTHING' if left undefined
     };
 
 
@@ -103,6 +105,12 @@ pty.chart.network = function() {
                 d.isclick = false;
             }
 
+            function printURL(d, i) {
+                var myURL = me.chartURL(d);
+                console.log(myURL);
+                return myURL;
+            }
+
 
             // Initialization
             // --------------
@@ -117,7 +125,10 @@ pty.chart.network = function() {
                 glinks = g.select('g.links'),
                 gnodes = g.select('g.nodes'),
                 glabels = g.select('g.labels'),
-                gbrand = g.select('g.brand');
+                gbrand = g.select('g.brand'),
+               // gnodeURL = g.select('g.nodeURL'),
+                grefresh = g.select('g.button');
+
 
             // Force layout
             // ------------
@@ -176,8 +187,15 @@ pty.chart.network = function() {
                 .on('click', function(d, i) {
                     if (d3.select(this).classed('node-clickable')) {
                         onClick(d, i);
+                        gnodeurl.selectAll('text').remove();
+                        gnodeurl.append('text').attr('text-anchor','start').text(printURL(d));
                     }
+                    else {
+                    gnodeurl.selectAll('text').remove();
+                    gnodeurl.append('text').attr('text-anchor','start').text(printURL(d)); //URL does not update properly.
+                }
                 });
+
 
 
             circles.call(force.drag);
@@ -216,12 +234,40 @@ pty.chart.network = function() {
 
             });
 
+            //Other elements
+            //--------------
+            var gbutton = g.append('g')
+               .attr('class','button')
+               .attr('transform','translate(' +  [10,10] +')');
+
+            //Refresh button
+            var refreshButton = gbutton.append('rect')
+                                   .attr('width',20)
+                                   .attr('height',20)
+                                   .attr('fill','black')
+                                   .on('click', function() {
+
+                                    d3.json(me.initialData, function(error,data) {
+                                        div.data([data]).call(chart);
+                                    })
+
+                                   } );
+
+            //Container for the url
+            var gnodeurl = svgEnter.append('g')
+                            .attr('class','urlcontainer')
+                            .attr('transform','translate(' + [4, me.height -8 ] +')');
+
+            gnodeurl.append('text').attr('text-anchor','start').text("Hi five!");
+
         });
     }
 
 
     chart.init = function(selection) {
         selection.each(function(data) {
+
+            var initial = selection;
 
             var svgEnter = d3.select(this),
                 gcont = svgEnter.append('g').attr('class', 'network-chart');
@@ -248,6 +294,27 @@ pty.chart.network = function() {
                 .attr('class', 'masega-brand')
                 .attr('text-anchor', 'end')
                 .text('masega.co');
+
+            // var gnodeurl = gcont.append('g')
+            //                 .attr('class','urlcontainer')
+            //                 .attr('transform','translate(' + [4, me.height -8 ] +')');
+
+            // var gprintnodeurl = gnodeurl.append('a')
+            //                 .attr('xlink:href', me.chartURL(this))
+            //                 .append('text')
+            //                 .attr('text-anchor','start')
+            //                 .text("hola");
+
+            // var gbutton = gcont.append('g')
+            //    .attr('class','button')
+            //    .attr('transform','translate(' +  [10,10] +')');
+
+            // var refreshButton = gbutton.append('rect')
+            //                        .attr('width',20)
+            //                        .attr('height',20)
+            //                        .attr('fill','black')
+            //                        .on('click', function() { gcont.data([initialData]).call(chart); } );
+
         });
     };
 

@@ -268,7 +268,10 @@ d3.select('div#chart')
             .width(width)
             .height(height)
             .nodeRadius(15)
-            .nodeBaseURL(function(d) { return '{{site.baseurl}}/data/' + d.id + '.json'; });
+            .chartURL(function(d) { return 'www.awesomechart.com/' + d.id + '.html'; })
+            .nodeBaseURL(function(d) { return '{{site.baseurl}}/data/' + d.id + '.json'; })
+            .initialData('{{ site.baseurl }}/data/A.json');
+             //
 
         d3.select('div#example06').data([data]).call(chart01);
     });
