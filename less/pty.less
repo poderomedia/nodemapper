@@ -50,15 +50,18 @@
         stroke: @aqua-light;
         stroke-opacity: .5;
         stroke-width: 2;
-        stroke-dasharray: 5,5
     }
 
-    .center-link {
-        stroke-opacity: .2;
-        stroke-width: 4;
-        stroke-dasharray: none;
+    // Node Link
+    .url-container {
+        fill: @grey-dark;
+        a {
+            text-decoration: none;
+        }
+        .url-container-icon {
+            font-family: FontAwesome;
+        }
     }
-
 
     // Background
     rect.background {

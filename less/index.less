@@ -45,21 +45,26 @@
         stroke: @aqua-light;
         stroke-opacity: .5;
         stroke-width: 2;
-        stroke-dasharray: 5,5
     }
-
-    .center-link {
-        stroke-opacity: .2;
-        stroke-width: 4;
-        stroke-dasharray: none;
-    }
-
 
     // Background
     rect.background {
         fill: @slate-dark;
     }
 
+    // Node Link
+    .url-container {
+
+        fill: @green-light;
+
+        a {
+            text-decoration: none;
+        }
+
+        .url-container-icon {
+            font-family: FontAwesome;
+        }
+    }
 
     // Brand
     .brand text {

@@ -24,8 +24,11 @@ pty.chart.network = function() {
         // onClick: function(d, i) {},
         nodeClass: function(d, i) { return ''; },
         nodeBaseURL: function(d) { return ''; },
+        nodeURL: function(d) { return ''; },
+        chartURL: function(d) { return ''; },
         nodeLabel: function(d, i) { return ''; },
-        fixCenter: true
+        fixCenter: true,
+        initialData: {} //Implement 'DO NOTHING' if left undefined
     };
 
 
@@ -103,7 +106,6 @@ pty.chart.network = function() {
                 d.isclick = false;
             }
 
-
             // Initialization
             // --------------
 
@@ -117,7 +119,12 @@ pty.chart.network = function() {
                 glinks = g.select('g.links'),
                 gnodes = g.select('g.nodes'),
                 glabels = g.select('g.labels'),
-                gbrand = g.select('g.brand');
+                gbrand = g.select('g.brand'),
+                gNodeUrl = g.select('g.url-container'),
+                nodeUrlLabel = gNodeUrl.select('text.url-container'),
+                nodeUrlLink = gNodeUrl.select('a.url-container'),
+                grefresh = g.select('g.button');
+
 
             // Force layout
             // ------------
@@ -131,6 +138,15 @@ pty.chart.network = function() {
             force.nodes(dataNodes)
                 .links(dataLinks)
                 .start();
+
+            // Initialize the node label to have the root node information
+
+            var nodeRoot = dataNodes.filter(function(d) { return d.id === data.root; }).pop();
+
+            if (!svgEnter.empty()) {
+                nodeUrlLink.attr('xlink:href', me.nodeURL(nodeRoot));
+                nodeUrlLabel.text(me.nodeLabel(nodeRoot));
+            }
 
             // Graphic Elements
             // ----------------
@@ -174,11 +190,15 @@ pty.chart.network = function() {
                     d3.select(this).classed('node-highlight', false);
                 })
                 .on('click', function(d, i) {
+
                     if (d3.select(this).classed('node-clickable')) {
                         onClick(d, i);
                     }
-                });
 
+                    // Update the link and label
+                    nodeUrlLink.attr('xlink:href', me.nodeURL(d));
+                    nodeUrlLabel.text('' + me.nodeLabel(d));
+                });
 
             circles.call(force.drag);
 
@@ -216,12 +236,58 @@ pty.chart.network = function() {
 
             });
 
+            //Other elements
+            //--------------
+            var gbutton = g.append('g')
+               .attr('class','button')
+               .attr('transform','translate(' +  [10,10] +')');
+
+            //Refresh button
+            //NOTE: we should be able to appeal to the url of the root, but data.root has no id.
+            //Write a function that returns the node corresponding to the root. Then apply nodeBaseURL to it.
+            var refreshButton = gbutton.append('circle')
+               .attr('cx',10)
+               .attr('cy',10)
+               .attr('r',10)
+               .attr('fill','white')
+               .attr('stroke','black')
+               .attr('stroke-width',2)
+               .attr('cursor','pointer')
+               .on('click', function() {
+                    d3.json(me.initialData, function(error,data) {
+                        div.data([data]).call(chart);
+                    });
+               });
+
+             gbutton.append('text')
+                .attr('x',4)
+                .attr('y',15)
+                .attr('cursor','pointer')
+                .attr('font-family', 'FontAwesome')
+                .text('\uf0e2' )
+                .on('click', function() {
+                    d3.json(me.initialData, function(error,data) {
+                        div.data([data]).call(chart);
+                    });
+               });
+
+            // //Container for the url
+            // var gnodeurl = svgEnter.append('g')
+            //                 .attr('class','urlcontainer')
+            //                 .attr('transform','translate(' + [4, me.height - 8 ] +')');
+
+            // console.log(gnodeurl);
+
+            // gnodeurl.append('text').attr('text-anchor','start').text("Hi five!");
+
         });
     }
 
 
     chart.init = function(selection) {
         selection.each(function(data) {
+
+            var initial = selection;
 
             var svgEnter = d3.select(this),
                 gcont = svgEnter.append('g').attr('class', 'network-chart');
@@ -238,16 +304,53 @@ pty.chart.network = function() {
             gcont.append('g').attr('class', 'nodes');
             gcont.append('g').attr('class', 'labels');
 
-            var gbrand = gcont.append('g')
+            // Brand
+            // -----
+            var gBrand = gcont.append('g')
                 .attr('class', 'brand')
                 .attr('transform', 'translate(' + [me.width - 4, me.height - 4] + ')');
 
-            var brandLabel = gbrand.append('a')
+            var brandLabel = gBrand.append('a')
                 .attr('xlink:href', 'http://www.masega.co')
                 .append('text')
                 .attr('class', 'masega-brand')
                 .attr('text-anchor', 'end')
                 .text('masega.co');
+
+            var gNodeUrl = gcont.append('g')
+                .attr('class','url-container')
+                .attr('transform','translate(' + [10, me.height - 8] +')');
+
+            var gNodeLink = gNodeUrl.append('a')
+                .attr('class', 'url-container');
+
+            gNodeLink
+                .append('text')
+                .attr('class', 'url-container-icon')
+                .text('\uf0c1');
+
+            gNodeLink
+                .append('text')
+                .attr('x', 20)
+                .attr('class', 'url-container')
+                .text('');
+
+            // var gprintnodeurl = gnodeurl.append('a')
+            //                 .attr('xlink:href', me.chartURL(this))
+            //                 .append('text')
+            //                 .attr('text-anchor','start')
+            //                 .text("hola");
+
+            // var gbutton = gcont.append('g')
+            //    .attr('class','button')
+            //    .attr('transform','translate(' +  [10,10] +')');
+
+            // var refreshButton = gbutton.append('rect')
+            //                        .attr('width',20)
+            //                        .attr('height',20)
+            //                        .attr('fill','black')
+            //                        .on('click', function() { gcont.data([initialData]).call(chart); } );
+
         });
     };
 

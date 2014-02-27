@@ -6,6 +6,7 @@ title: Documentation
 <link href="{{ site.baseurl }}/css/pty.css" rel="stylesheet">
 <script src="{{ site.baseurl }}/js/lib/d3.min.js"></script>
 <script src="{{ site.baseurl }}/src/pty.js"></script>
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 
 # Network Chart
 
@@ -25,7 +26,7 @@ title: Documentation
 		.height(height)
         .nodeRadius(10);
 
-	d3.json('{{ site.baseurl }}/data/D.json', function(error, data) {
+	d3.json('{{ site.baseurl }}/data/A.json', function(error, data) {
 
 		if (error) { return error; }
 
@@ -85,7 +86,7 @@ The following script initiates a force chart using the data contained in the fil
 <div id="example01" class="example"></div>
 
 <script>
-    d3.json('{{ site.baseurl }}/data/B.json', function(error, data) {
+    d3.json('{{ site.baseurl }}/data/A.json', function(error, data) {
 
         // Create a chart with the default options
         var chart = pty.chart.network();
@@ -268,7 +269,10 @@ d3.select('div#chart')
             .width(width)
             .height(height)
             .nodeRadius(15)
-            .nodeBaseURL(function(d) { return '{{site.baseurl}}/data/' + d.id + '.json'; });
+            .chartURL(function(d) { return 'www.awesomechart.com/' + d.id + '.html'; })
+            .nodeBaseURL(function(d) { return '{{site.baseurl}}/data/' + d.id + '.json'; })
+            .initialData('{{ site.baseurl }}/data/A.json');
+             //
 
         d3.select('div#example06').data([data]).call(chart01);
     });
