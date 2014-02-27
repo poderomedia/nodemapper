@@ -241,6 +241,8 @@ pty.chart.network = function() {
                .attr('transform','translate(' +  [10,10] +')');
 
             //Refresh button
+            //NOTE: we should be able to appeal to the url of the root, but data.root has no id.
+            //Write a function that returns the node corresponding to the root. Then apply nodeBaseURL to it.
             var refreshButton = gbutton.append('circle')
                                    .attr('cx',10)
                                    .attr('cy',10)
