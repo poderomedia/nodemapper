@@ -26,7 +26,7 @@ title: Documentation
 		.height(height)
         .nodeRadius(10);
 
-	d3.json('{{ site.baseurl }}/data/D.json', function(error, data) {
+	d3.json('{{ site.baseurl }}/data/A.json', function(error, data) {
 
 		if (error) { return error; }
 
@@ -86,7 +86,7 @@ The following script initiates a force chart using the data contained in the fil
 <div id="example01" class="example"></div>
 
 <script>
-    d3.json('{{ site.baseurl }}/data/B.json', function(error, data) {
+    d3.json('{{ site.baseurl }}/data/A.json', function(error, data) {
 
         // Create a chart with the default options
         var chart = pty.chart.network();

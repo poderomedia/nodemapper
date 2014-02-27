@@ -251,7 +251,7 @@ pty.chart.network = function() {
                                    .attr('cursor','pointer')
                                    .on('click', function() {
 
-                                    d3.json(nodeBaseURL(me.root), function(error,data) {
+                                    d3.json(me.initialData, function(error,data) {
                                         div.data([data]).call(chart);
                                     })
 
