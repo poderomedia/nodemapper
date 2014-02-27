@@ -191,8 +191,6 @@ pty.chart.network = function() {
                     nodeUrlLabel.text(d.name);
                 });
 
-
-
             circles.call(force.drag);
 
             circles.exit().remove();
