@@ -210,7 +210,12 @@ pty.chart.network = function() {
 
             circles.call(force.drag);
 
-            circles.exit().remove();
+            circles.exit()
+                .transition()
+                .delay(300)
+                .duration(2000)
+                .attr('cy', me.width)
+                .remove();
 
             // Labels
             // ------
