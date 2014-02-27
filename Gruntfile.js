@@ -74,6 +74,13 @@ module.exports = function(grunt) {
                     'css/index.css': 'less/index.less'
                 }
             }
+        },
+
+        watch: {
+            less: {
+                files: ['less/*.less'],
+                tasks: ['less']
+            }
         }
 
 
@@ -82,6 +89,7 @@ module.exports = function(grunt) {
     // Enable the grunt plugins
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-less');
+    grunt.loadNpmTasks('grunt-contrib-watch');
 
 
     // Register Tasks

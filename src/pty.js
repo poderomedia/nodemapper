@@ -139,6 +139,15 @@ pty.chart.network = function() {
                 .links(dataLinks)
                 .start();
 
+            // Initialize the node label to have the root node information
+
+            var nodeRoot = dataNodes.filter(function(d) { return d.id === data.root; }).pop();
+
+            if (!svgEnter.empty()) {
+                nodeUrlLink.attr('xlink:href', me.nodeURL(nodeRoot));
+                nodeUrlLabel.text(me.nodeLabel(nodeRoot));
+            }
+
             // Graphic Elements
             // ----------------
 
@@ -188,7 +197,7 @@ pty.chart.network = function() {
 
                     // Update the link and label
                     nodeUrlLink.attr('xlink:href', me.nodeURL(d));
-                    nodeUrlLabel.text(d.name);
+                    nodeUrlLabel.text('' + me.nodeLabel(d));
                 });
 
             circles.call(force.drag);
@@ -310,11 +319,19 @@ pty.chart.network = function() {
 
             var gNodeUrl = gcont.append('g')
                 .attr('class','url-container')
-                .attr('transform','translate(' + [4, me.height - 8] +')');
+                .attr('transform','translate(' + [10, me.height - 8] +')');
 
-            gNodeUrl.append('a')
-                .attr('class', 'url-container')
+            var gNodeLink = gNodeUrl.append('a')
+                .attr('class', 'url-container');
+
+            gNodeLink
                 .append('text')
+                .attr('class', 'url-container-icon')
+                .text('\uf0c1');
+
+            gNodeLink
+                .append('text')
+                .attr('x', 20)
                 .attr('class', 'url-container')
                 .text('');
 
