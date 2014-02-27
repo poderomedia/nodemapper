@@ -24,6 +24,7 @@ pty.chart.network = function() {
         // onClick: function(d, i) {},
         nodeClass: function(d, i) { return ''; },
         nodeBaseURL: function(d) { return ''; },
+        nodeURL: function(d) { return ''; },
         chartURL: function(d) { return ''; },
         nodeLabel: function(d, i) { return ''; },
         fixCenter: true,
@@ -105,13 +106,6 @@ pty.chart.network = function() {
                 d.isclick = false;
             }
 
-            function printURL(d, i) {
-                var myURL = me.chartURL(d);
-                console.log(myURL);
-                return myURL;
-            }
-
-
             // Initialization
             // --------------
 
@@ -126,7 +120,9 @@ pty.chart.network = function() {
                 gnodes = g.select('g.nodes'),
                 glabels = g.select('g.labels'),
                 gbrand = g.select('g.brand'),
-               // gnodeURL = g.select('g.nodeURL'),
+                gNodeUrl = g.select('g.url-container'),
+                nodeUrlLabel = gNodeUrl.select('text.url-container'),
+                nodeUrlLink = gNodeUrl.select('a.url-container'),
                 grefresh = g.select('g.button');
 
 
@@ -185,15 +181,14 @@ pty.chart.network = function() {
                     d3.select(this).classed('node-highlight', false);
                 })
                 .on('click', function(d, i) {
+
                     if (d3.select(this).classed('node-clickable')) {
                         onClick(d, i);
-                        gnodeurl.selectAll('text').remove();
-                        gnodeurl.append('text').attr('text-anchor','start').text(printURL(d));
                     }
-                    else {
-                    gnodeurl.selectAll('text').remove();
-                    gnodeurl.append('text').attr('text-anchor','start').text(printURL(d)); //URL does not update properly.
-                }
+
+                    // Update the link and label
+                    nodeUrlLink.attr('xlink:href', me.nodeURL(d));
+                    nodeUrlLabel.text(d.name);
                 });
 
 
@@ -244,20 +239,18 @@ pty.chart.network = function() {
             //NOTE: we should be able to appeal to the url of the root, but data.root has no id.
             //Write a function that returns the node corresponding to the root. Then apply nodeBaseURL to it.
             var refreshButton = gbutton.append('circle')
-                                   .attr('cx',10)
-                                   .attr('cy',10)
-                                   .attr('r',10)
-                                   .attr('fill','white')
-                                   .attr('stroke','black')
-                                   .attr('stroke-width',2)
-                                   .attr('cursor','pointer')
-                                   .on('click', function() {
-
-                                    d3.json(me.initialData, function(error,data) {
-                                        div.data([data]).call(chart);
-                                    })
-
-                                   } );
+               .attr('cx',10)
+               .attr('cy',10)
+               .attr('r',10)
+               .attr('fill','white')
+               .attr('stroke','black')
+               .attr('stroke-width',2)
+               .attr('cursor','pointer')
+               .on('click', function() {
+                    d3.json(me.initialData, function(error,data) {
+                        div.data([data]).call(chart);
+                    });
+               });
 
              gbutton.append('text')
                 .attr('x',4)
@@ -266,19 +259,19 @@ pty.chart.network = function() {
                 .attr('font-family', 'FontAwesome')
                 .text('\uf0e2' )
                 .on('click', function() {
+                    d3.json(me.initialData, function(error,data) {
+                        div.data([data]).call(chart);
+                    });
+               });
 
-                                    d3.json(me.initialData, function(error,data) {
-                                        div.data([data]).call(chart);
-                                    })
+            // //Container for the url
+            // var gnodeurl = svgEnter.append('g')
+            //                 .attr('class','urlcontainer')
+            //                 .attr('transform','translate(' + [4, me.height - 8 ] +')');
 
-                                   } );
+            // console.log(gnodeurl);
 
-            //Container for the url
-            var gnodeurl = svgEnter.append('g')
-                            .attr('class','urlcontainer')
-                            .attr('transform','translate(' + [4, me.height -8 ] +')');
-
-            gnodeurl.append('text').attr('text-anchor','start').text("Hi five!");
+            // gnodeurl.append('text').attr('text-anchor','start').text("Hi five!");
 
         });
     }
@@ -304,20 +297,28 @@ pty.chart.network = function() {
             gcont.append('g').attr('class', 'nodes');
             gcont.append('g').attr('class', 'labels');
 
-            var gbrand = gcont.append('g')
+            // Brand
+            // -----
+            var gBrand = gcont.append('g')
                 .attr('class', 'brand')
                 .attr('transform', 'translate(' + [me.width - 4, me.height - 4] + ')');
 
-            var brandLabel = gbrand.append('a')
+            var brandLabel = gBrand.append('a')
                 .attr('xlink:href', 'http://www.masega.co')
                 .append('text')
                 .attr('class', 'masega-brand')
                 .attr('text-anchor', 'end')
                 .text('masega.co');
 
-            // var gnodeurl = gcont.append('g')
-            //                 .attr('class','urlcontainer')
-            //                 .attr('transform','translate(' + [4, me.height -8 ] +')');
+            var gNodeUrl = gcont.append('g')
+                .attr('class','url-container')
+                .attr('transform','translate(' + [4, me.height - 8] +')');
+
+            gNodeUrl.append('a')
+                .attr('class', 'url-container')
+                .append('text')
+                .attr('class', 'url-container')
+                .text('');
 
             // var gprintnodeurl = gnodeurl.append('a')
             //                 .attr('xlink:href', me.chartURL(this))

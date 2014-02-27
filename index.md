@@ -28,7 +28,8 @@ d3.json('{{ site.baseurl }}/data/A.json', function(error, data) {
         .height(height)
         .nodeRadius(15)
         .nodeLabel(function(d) { return d.name; })
-        .nodeBaseURL(function(d) { return '{{site.baseurl}}/data/' + d.id + '.json'; });
+        .nodeBaseURL(function(d) { return '{{site.baseurl}}/data/' + d.id + '.json'; })
+        .nodeURL(function(d) { return '{{site.baseurl}}/pages/' + d.id; });
 
     d3.select('div#demo').data([data]).call(chart01);
 });
