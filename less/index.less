@@ -45,27 +45,56 @@
         stroke: @aqua-light;
         stroke-opacity: .5;
         stroke-width: 2;
-        stroke-dasharray: 5,5
     }
-
-    .center-link {
-        stroke-opacity: .2;
-        stroke-width: 4;
-        stroke-dasharray: none;
-    }
-
 
     // Background
     rect.background {
         fill: @slate-dark;
     }
 
+    // Node Link
+    .url-container {
+
+        fill: @green-light;
+
+        a {
+            text-decoration: none;
+        }
+
+        .url-container-icon {
+            font-family: FontAwesome;
+        }
+    }
 
     // Brand
     .brand text {
         fill: @grey-light;
         font-family: 'Roboto', sans-serif;
         font-size: 11px;
+    }
+
+    // Refresh Button
+    .refresh-button {
+        fill: @green-light;
+        stroke: @aqua-light;
+        stroke-width: 3;
+        .refresh-button-arrow {
+            fill: @slate-dark;
+            font-family: FontAwesome;
+            stroke-width: 0.5;
+        }
+
+    }
+
+    //Zoom in and out buttons
+    .zoom-in-button {
+            fill: @green-light;
+            font-size: 15;
+    }
+
+    .zoom-out-button {
+            fill: @green-light;
+            font-size: 15;
     }
 }
 

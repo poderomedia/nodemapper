@@ -22,7 +22,8 @@
     "tests"
   ],
   "dependencies": {
-    "d3": "~3.4.2"
+    "d3": "~3.4.2",
+    "font-awesome": "~4.0.3"
   },
   "devDependencies": {
     "bootstrap": "~3.1.1"

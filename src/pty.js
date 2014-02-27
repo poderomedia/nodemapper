@@ -21,13 +21,14 @@ pty.chart.network = function() {
         friction: 0.5,
         linkStrength: 0.2,
         linkDistance: 120,
-        // onClick: function(d, i) {},
         nodeClass: function(d, i) { return ''; },
         nodeBaseURL: function(d) { return ''; },
+        nodeURL: function(d) { return ''; },
         nodeLabel: function(d, i) { return ''; },
-        fixCenter: true
+        fixCenter: true,
     };
 
+    var initialData = false;
 
     // Charting Function
     function chart(selection) {
@@ -38,6 +39,12 @@ pty.chart.network = function() {
 
             // Data Preprocessing
             // ------------------
+
+            if (!initialData) {
+                data.nodes.forEach(function(d) { d.__first = true; });
+                data.links.forEach(function(d) { d.__first = true; });
+                initialData = true;
+            }
 
             var idx = {},
                 dataNodes = [],
@@ -88,6 +95,9 @@ pty.chart.network = function() {
                 }
             });
 
+
+
+
             function onClick(d, i) {
                 d3.json(me.nodeBaseURL(d), function(error, data) {
                     var olddata;
@@ -103,7 +113,6 @@ pty.chart.network = function() {
                 d.isclick = false;
             }
 
-
             // Initialization
             // --------------
 
@@ -117,7 +126,13 @@ pty.chart.network = function() {
                 glinks = g.select('g.links'),
                 gnodes = g.select('g.nodes'),
                 glabels = g.select('g.labels'),
-                gbrand = g.select('g.brand');
+                gbrand = g.select('g.brand'),
+                gNodeUrl = g.select('g.url-container'),
+                nodeUrlLabel = gNodeUrl.select('text.url-container'),
+                nodeUrlLink = gNodeUrl.select('a.url-container'),
+                grefresh = g.select('g.refresh-button');
+                gZoomContainer = g.select('g.zoom-container');
+
 
             // Force layout
             // ------------
@@ -131,6 +146,15 @@ pty.chart.network = function() {
             force.nodes(dataNodes)
                 .links(dataLinks)
                 .start();
+
+            // Initialize the node label to have the root node information
+
+            var nodeRoot = dataNodes.filter(function(d) { return d.id === data.root; }).pop();
+
+            if (!svgEnter.empty()) {
+                nodeUrlLink.attr('xlink:href', me.nodeURL(nodeRoot));
+                nodeUrlLabel.text(me.nodeLabel(nodeRoot));
+            }
 
             // Graphic Elements
             // ----------------
@@ -174,15 +198,24 @@ pty.chart.network = function() {
                     d3.select(this).classed('node-highlight', false);
                 })
                 .on('click', function(d, i) {
+
                     if (d3.select(this).classed('node-clickable')) {
                         onClick(d, i);
                     }
-                });
 
+                    // Update the link and label
+                    nodeUrlLink.attr('xlink:href', me.nodeURL(d));
+                    nodeUrlLabel.text('' + me.nodeLabel(d));
+                });
 
             circles.call(force.drag);
 
-            circles.exit().remove();
+            circles.exit()
+                .transition()
+                .delay(300)
+                .duration(2000)
+                .attr('cy', me.width)
+                .remove();
 
             // Labels
             // ------
@@ -216,12 +249,32 @@ pty.chart.network = function() {
 
             });
 
+            //Other elements
+            //--------------
+
+            grefresh.on('click', function() {
+                    var firstData = {
+                        root: data.root,
+                        nodes: data.nodes.filter(function(d) { return d.__first; }),
+                        links: data.links.filter(function(d) { return d.__first; })
+                    };
+                    div.data([firstData]).call(chart);
+               });
+
+            gZoomContainer.select('.zoom-in-button').on('click', function() { console.log('Zooming in!'); });
+
+            gZoomContainer.select('.zoom-out-button').on('click', function() { console.log('Zooming out!'); });
+
+
+
         });
     }
 
 
     chart.init = function(selection) {
         selection.each(function(data) {
+
+            var initial = selection;
 
             var svgEnter = d3.select(this),
                 gcont = svgEnter.append('g').attr('class', 'network-chart');
@@ -238,16 +291,80 @@ pty.chart.network = function() {
             gcont.append('g').attr('class', 'nodes');
             gcont.append('g').attr('class', 'labels');
 
-            var gbrand = gcont.append('g')
+            //Refresh button
+            var gRefreshButton = gcont.append('g')
+                                .attr('class','refresh-button')
+                                .attr('transform', 'translate(' +  [10, 10] +')');
+
+            var RefreshCircle = gRefreshButton.append('circle')
+                                .attr('class','refresh-button')
+                                .attr('cx',10)
+                                .attr('cy',10)
+                                .attr('r',10)
+                                .attr('stroke','black')
+                                .attr('stroke-width',2)
+                                .attr('cursor','pointer');
+
+            var RefreshIcon = gRefreshButton.append('text')
+                                .attr('class','refresh-button-arrow')
+                                .attr('x',4)
+                                .attr('y',15)
+                                .attr('cursor','pointer')
+                                .attr('font-family', 'FontAwesome')
+                                .text('\uf0e2' );
+
+            //Zoom
+
+            var gZoom = gcont.append('g')
+                            .attr('class','zoom-container')
+                            .attr('transform', 'translate(' + [13,70] + ')');
+
+            var gZoomIn = gZoom.append('text')
+                            .attr('class','zoom-in-button')
+                            .attr('cursor','pointer')
+                            .attr('font-family','FontAwesome')
+                            .attr('font-size',17)
+                            .text('\uf0fe');
+
+            var gZoomOut = gZoom.append('text')
+                            .attr('class','zoom-out-button')
+                            .attr('cursor','pointer')
+                            .attr('y',30)
+                            .attr('font-family','FontAwesome')
+                            .attr('font-size',17)
+                            .text('\uf146');
+
+            // Brand
+            // -----
+            var gBrand = gcont.append('g')
                 .attr('class', 'brand')
                 .attr('transform', 'translate(' + [me.width - 4, me.height - 4] + ')');
 
-            var brandLabel = gbrand.append('a')
+            var brandLabel = gBrand.append('a')
                 .attr('xlink:href', 'http://www.masega.co')
                 .append('text')
                 .attr('class', 'masega-brand')
                 .attr('text-anchor', 'end')
                 .text('masega.co');
+
+            var gNodeUrl = gcont.append('g')
+                .attr('class','url-container')
+                .attr('transform','translate(' + [10, me.height - 8] +')');
+
+            var gNodeLink = gNodeUrl.append('a')
+                .attr('class', 'url-container');
+
+            gNodeLink
+                .append('text')
+                .attr('class', 'url-container-icon')
+                .text('\uf0c1');
+
+            gNodeLink
+                .append('text')
+                .attr('x', 20)
+                .attr('class', 'url-container')
+                .text('');
+
         });
     };
 

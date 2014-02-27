@@ -50,15 +50,18 @@
         stroke: @aqua-light;
         stroke-opacity: .5;
         stroke-width: 2;
-        stroke-dasharray: 5,5
     }
 
-    .center-link {
-        stroke-opacity: .2;
-        stroke-width: 4;
-        stroke-dasharray: none;
+    // Node Link
+    .url-container {
+        fill: black;
+        a {
+            text-decoration: none;
+        }
+        .url-container-icon {
+            font-family: FontAwesome;
+        }
     }
-
 
     // Background
     rect.background {
@@ -71,6 +74,28 @@
         fill: @grey-medium;
         font-family: 'Roboto', sans-serif;
         font-size: 11px;
+    }
+
+    // Refresh Button
+    .refresh-button{
+        fill: white;
+        stroke: black;
+        stroke-width: 2;
+        .refresh-button-arrow{
+            fill: black;
+            font-collor: black;
+            font-family: FontAwesome;
+            stroke-width: 0.4;
+        }
+    }
+
+    //Zoom in and out buttons
+    .zoom-in-button {
+
+    }
+
+    .zoom-out-button {
+
     }
 }
 
