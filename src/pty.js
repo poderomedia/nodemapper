@@ -241,11 +241,29 @@ pty.chart.network = function() {
                .attr('transform','translate(' +  [10,10] +')');
 
             //Refresh button
-            var refreshButton = gbutton.append('rect')
-                                   .attr('width',20)
-                                   .attr('height',20)
-                                   .attr('fill','black')
+            var refreshButton = gbutton.append('circle')
+                                   .attr('cx',10)
+                                   .attr('cy',10)
+                                   .attr('r',10)
+                                   .attr('fill','white')
+                                   .attr('stroke','black')
+                                   .attr('stroke-width',2)
+                                   .attr('cursor','pointer')
                                    .on('click', function() {
+
+                                    d3.json(me.initialData, function(error,data) {
+                                        div.data([data]).call(chart);
+                                    })
+
+                                   } );
+
+             gbutton.append('text')
+                .attr('x',4)
+                .attr('y',15)
+                .attr('cursor','pointer')
+                .attr('font-family', 'FontAwesome')
+                .text('\uf0e2' )
+                .on('click', function() {
 
                                     d3.json(me.initialData, function(error,data) {
                                         div.data([data]).call(chart);
