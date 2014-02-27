@@ -21,16 +21,14 @@ pty.chart.network = function() {
         friction: 0.5,
         linkStrength: 0.2,
         linkDistance: 120,
-        // onClick: function(d, i) {},
         nodeClass: function(d, i) { return ''; },
         nodeBaseURL: function(d) { return ''; },
         nodeURL: function(d) { return ''; },
-        chartURL: function(d) { return ''; },
         nodeLabel: function(d, i) { return ''; },
         fixCenter: true,
-        initialData: {} //Implement 'DO NOTHING' if left undefined
     };
 
+    var initialData = false;
 
     // Charting Function
     function chart(selection) {
@@ -41,6 +39,12 @@ pty.chart.network = function() {
 
             // Data Preprocessing
             // ------------------
+
+            if (!initialData) {
+                data.nodes.forEach(function(d) { d.__first = true; });
+                data.links.forEach(function(d) { d.__first = true; });
+                initialData = true;
+            }
 
             var idx = {},
                 dataNodes = [],
@@ -90,6 +94,9 @@ pty.chart.network = function() {
                     d.fixed = me.fixCenter;
                 }
             });
+
+
+
 
             function onClick(d, i) {
                 d3.json(me.nodeBaseURL(d), function(error, data) {
@@ -239,8 +246,17 @@ pty.chart.network = function() {
             //Other elements
             //--------------
             var gbutton = g.append('g')
-               .attr('class','button')
-               .attr('transform','translate(' +  [10,10] +')');
+                .attr('class','button')
+                .attr('transform', 'translate(' +  [10, 10] +')')
+                .on('click', function() {
+                    // d3.json(me.initialData, function(error,data) {
+                    var firstData = {
+                        root: data.root,
+                        nodes: data.nodes.filter(function(d) { return d.__first; }),
+                        links: data.links.filter(function(d) { return d.__first; })
+                    };
+                    div.data([firstData]).call(chart);
+               });
 
             //Refresh button
             //NOTE: we should be able to appeal to the url of the root, but data.root has no id.
@@ -252,24 +268,23 @@ pty.chart.network = function() {
                .attr('fill','white')
                .attr('stroke','black')
                .attr('stroke-width',2)
-               .attr('cursor','pointer')
-               .on('click', function() {
-                    d3.json(me.initialData, function(error,data) {
-                        div.data([data]).call(chart);
-                    });
-               });
+               .attr('cursor','pointer');
+
 
              gbutton.append('text')
                 .attr('x',4)
                 .attr('y',15)
                 .attr('cursor','pointer')
                 .attr('font-family', 'FontAwesome')
-                .text('\uf0e2' )
-                .on('click', function() {
-                    d3.json(me.initialData, function(error,data) {
-                        div.data([data]).call(chart);
-                    });
-               });
+                .text('\uf0e2' );
+               //  .on('click', function() {
+               //      console.log('INITIAL DATA');
+               //      console.log(initialData);
+               //      div.data([initialData]).call(chart);
+               //      // d3.json(me.initialData, function(error,data) {
+               //      //     div.data([data]).call(chart);
+               //      // });
+               // });
 
             // //Container for the url
             // var gnodeurl = svgEnter.append('g')
