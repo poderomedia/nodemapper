@@ -130,7 +130,8 @@ pty.chart.network = function() {
                 gNodeUrl = g.select('g.url-container'),
                 nodeUrlLabel = gNodeUrl.select('text.url-container'),
                 nodeUrlLink = gNodeUrl.select('a.url-container'),
-                grefresh = g.select('g.button');
+                grefresh = g.select('g.refresh-button');
+                gZoomContainer = g.select('g.zoom-container');
 
 
             // Force layout
@@ -209,7 +210,12 @@ pty.chart.network = function() {
 
             circles.call(force.drag);
 
-            circles.exit().remove();
+            circles.exit()
+                .transition()
+                .delay(300)
+                .duration(2000)
+                .attr('cy', me.width)
+                .remove();
 
             // Labels
             // ------
@@ -245,11 +251,8 @@ pty.chart.network = function() {
 
             //Other elements
             //--------------
-            var gbutton = g.append('g')
-                .attr('class','button')
-                .attr('transform', 'translate(' +  [10, 10] +')')
-                .on('click', function() {
-                    // d3.json(me.initialData, function(error,data) {
+
+            grefresh.on('click', function() {
                     var firstData = {
                         root: data.root,
                         nodes: data.nodes.filter(function(d) { return d.__first; }),
@@ -258,42 +261,11 @@ pty.chart.network = function() {
                     div.data([firstData]).call(chart);
                });
 
-            //Refresh button
-            //NOTE: we should be able to appeal to the url of the root, but data.root has no id.
-            //Write a function that returns the node corresponding to the root. Then apply nodeBaseURL to it.
-            var refreshButton = gbutton.append('circle')
-               .attr('cx',10)
-               .attr('cy',10)
-               .attr('r',10)
-               .attr('fill','white')
-               .attr('stroke','black')
-               .attr('stroke-width',2)
-               .attr('cursor','pointer');
+            gZoomContainer.select('.zoom-in-button').on('click', function() { console.log('Zooming in!'); });
+
+            gZoomContainer.select('.zoom-out-button').on('click', function() { console.log('Zooming out!'); });
 
 
-             gbutton.append('text')
-                .attr('x',4)
-                .attr('y',15)
-                .attr('cursor','pointer')
-                .attr('font-family', 'FontAwesome')
-                .text('\uf0e2' );
-               //  .on('click', function() {
-               //      console.log('INITIAL DATA');
-               //      console.log(initialData);
-               //      div.data([initialData]).call(chart);
-               //      // d3.json(me.initialData, function(error,data) {
-               //      //     div.data([data]).call(chart);
-               //      // });
-               // });
-
-            // //Container for the url
-            // var gnodeurl = svgEnter.append('g')
-            //                 .attr('class','urlcontainer')
-            //                 .attr('transform','translate(' + [4, me.height - 8 ] +')');
-
-            // console.log(gnodeurl);
-
-            // gnodeurl.append('text').attr('text-anchor','start').text("Hi five!");
 
         });
     }
@@ -318,6 +290,49 @@ pty.chart.network = function() {
             gcont.append('g').attr('class', 'links');
             gcont.append('g').attr('class', 'nodes');
             gcont.append('g').attr('class', 'labels');
+
+            //Refresh button
+            var gRefreshButton = gcont.append('g')
+                                .attr('class','refresh-button')
+                                .attr('transform', 'translate(' +  [10, 10] +')');
+
+            var RefreshCircle = gRefreshButton.append('circle')
+                                .attr('class','refresh-button')
+                                .attr('cx',10)
+                                .attr('cy',10)
+                                .attr('r',10)
+                                .attr('stroke','black')
+                                .attr('stroke-width',2)
+                                .attr('cursor','pointer');
+
+            var RefreshIcon = gRefreshButton.append('text')
+                                .attr('class','refresh-button-arrow')
+                                .attr('x',4)
+                                .attr('y',15)
+                                .attr('cursor','pointer')
+                                .attr('font-family', 'FontAwesome')
+                                .text('\uf0e2' );
+
+            //Zoom
+
+            var gZoom = gcont.append('g')
+                            .attr('class','zoom-container')
+                            .attr('transform', 'translate(' + [13,70] + ')');
+
+            var gZoomIn = gZoom.append('text')
+                            .attr('class','zoom-in-button')
+                            .attr('cursor','pointer')
+                            .attr('font-family','FontAwesome')
+                            .attr('font-size',17)
+                            .text('\uf0fe');
+
+            var gZoomOut = gZoom.append('text')
+                            .attr('class','zoom-out-button')
+                            .attr('cursor','pointer')
+                            .attr('y',30)
+                            .attr('font-family','FontAwesome')
+                            .attr('font-size',17)
+                            .text('\uf146');
 
             // Brand
             // -----
@@ -349,22 +364,6 @@ pty.chart.network = function() {
                 .attr('x', 20)
                 .attr('class', 'url-container')
                 .text('');
-
-            // var gprintnodeurl = gnodeurl.append('a')
-            //                 .attr('xlink:href', me.chartURL(this))
-            //                 .append('text')
-            //                 .attr('text-anchor','start')
-            //                 .text("hola");
-
-            // var gbutton = gcont.append('g')
-            //    .attr('class','button')
-            //    .attr('transform','translate(' +  [10,10] +')');
-
-            // var refreshButton = gbutton.append('rect')
-            //                        .attr('width',20)
-            //                        .attr('height',20)
-            //                        .attr('fill','black')
-            //                        .on('click', function() { gcont.data([initialData]).call(chart); } );
 
         });
     };

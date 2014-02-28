@@ -24,7 +24,10 @@ title: Documentation
 	var chart01 = pty.chart.network()
 		.width(width)
 		.height(height)
-        .nodeRadius(10);
+        .nodeRadius(10)
+        .nodeLabel(function(d) { return d.name; })
+        .nodeBaseURL(function(d) { return '{{site.baseurl}}/data/' + d.id + '.json'; })
+        .nodeURL(function(d) { return '{{site.baseurl}}/pages/' + d.id; });
 
 	d3.json('{{ site.baseurl }}/data/A.json', function(error, data) {
 
@@ -269,12 +272,50 @@ d3.select('div#chart')
             .width(width)
             .height(height)
             .nodeRadius(15)
-            // .chartURL(function(d) { return 'www.awesomechart.com/' + d.id + '.html'; })
             .nodeBaseURL(function(d) { return '{{site.baseurl}}/data/' + d.id + '.json'; });
-            // .initialData('{{ site.baseurl }}/data/A.json');
-             //
+
 
         d3.select('div#example06').data([data]).call(chart01);
+    });
+</script>
+
+
+<h3><span class="glyphicon glyphicon-bookmark" class=""></span> Setting link to a new entity</h3>
+
+In the following example, when the user clicks on a node, a link appears on the bottom left of the chart. The text corresponds to the `.nodeLabel()` while the link can be set using `.nodeURL()`.
+
+{% highlight javascript %}
+// Set the function to generate the URL of each node
+var chart = pty.chart.network()
+    .nodeLabel(function(d) { return d.name; })
+    .nodeURL(function(d) { return '{{site.baseurl}}/pages/' + d.id; });
+
+// Bind the container div to the data and invoke the chart
+d3.select('div#chart')
+    .data([data])
+    .call(chart);
+{% endhighlight %}
+
+<div id="example07" class="example"></div>
+
+<script>
+    d3.json('{{ site.baseurl }}/data/A.json', function(error, data) {
+
+        if (error) { return error; }
+
+        var width = 600,
+            height = 400;
+
+        var chart02 = pty.chart.network()
+            .width(width)
+            .height(height)
+            .nodeRadius(15)
+            .nodeLabel(function(d) { return d.name; })
+            .nodeBaseURL(function(d) { return '{{site.baseurl}}/data/' + d.id + '.json'; })
+            .nodeURL(function(d) { return '{{site.baseurl}}/pages/' + d.id; });
+
+
+        d3.select('div#example07').data([data]).call(chart02);
     });
 </script>
 
