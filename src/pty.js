@@ -142,13 +142,18 @@ pty.chart.network = function() {
                 grefresh = g.select('g.refresh-button');
                 gZoomContainer = g.select('g.zoom-container');
 
+                var l = 1.5;
+
                 var rect = svgEnter.append("rect")
                             .attr('x',100)
                             .attr("width", 40)
                             .attr("height", 40)
                             .style("fill", "green")
                             .style("pointer-events", "fill")
-                            .call(zooming);
+                            .on('click', function() {
+                                plotcontainer.attr('transform','scale(' + l + ')translate(' + [-me.width*0.125,-me.height*0.125] + ')');
+                                l = l+0.5;
+                            });
 
 
             // Force layout
