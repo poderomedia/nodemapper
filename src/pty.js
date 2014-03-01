@@ -236,23 +236,27 @@ pty.chart.network = function() {
             // Zoom In
             gControlZoomIn.on('click', function() {
                 // Compute the new zoom level and update the zoom behavior
-                var newScale = d3.min([zoomBehavior.scale() + 1, me.zoomExtent[1]]);
+                var newScale = d3.min([zoomBehavior.scale() + 1, me.zoomExtent[1]]),
+                    translate = pty.svg.translate(zoomBehavior.translate());
+
                 zoomBehavior.scale(newScale);
 
                 // Scale the chart group
                 gChart.transition().duration(me.duration)
-                    .attr('transform', pty.svg.scale(newScale));
+                    .attr('transform', translate + pty.svg.scale(newScale));
             });
 
             // Zoom Out
             gControlZoomOut.on('click', function() {
                 // Compute the new zoom level and update the zoom behavior
-                var newScale = d3.max([zoomBehavior.scale() - 1, me.zoomExtent[0]]);
+                var newScale = d3.max([zoomBehavior.scale() - 1, me.zoomExtent[0]]),
+                    translate = pty.svg.translate(zoomBehavior.translate());
+
                 zoomBehavior.scale(newScale);
 
                 // Scale the chart group
                 gChart.transition().duration(me.duration)
-                    .attr('transform', pty.svg.scale(newScale));
+                    .attr('transform', translate + pty.svg.scale(newScale));
             });
 
         });
