@@ -95,7 +95,14 @@ pty.chart.network = function() {
                 }
             });
 
+            //Zoom
+            var zooming = d3.behavior.zoom()
+            .scaleExtent([0, 10])
+            .on("zoom", zoomed);
 
+            function zoomed() {
+             plotcontainer.attr("transform", "scale(" + d3.event.scale + ")");
+            }
 
 
             function onClick(d, i) {
@@ -123,6 +130,8 @@ pty.chart.network = function() {
                 .call(chart.init);
 
             var g = svg.select('g.network-chart'),
+                gplot = g.append('g'),
+                plotcontainer = g.select('g.graph'),
                 glinks = g.select('g.links'),
                 gnodes = g.select('g.nodes'),
                 glabels = g.select('g.labels'),
@@ -132,6 +141,14 @@ pty.chart.network = function() {
                 nodeUrlLink = gNodeUrl.select('a.url-container'),
                 grefresh = g.select('g.refresh-button');
                 gZoomContainer = g.select('g.zoom-container');
+
+                var rect = svgEnter.append("rect")
+                            .attr('x',100)
+                            .attr("width", 40)
+                            .attr("height", 40)
+                            .style("fill", "green")
+                            .style("pointer-events", "fill")
+                            .call(zooming);
 
 
             // Force layout
@@ -261,7 +278,7 @@ pty.chart.network = function() {
                     div.data([firstData]).call(chart);
                });
 
-            gZoomContainer.select('.zoom-in-button').on('click', function() { console.log('Zooming in!'); });
+            gZoomContainer.select('.zoom-in-button').call(zooming);
 
             gZoomContainer.select('.zoom-out-button').on('click', function() { console.log('Zooming out!'); });
 
@@ -287,9 +304,10 @@ pty.chart.network = function() {
                 .attr('height', me.height)
                 .attr('class', 'background');
 
-            gcont.append('g').attr('class', 'links');
-            gcont.append('g').attr('class', 'nodes');
-            gcont.append('g').attr('class', 'labels');
+            var graphcont = gcont.append('g').attr('class','graph');
+            graphcont.append('g').attr('class', 'links');
+            graphcont.append('g').attr('class', 'nodes');
+            graphcont.append('g').attr('class', 'labels');
 
             //Refresh button
             var gRefreshButton = gcont.append('g')
@@ -313,7 +331,8 @@ pty.chart.network = function() {
                                 .attr('font-family', 'FontAwesome')
                                 .text('\uf0e2' );
 
-            //Zoom
+            //Zoom button
+
 
             var gZoom = gcont.append('g')
                             .attr('class','zoom-container')
