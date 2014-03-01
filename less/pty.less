@@ -3,6 +3,7 @@
 @grey-dark:   #333;
 @grey-medium: #777;
 @grey-light:  #ddd;
+@white: #fff;
 
 @slate-dark:   #556270;
 @green-light: #C7F464;
@@ -76,25 +77,17 @@
         font-size: 11px;
     }
 
-    // Refresh Button
-    .refresh-button{
-        fill: white;
-        stroke: black;
-        stroke-width: 2;
-        .refresh-button-arrow{
-            fill: black;
-            font-collor: black;
-            font-family: FontAwesome;
-            stroke-width: 0.4;
+    // Controls
+    // --------
+    .control-item {
+        rect {
+            fill: @white;
+            fill-opacity: 0.75;
         }
-    }
 
-    //Zoom in and out buttons
-    .zoom-in-button {
-
-    }
-
-    .zoom-out-button {
+        text {
+            fill: @slate-dark;
+        }
 
     }
 }
