@@ -257,9 +257,8 @@ pty.chart.network = function() {
                 .on('mouseout', function(d) { d3.select(this).classed('control-highlight','false'); })
                 .on('click', function() {
                     // Compute the new zoom level and update the zoom behavior
-                    var newScale = d3.min([zoomBehavior.scale() + 1, me.zoomExtent[1]]),
+                    var newScale = d3.min([zoomBehavior.scale() + 0.2, me.zoomExtent[1]]),
                         translate = pty.svg.translate(zoomBehavior.translate());
-
                     zoomBehavior.scale(newScale);
 
                     // Scale the chart group
