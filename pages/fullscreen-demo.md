@@ -66,7 +66,7 @@ d3.json('{{ site.baseurl }}/data/A.json', function(error, data) {
         }
 
         function toFullScreen() {
-            chart01
+            chart
                 .width(screen.width)
                 .height(screen.height)
                 .fullscreenCallback(toNormal);
