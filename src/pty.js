@@ -109,6 +109,11 @@ pty.chart.network = function() {
                 .scaleExtent(me.zoomExtent)
                 .on('zoom', onZoom);
 
+            gChart
+                .attr('transform', pty.svg.translate(me.zoomBehavior.translate()) + pty.svg.scale(me.zoomBehavior.scale()));
+
+
+
             // Bind the zoom behavior to the background rectangle
             gBackground.select('rect.background').call(me.zoomBehavior);
 
@@ -274,7 +279,7 @@ pty.chart.network = function() {
                 .on('mouseout', function(d) { d3.select(this).classed('control-highlight','false'); })
                 .on('click', function() {
                     // Compute the new zoom level and update the zoom behavior
-                    var newScale = d3.max([me.zoomBehavior.scale() - 1, me.zoomExtent[0]]),
+                    var newScale = d3.max([me.zoomBehavior.scale() - 0.2, me.zoomExtent[0]]),
                         translate = pty.svg.translate(me.zoomBehavior.translate());
 
                     me.zoomBehavior.scale(newScale);
