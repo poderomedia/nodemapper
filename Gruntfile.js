@@ -59,6 +59,11 @@ module.exports = function(grunt) {
             d3: {
                 src: 'bower_components/d3/d3.min.js',
                 dest: 'js/lib/d3.min.js'
+            },
+
+            underscore: {
+                src: 'bower_components/underscore/underscore.js',
+                dest: 'js/lib/underscore.js'
             }
 
         },
@@ -77,8 +82,15 @@ module.exports = function(grunt) {
         },
 
         watch: {
+            options: {
+                livereload: true,
+            },
             less: {
                 files: ['less/*.less'],
+                tasks: ['less']
+            },
+            pty: {
+                files: ['src/pty.js'],
                 tasks: ['less']
             }
         }
@@ -92,9 +104,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
 
 
-    // Register Tasks
-
-    // Test Task
+    // Tasks
     grunt.registerTask('build', ['copy', 'less']);
     grunt.registerTask('dist', ['build']);
     grunt.registerTask('default', ['build']);

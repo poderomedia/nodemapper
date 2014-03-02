@@ -48,7 +48,8 @@ pty.chart.network = function() {
         duration: 2000,
         delay: 200,
         zoomExtent: [1, 8],
-        controlsPosition: [10, 10]
+        controlsPosition: [10, 10],
+        embedCallback: false
     };
 
     // Flag to know if the network chart has been drawn
@@ -77,7 +78,8 @@ pty.chart.network = function() {
             // Controls
             var gControlRefresh = gControls.select('g.control-item.refresh'),
                 gControlZoomIn = gControls.select('g.control-item.zoom-in'),
-                gControlZoomOut = gControls.select('g.control-item.zoom-out');
+                gControlZoomOut = gControls.select('g.control-item.zoom-out'),
+                gControlEmbed   = gControls.select('g.control-item.embed');
 
             // Process the data to remove duplicate links
             var networkData = chart.parseNetworkData(data);
@@ -259,6 +261,12 @@ pty.chart.network = function() {
                     .attr('transform', translate + pty.svg.scale(newScale));
             });
 
+            // Embed
+            if (me.embedCallback) {
+                gControlEmbed.on('click', me.embedCallback);
+            } else {
+                gControlEmbed.remove();
+            }
         });
     }
 
@@ -296,9 +304,11 @@ pty.chart.network = function() {
 
             // Refresh Button
             var controls = [
-                {name: 'refresh',  icon: '\uf0e2'},
-                {name: 'zoom-in',  icon: '\uf067'},
-                {name: 'zoom-out', icon: '\uf068'}
+                {name: 'refresh',    icon: '\uf0e2'},
+                {name: 'zoom-in',    icon: '\uf067'},
+                {name: 'zoom-out',   icon: '\uf068'},
+                {name: 'embed',      icon: '\uf121'},
+                {name: 'fullscreen', icon: '\uf065'}
             ];
 
             // Controls Scale
@@ -328,7 +338,7 @@ pty.chart.network = function() {
                 .text(function(d) { return d.icon; });
 
             iconLabel
-                .attr('x', function() { return 0.5 * (bgSize - this.getBBox().width); })
+                .attr('x', function() { return 0.5 * (bgSize - this.getBBox().width) - 1; })
                 .attr('y', function() { return 0.5 * (bgSize + this.getBBox().height) - 2; });
 
             // Brand

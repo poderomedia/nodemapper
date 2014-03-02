@@ -23,27 +23,6 @@ title: Embed
             .height(height)
             .nodeRadius(15)
             .nodeBaseURL(function(d) { return '{{site.baseurl}}/data/' + d.id + '.json'; });
-            // .onClick(function(d) {
-
-            //     d.isclick = false;
-
-            //     var dataurl = "../data/" + d.id + ".json";
-
-
-            //     d3.json(dataurl, function(error, data) {
-
-            //         if (!error) {
-
-            //         var olddata = d3.select('div#chart01').data()[0];
-
-            //         olddata.nodes = olddata.nodes.concat(data.nodes);
-            //         olddata.links = olddata.links.concat(data.links);
-
-            //         d3.select('div#chart01')
-            //             .data([olddata])
-            //             .call(chart01);}
-            //     });
-            // });
 
         d3.select('div#chart01').data([data]).call(chart01);
     });
