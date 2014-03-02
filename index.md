@@ -15,17 +15,6 @@ title: Panama
 </div>
 
 <script>
-    // fa-link (&#xf0c1;)
-     // fa-expand (&#xf065;)
-     //  fa-plus (&#xf067;)
-     //  fa-minus (&#xf068;)
-     //  fa-minus-square (&#xf146;)  fa-minus-square-o (&#xf147;)
-     //  fa-search-plus (&#xf00e;)  fa-search-minus (&#xf010;)
-     //  fa-arrows-alt (&#xf0b2;)
-     //  fa-code (&#xf121;)
-</script>
-
-<script>
 d3.json('{{ site.baseurl }}/data/A.json', function(error, data) {
 
     if (error) { return error; }

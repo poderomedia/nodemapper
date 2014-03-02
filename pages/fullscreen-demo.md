@@ -37,9 +37,6 @@ title: Fullscreen Demo
 </div>
 
 <script>
-
-
-
 d3.json('{{ site.baseurl }}/data/A.json', function(error, data) {
 
     if (error) { return error; }
@@ -47,7 +44,7 @@ d3.json('{{ site.baseurl }}/data/A.json', function(error, data) {
     var width = parseInt(d3.select('#demo').style('width'), 10),
         height = 400;
 
-    var chart01 = pty.chart.network()
+    var chart = pty.chart.network()
         .width(width)
         .height(height)
         .nodeRadius(15)
@@ -57,22 +54,30 @@ d3.json('{{ site.baseurl }}/data/A.json', function(error, data) {
         .fullscreenCallback(toFullScreen);
 
         function toNormal() {
-            chart01.width(width).height(height)
+            chart.width(width).height(height)
                 .fullscreenCallback(toFullScreen);
 
-            d3.select('#demo').data(d3.select('#fs-modal-chart').data()).call(chart01);
+            d3.select('#demo')
+                .data(d3.select('#fs-modal-chart').data())
+                .call(chart);
+
+            d3.select('#fs-modal-chart').classed('hidden', true);
             d3.select('#fs-modal-chart').selectAll('svg').remove();
         }
 
         function toFullScreen() {
-            chart01.width(screen.width).height(screen.height)
+            chart01
+                .width(screen.width)
+                .height(screen.height)
                 .fullscreenCallback(toNormal);
 
-            d3.select('#fs-modal-chart').data(d3.select('#demo').data()).call(chart01);
+            d3.select('#fs-modal-chart')
+                .classed('hidden', false)
+                .data(d3.select('#demo').data())
+                .call(chart);
         }
 
-
-    d3.select('div#demo').data([data]).call(chart01);
+    d3.select('div#demo').data([data]).call(chart);
 });
 </script>
 
