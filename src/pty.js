@@ -53,7 +53,8 @@ pty.chart.network = function() {
         zoomInCallback: true,
         zoomOutCallback: true,
         embedCallback: false,
-        fullscreenCallback: false
+        fullscreenCallback: false,
+        zoomBehavior: d3.behavior.zoom()
     };
 
     // Flag to know if the network chart has been drawn
@@ -104,12 +105,12 @@ pty.chart.network = function() {
             }
 
             // Configure the zoom behavior
-            var zoomBehavior = d3.behavior.zoom()
+            me.zoomBehavior
                 .scaleExtent(me.zoomExtent)
                 .on('zoom', onZoom);
 
             // Bind the zoom behavior to the background rectangle
-            gBackground.select('rect.background').call(zoomBehavior);
+            gBackground.select('rect.background').call(me.zoomBehavior);
 
             // The click callback requests the network of the clicked node
             function onClick(d, i) {
@@ -257,9 +258,10 @@ pty.chart.network = function() {
                 .on('mouseout', function(d) { d3.select(this).classed('control-highlight','false'); })
                 .on('click', function() {
                     // Compute the new zoom level and update the zoom behavior
-                    var newScale = d3.min([zoomBehavior.scale() + 0.2, me.zoomExtent[1]]),
-                        translate = pty.svg.translate(zoomBehavior.translate());
-                    zoomBehavior.scale(newScale);
+                    var newScale = d3.min([me.zoomBehavior.scale() + 0.2, me.zoomExtent[1]]),
+                        translate = pty.svg.translate(me.zoomBehavior.translate());
+
+                    me.zoomBehavior.scale(newScale);
 
                     // Scale the chart group
                     gChart.transition().duration(me.duration)
@@ -272,10 +274,10 @@ pty.chart.network = function() {
                 .on('mouseout', function(d) { d3.select(this).classed('control-highlight','false'); })
                 .on('click', function() {
                     // Compute the new zoom level and update the zoom behavior
-                    var newScale = d3.max([zoomBehavior.scale() - 1, me.zoomExtent[0]]),
-                        translate = pty.svg.translate(zoomBehavior.translate());
+                    var newScale = d3.max([me.zoomBehavior.scale() - 1, me.zoomExtent[0]]),
+                        translate = pty.svg.translate(me.zoomBehavior.translate());
 
-                    zoomBehavior.scale(newScale);
+                    me.zoomBehavior.scale(newScale);
 
                     // Scale the chart group
                     gChart.transition().duration(me.duration)
