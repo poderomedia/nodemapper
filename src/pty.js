@@ -49,7 +49,11 @@ pty.chart.network = function() {
         delay: 200,
         zoomExtent: [1, 8],
         controlsPosition: [10, 10],
-        embedCallback: false
+        refreshCallback: true,
+        zoomInCallback: true,
+        zoomOutCallback: true,
+        embedCallback: false,
+        fullscreenCallback: false
     };
 
     // Flag to know if the network chart has been drawn
@@ -79,7 +83,8 @@ pty.chart.network = function() {
             var gControlRefresh = gControls.select('g.control-item.refresh'),
                 gControlZoomIn = gControls.select('g.control-item.zoom-in'),
                 gControlZoomOut = gControls.select('g.control-item.zoom-out'),
-                gControlEmbed   = gControls.select('g.control-item.embed');
+                gControlEmbed = gControls.select('g.control-item.embed'),
+                gControlFullscreen = gControls.select('g.control-item.fullscreen');
 
             // Process the data to remove duplicate links
             var networkData = chart.parseNetworkData(data);
@@ -267,6 +272,13 @@ pty.chart.network = function() {
             } else {
                 gControlEmbed.remove();
             }
+
+            // Fullscreen
+            if (me.fullscreenCallback) {
+                gControlFullscreen.on('click', me.fullscreenCallback);
+            } else {
+                gControlFullscreen.remove();
+            }
         });
     }
 
@@ -304,22 +316,26 @@ pty.chart.network = function() {
 
             // Refresh Button
             var controls = [
-                {name: 'refresh',    icon: '\uf0e2'},
-                {name: 'zoom-in',    icon: '\uf067'},
-                {name: 'zoom-out',   icon: '\uf068'},
-                {name: 'embed',      icon: '\uf121'},
-                {name: 'fullscreen', icon: '\uf065'}
+                {name: 'refresh',    icon: '\uf0e2', callback: me.refreshCallback},
+                {name: 'zoom-in',    icon: '\uf067', callback: me.zoomInCallback},
+                {name: 'zoom-out',   icon: '\uf068', callback: me.zoomOutCallback},
+                {name: 'embed',      icon: '\uf121', callback: me.embedCallback},
+                {name: 'fullscreen', icon: '\uf065', callback: me.fullscreenCallback}
             ];
+
+            var activeControls = controls.filter(function(d) {
+                return d.callback;
+            });
 
             // Controls Scale
             var yScale = d3.scale.ordinal()
-                .domain(d3.range(controls.length))
-                .rangeBands([0, 30 * controls.length], 0.1);
+                .domain(d3.range(activeControls.length))
+                .rangeBands([0, 30 * activeControls.length], 0.1);
 
             var bgSize = yScale.rangeBand();
 
             var gControlItem = gControls.selectAll('g.control-item')
-                .data(controls);
+                .data(activeControls);
 
             gControlItem.enter().append('g')
                 .attr('class', function(d) { return 'control-item ' + d.name; })
