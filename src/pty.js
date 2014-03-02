@@ -47,7 +47,7 @@ pty.chart.network = function() {
         fixCenter: true,
         duration: 2000,
         delay: 200,
-        zoomExtent: [1, 8],
+        zoomExtent: [0.5, 8],
         controlsPosition: [10, 10],
         refreshCallback: true,
         zoomInCallback: true,
@@ -58,7 +58,8 @@ pty.chart.network = function() {
 
     // Flag to know if the network chart has been drawn
     var initialData = false;
-
+    // Flag to know if we are in fullscreen mode
+    var isScreenFull = false;
     // Charting Function
     function chart(selection) {
         selection.each(function(data) {
@@ -88,6 +89,12 @@ pty.chart.network = function() {
 
             // Process the data to remove duplicate links
             var networkData = chart.parseNetworkData(data);
+
+           if ( isScreenFull ) {
+                    gControlFullscreen.select('text').text('\uf066');
+            } else {
+                    gControlFullscreen.select('text').text('\uf065');
+            }
 
             // Mouse zoom callback
             function onZoom() {
@@ -120,6 +127,7 @@ pty.chart.network = function() {
 
                 d.isclick = false;
             }
+
 
             // Force layout
             // ------------
@@ -231,51 +239,71 @@ pty.chart.network = function() {
             //------------------
 
             // Refresh
-            gControlRefresh.on('click', function() {
-                var firstData = {
-                    root: data.root,
-                    nodes: data.nodes.filter(function(d) { return d.__first; }),
-                    links: data.links.filter(function(d) { return d.__first; })
-                };
-                div.data([firstData]).call(chart);
-            });
+            gControlRefresh
+                .on('mouseover', function(d) { d3.select(this).classed('control-highlight','true'); })
+                .on('mouseout', function(d) { d3.select(this).classed('control-highlight','false'); })
+                .on('click', function() {
+                    var firstData = {
+                        root: data.root,
+                        nodes: data.nodes.filter(function(d) { return d.__first; }),
+                        links: data.links.filter(function(d) { return d.__first; })
+                    };
+                    div.data([firstData]).call(chart);
+                });
 
             // Zoom In
-            gControlZoomIn.on('click', function() {
-                // Compute the new zoom level and update the zoom behavior
-                var newScale = d3.min([zoomBehavior.scale() + 1, me.zoomExtent[1]]),
-                    translate = pty.svg.translate(zoomBehavior.translate());
+            gControlZoomIn
+                .on('mouseover', function(d) { d3.select(this).classed('control-highlight','true'); })
+                .on('mouseout', function(d) { d3.select(this).classed('control-highlight','false'); })
+                .on('click', function() {
+                    // Compute the new zoom level and update the zoom behavior
+                    var newScale = d3.min([zoomBehavior.scale() + 1, me.zoomExtent[1]]),
+                        translate = pty.svg.translate(zoomBehavior.translate());
 
-                zoomBehavior.scale(newScale);
+                    zoomBehavior.scale(newScale);
 
-                // Scale the chart group
-                gChart.transition().duration(me.duration)
-                    .attr('transform', translate + pty.svg.scale(newScale));
-            });
+                    // Scale the chart group
+                    gChart.transition().duration(me.duration)
+                        .attr('transform', translate + pty.svg.scale(newScale));
+                });
 
             // Zoom Out
-            gControlZoomOut.on('click', function() {
-                // Compute the new zoom level and update the zoom behavior
-                var newScale = d3.max([zoomBehavior.scale() - 1, me.zoomExtent[0]]),
-                    translate = pty.svg.translate(zoomBehavior.translate());
+            gControlZoomOut
+                .on('mouseover', function(d) { d3.select(this).classed('control-highlight','true'); })
+                .on('mouseout', function(d) { d3.select(this).classed('control-highlight','false'); })
+                .on('click', function() {
+                    // Compute the new zoom level and update the zoom behavior
+                    var newScale = d3.max([zoomBehavior.scale() - 1, me.zoomExtent[0]]),
+                        translate = pty.svg.translate(zoomBehavior.translate());
 
-                zoomBehavior.scale(newScale);
+                    zoomBehavior.scale(newScale);
 
-                // Scale the chart group
-                gChart.transition().duration(me.duration)
-                    .attr('transform', translate + pty.svg.scale(newScale));
-            });
+                    // Scale the chart group
+                    gChart.transition().duration(me.duration)
+                        .attr('transform', translate + pty.svg.scale(newScale));
+                });
 
             // Embed
             if (me.embedCallback) {
-                gControlEmbed.on('click', me.embedCallback);
+                gControlEmbed
+                .on('mouseover', function(d) { d3.select(this).classed('control-highlight','true'); })
+                .on('mouseout', function(d) { d3.select(this).classed('control-highlight','false'); })
+                .on('click', me.embedCallback);
             } else {
                 gControlEmbed.remove();
             }
 
             // Fullscreen
             if (me.fullscreenCallback) {
-                gControlFullscreen.on('click', me.fullscreenCallback);
+                gControlFullscreen
+                .on('mouseover', function(d) { d3.select(this).classed('control-highlight','true'); })
+                .on('mouseout', function(d) { d3.select(this).classed('control-highlight','false'); })
+                .on('click',  function() {
+                    console.log(isScreenFull);
+                    isScreenFull = !isScreenFull;
+                    console.log(isScreenFull);
+                    d3.select(this).call(me.fullscreenCallback);
+                });
             } else {
                 gControlFullscreen.remove();
             }
