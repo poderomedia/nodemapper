@@ -170,14 +170,19 @@ Set the styles for circles of class `persona` and `institucion`.
 .network-chart circle.institucion {
     fill: #556270;
 }
+
+.network-chart circle.candidato {
+    fill: white;
+}
 {% endhighlight %}
 
-Set the function to determine the node class using the attributes of each node element.
+Set the function to determine the node class using the attributes of each node element. Additionally, set `.placelegend(true)` to show the legend.
 
 {% highlight javascript %}
 // Create a chart and set the class for the nodes
 var chart = pty.chart.network()
-    .nodeClass(function(d) { return d.type; });
+    .nodeClass(function(d) { return d.type; })
+    .placelegend(true);
 
 d3.select('div#example04')
     .data([data])
@@ -193,17 +198,22 @@ d3.select('div#example04')
         .network-chart circle.institucion {
             fill: #556270;
         }
+
+        .network-chart circle.candidato {
+            fill: white;
+        }
     </style>
 </div>
 
 <div id="example04" class="example"></div>
 
 <script>
-    d3.json('{{ site.baseurl }}/data/A.json', function(error, data) {
+    d3.json('{{ site.baseurl }}/data/E.json', function(error, data) {
 
         // Create a chart with the default options
         var chart = pty.chart.network()
-            .nodeClass(function(d) { return d.type; });
+            .nodeClass(function(d) { return d.type; })
+            .placelegend(true);
 
         d3.select('div#example04')
             .data([data])

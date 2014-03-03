@@ -54,7 +54,8 @@ pty.chart.network = function() {
         zoomOutCallback: true,
         embedCallback: false,
         fullscreenCallback: false,
-        zoomBehavior: d3.behavior.zoom()
+        zoomBehavior: d3.behavior.zoom(),
+        placelegend: false,
     };
 
     // Flag to know if the network chart has been drawn
@@ -156,6 +157,57 @@ pty.chart.network = function() {
 
             // Graphic Elements
             // ----------------
+
+            //Legend
+            //------
+
+            if (me.placelegend){
+
+            var legendContainer = svgEnter.selectAll('.legend');
+
+            legendContainer.attr('class','network-chart');
+
+            legendContainer.append('circle')
+                    .attr('class','node')
+                    .classed('node',true)
+                    .attr('class','persona')
+                    .attr('r',10);
+
+            legendContainer.append('text')
+                        .attr('text-anchor','start')
+                        .attr('fill','black')
+                        .attr('x',15)
+                        .attr('y',5)
+                        .text('Persona');
+
+            legendContainer.append('circle')
+                    .attr('class','node')
+                    .classed('node',true)
+                    .attr('class','candidato')
+                    .attr('cx',120)
+                    .attr('r',10);
+
+            legendContainer.append('text')
+                        .attr('text-anchor','start')
+                        .attr('fill','black')
+                        .attr('x',135)
+                        .attr('y',5)
+                        .text('Candidato');
+
+            legendContainer.append('circle')
+                    .attr('class','node')
+                    .classed('node',true)
+                    .attr('class','institucion')
+                    .attr('cx',240)
+                    .attr('r',10);
+
+            legendContainer.append('text')
+                        .attr('text-anchor','start')
+                        .attr('fill','black')
+                        .attr('x',255)
+                        .attr('y',5)
+                        .text('Institución');
+            }
 
             // Links
             // -----
@@ -326,7 +378,8 @@ pty.chart.network = function() {
                 gControls = gContainer.append('g').attr('class', 'controls'),
                 gBrand = gContainer.append('g').attr('class', 'brand'),
                 gZoomCont = gContainer.append('g').attr('class', 'zoom-container'),
-                gChart = gZoomCont.append('g').attr('class', 'network');
+                gChart = gZoomCont.append('g').attr('class', 'network'),
+                gLegend = svgEnter.append('g').attr('class','legend');
 
             // Set the SVG element width and height
             svgEnter.attr('width', me.width).attr('height', me.height);
@@ -422,6 +475,9 @@ pty.chart.network = function() {
                 .attr('x', 20)
                 .attr('class', 'url-container')
                 .text('');
+
+            // Legend
+            gLegend.attr('transform','translate(' + [me.width-330,15] + ')');
         });
     };
 
