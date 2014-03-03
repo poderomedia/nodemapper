@@ -164,70 +164,6 @@ pty.chart.network = function() {
             // Graphic Elements
             // ----------------
 
-            //Legend
-            //------
-
-            // if (me.legendItems) {
-
-            //     var gLegendItems = gLegend.selectAll('g.legend-item').data(me.legendItems);
-
-            //     var legendScale = d3.scale.ordinal()
-            //         .domain()
-            //         .rangePoints([])
-
-
-
-
-            // }
-
-            // if (me.placelegend){
-
-            // var legendContainer = svgEnter.selectAll('.legend');
-
-            // legendContainer.attr('class','network-chart');
-
-            // legendContainer.append('circle')
-            //         .attr('class','node')
-            //         .classed('node',true)
-            //         .attr('class','persona')
-            //         .attr('r',10);
-
-            // legendContainer.append('text')
-            //             .attr('text-anchor','start')
-            //             .attr('fill','black')
-            //             .attr('x',15)
-            //             .attr('y',5)
-            //             .text('Persona');
-
-            // legendContainer.append('circle')
-            //         .attr('class','node')
-            //         .classed('node',true)
-            //         .attr('class','candidato')
-            //         .attr('cx',120)
-            //         .attr('r',10);
-
-            // legendContainer.append('text')
-            //             .attr('text-anchor','start')
-            //             .attr('fill','black')
-            //             .attr('x',135)
-            //             .attr('y',5)
-            //             .text('Candidato');
-
-            // legendContainer.append('circle')
-            //         .attr('class','node')
-            //         .classed('node',true)
-            //         .attr('class','institucion')
-            //         .attr('cx',240)
-            //         .attr('r',10);
-
-            // legendContainer.append('text')
-            //             .attr('text-anchor','start')
-            //             .attr('fill','black')
-            //             .attr('x',255)
-            //             .attr('y',5)
-            //             .text('Institución');
-            // }
-
             // Links
             // -----
 
@@ -375,9 +311,7 @@ pty.chart.network = function() {
                 .on('mouseover', function(d) { d3.select(this).classed('control-highlight','true'); })
                 .on('mouseout', function(d) { d3.select(this).classed('control-highlight','false'); })
                 .on('click',  function() {
-                    console.log(isScreenFull);
                     isScreenFull = !isScreenFull;
-                    console.log(isScreenFull);
                     d3.select(this).call(me.fullscreenCallback);
                 });
             } else {
