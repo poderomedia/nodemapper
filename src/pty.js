@@ -1,7 +1,7 @@
 /* globals d3:false */
 
 var pty = {
-    version: '0.1.0'  // semver
+    version: '0.2.0'  // semver
 };
 
 // SVG Transformations
