@@ -170,6 +170,10 @@ Set the styles for circles of class `persona` and `institucion`.
 .network-chart circle.institucion {
     fill: #556270;
 }
+
+.network-chart circle.candidato {
+    fill: white;
+}
 {% endhighlight %}
 
 Set the function to determine the node class using the attributes of each node element.
@@ -193,13 +197,17 @@ d3.select('div#example04')
         .network-chart circle.institucion {
             fill: #556270;
         }
+
+        .network-chart circle.candidato {
+            fill: white;
+        }
     </style>
 </div>
 
 <div id="example04" class="example"></div>
 
 <script>
-    d3.json('{{ site.baseurl }}/data/A.json', function(error, data) {
+    d3.json('{{ site.baseurl }}/data/E.json', function(error, data) {
 
         // Create a chart with the default options
         var chart = pty.chart.network()
@@ -211,6 +219,106 @@ d3.select('div#example04')
     });
 </script>
 
+<h3><span class="glyphicon glyphicon-bookmark"></span> Adding a Legend</h3>
+
+To add a legend, the user has to provide a list of all the node types as follows and submit the list to `.legendItems()`.
+
+{% highlight javascript %}
+     var legend = [
+        {name: 'Persona',     type: 'persona'},
+        {name: 'Candidato',   type: 'candidato'},
+        {name: 'Institución', type: 'institucion'}
+    ];
+
+    var chart01 = pty.chart.network()
+        .legendItems(legend);
+{% endhighlight %}
+
+The style of the circles representing each node type in the legend has to be set separately form the style for the nodes in the graph. This allows for instance to draw a stroke around the legend circles in order to differentiate them from the background without altering the style of the nodes of the graph.
+
+{% highlight javascript %}
+// Legend
+    .legend {
+
+        .persona {
+            fill: #75507b;
+            stroke: @grey-light;
+            stroke-width: 1;
+        }
+
+        .candidato {
+            fill: #729fcf;
+            stroke: @grey-light;
+            stroke-width: 1;
+        }
+
+        .institucion {
+            fill: #8ae234;
+            stroke: @grey-light;
+            stroke-width: 1;
+        }
+
+        text {
+            font-size: 11px;
+            fill: @grey-light;
+        }
+    }
+{% endhighlight %}
+
+<div>
+    <style type="text/css">
+// Legend
+    .legend {
+
+        .persona {
+            fill: #75507b;
+            stroke: @grey-light;
+            stroke-width: 1;
+        }
+
+        .candidato {
+            fill: #729fcf;
+            stroke: @grey-light;
+            stroke-width: 1;
+        }
+
+        .institucion {
+            fill: #8ae234;
+            stroke: @grey-light;
+            stroke-width: 1;
+        }
+
+        text {
+            font-size: 11px;
+            fill: @grey-light;
+        }
+    }
+
+    </style>
+</div>
+
+<div id="example05" class="example"></div>
+
+<script>
+
+    var legend = [
+        {name: 'Persona',     type: 'persona'},
+        {name: 'Candidato',   type: 'candidato'},
+        {name: 'Institución', type: 'institucion'}
+    ];
+
+    d3.json('{{ site.baseurl }}/data/E.json', function(error, data) {
+
+        // Create a chart with the default options
+        var chart = pty.chart.network()
+            .nodeClass(function(d) { return d.type; })
+            .legendItems(legend);
+
+        d3.select('div#example05')
+            .data([data])
+            .call(chart);
+    });
+</script>
 
 <h3><span class="glyphicon glyphicon-bookmark"></span> Adding Labels</h3>
 
@@ -223,16 +331,17 @@ d3.select('div#example05')
     .call(chart);
 {% endhighlight %}
 
-<div class="example" id="example05"></div>
+<div class="example" id="example06"></div>
 
 <script>
+
     d3.json('{{ site.baseurl }}/data/A.json', function(error, data) {
 
         // Create a chart with the default options
         var chart = pty.chart.network()
             .nodeLabel(function(d) { return d.name; });
 
-        d3.select('div#example05')
+        d3.select('div#example06')
             .data([data])
             .call(chart);
     });
@@ -258,7 +367,7 @@ d3.select('div#chart')
     .call(chart);
 {% endhighlight %}
 
-<div id="example06" class="example"></div>
+<div id="example07" class="example"></div>
 
 <script>
     d3.json('{{ site.baseurl }}/data/A.json', function(error, data) {
@@ -275,7 +384,7 @@ d3.select('div#chart')
             .nodeBaseURL(function(d) { return '{{site.baseurl}}/data/' + d.id + '.json'; });
 
 
-        d3.select('div#example06').data([data]).call(chart01);
+        d3.select('div#example07').data([data]).call(chart01);
     });
 </script>
 
@@ -296,7 +405,7 @@ d3.select('div#chart')
     .call(chart);
 {% endhighlight %}
 
-<div id="example07" class="example"></div>
+<div id="example08" class="example"></div>
 
 <script>
     d3.json('{{ site.baseurl }}/data/A.json', function(error, data) {
@@ -315,7 +424,7 @@ d3.select('div#chart')
             .nodeURL(function(d) { return '{{site.baseurl}}/pages/' + d.id; });
 
 
-        d3.select('div#example07').data([data]).call(chart02);
+        d3.select('div#example08').data([data]).call(chart02);
     });
 </script>
 

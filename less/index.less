@@ -42,6 +42,26 @@
         font-size: 12px;
     }
 
+    // Node Types
+    .persona {
+        fill: #75507b;
+    }
+
+    .candidato {
+        fill: #729fcf;
+    }
+
+    .institucion {
+        fill: #8ae234;
+    }
+
+    // Links
+    .link {
+        stroke: @aqua-light;
+        stroke-opacity: .5;
+        stroke-width: 2;
+    }
+
     // Links
     .link {
         stroke: @aqua-light;
@@ -89,9 +109,37 @@
         }
 
     }
-    .control-highlight{
-            cursor: pointer;
+    .control-highlight {
+        cursor: pointer;
+    }
+
+    // Legend
+    .legend {
+
+        .persona {
+            fill: #75507b;
+            stroke: @grey-light;
+            stroke-width: 1;
         }
+
+        .candidato {
+            fill: #729fcf;
+            stroke: @grey-light;
+            stroke-width: 1;
+        }
+
+        .institucion {
+            fill: #8ae234;
+            stroke: @grey-light;
+            stroke-width: 1;
+        }
+
+        text {
+            font-size: 11px;
+            fill: @grey-light;
+        }
+    }
+
 }
 
 
