@@ -300,6 +300,13 @@ The style of the circles representing each node type in the legend has to be set
 <div id="example05" class="example"></div>
 
 <script>
+
+    var legend = [
+        {name: 'Persona',     type: 'persona'},
+        {name: 'Candidato',   type: 'candidato'},
+        {name: 'Institución', type: 'institucion'}
+    ];
+
     d3.json('{{ site.baseurl }}/data/E.json', function(error, data) {
 
         // Create a chart with the default options
@@ -327,12 +334,6 @@ d3.select('div#example05')
 <div class="example" id="example06"></div>
 
 <script>
-
-    var legend = [
-        {name: 'Persona',     type: 'persona'},
-        {name: 'Candidato',   type: 'candidato'},
-        {name: 'Institución', type: 'institucion'}
-    ];
 
     d3.json('{{ site.baseurl }}/data/A.json', function(error, data) {
 
