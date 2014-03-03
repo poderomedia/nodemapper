@@ -3,6 +3,7 @@
 @grey-dark:   #333;
 @grey-medium: #777;
 @grey-light:  #ddd;
+@white: #fff;
 
 @slate-dark:   #556270;
 @green-light: #C7F464;
@@ -17,6 +18,7 @@
 
     .node-highlight{
         fill: @aqua-light;
+        cursor: default;
     }
 
     .node-center {
@@ -45,24 +47,36 @@
 
     }
 
+    .candidato {
+
+    }
+
+    .institucion {
+
+    }
+
     // Links
     .link {
         stroke: @aqua-light;
         stroke-opacity: .5;
         stroke-width: 2;
-        stroke-dasharray: 5,5
     }
 
-    .center-link {
-        stroke-opacity: .2;
-        stroke-width: 4;
-        stroke-dasharray: none;
+    // Node Link
+    .url-container {
+        fill: black;
+        a {
+            text-decoration: none;
+        }
+        .url-container-icon {
+            font-family: FontAwesome;
+        }
     }
-
 
     // Background
     rect.background {
         fill: @grey-light;
+        cursor: move;
     }
 
 
@@ -72,6 +86,23 @@
         font-family: 'Roboto', sans-serif;
         font-size: 11px;
     }
+
+    // Controls
+    // --------
+    .control-item {
+        rect {
+            fill: @white;
+            fill-opacity: 0.75;
+        }
+
+        text {
+            fill: @slate-dark;
+        }
+
+    }
+    .control-highlight{
+            cursor: pointer;
+        }
 }
 
 

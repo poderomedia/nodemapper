@@ -1,6 +1,6 @@
 {
   "name": "panama-network",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "authors": [
     "gregorio <gregorio@masega.co>"
   ],
@@ -22,7 +22,9 @@
     "tests"
   ],
   "dependencies": {
-    "d3": "~3.4.2"
+    "d3": "~3.4.2",
+    "font-awesome": "~4.0.3",
+    "underscore": "~1.6.0"
   },
   "devDependencies": {
     "bootstrap": "~3.1.1"
