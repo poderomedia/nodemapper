@@ -55,7 +55,8 @@ pty.chart.network = function() {
         embedCallback: false,
         fullscreenCallback: false,
         zoomBehavior: d3.behavior.zoom(),
-        placelegend: false,
+        legendItems: false,
+        legend: {width: 80, margin: {top: 15, right: 10}}
     };
 
     // Flag to know if the network chart has been drawn
@@ -72,6 +73,7 @@ pty.chart.network = function() {
 
             var gContainer = svg.select('g.network-chart'),
                 gBackground = gContainer.select('g.background'),
+                gLegend = gContainer.select('g.legend'),
                 gControls = gContainer.select('g.controls'),
                 gZoomCont = gContainer.select('g.zoom-container'),
                 gChart = gZoomCont.select('g.network'),
@@ -92,11 +94,15 @@ pty.chart.network = function() {
             // Process the data to remove duplicate links
             var networkData = chart.parseNetworkData(data);
 
-           if ( isScreenFull ) {
-                    gControlFullscreen.select('text').text('\uf066');
+            // Toggle the icon on fullscreen
+            if (isScreenFull) {
+                gControlFullscreen.select('text').text('\uf066');
             } else {
-                    gControlFullscreen.select('text').text('\uf065');
+                gControlFullscreen.select('text').text('\uf065');
             }
+
+            // Zoom Behavior
+            // ------------
 
             // Mouse zoom callback
             function onZoom() {
@@ -110,9 +116,9 @@ pty.chart.network = function() {
                 .scaleExtent(me.zoomExtent)
                 .on('zoom', onZoom);
 
+            // Apply the current zoom scale and translation
             gChart
                 .attr('transform', pty.svg.translate(me.zoomBehavior.translate()) + pty.svg.scale(me.zoomBehavior.scale()));
-
 
 
             // Bind the zoom behavior to the background rectangle
@@ -161,53 +167,66 @@ pty.chart.network = function() {
             //Legend
             //------
 
-            if (me.placelegend){
+            // if (me.legendItems) {
 
-            var legendContainer = svgEnter.selectAll('.legend');
+            //     var gLegendItems = gLegend.selectAll('g.legend-item').data(me.legendItems);
 
-            legendContainer.attr('class','network-chart');
+            //     var legendScale = d3.scale.ordinal()
+            //         .domain()
+            //         .rangePoints([])
 
-            legendContainer.append('circle')
-                    .attr('class','node')
-                    .classed('node',true)
-                    .attr('class','persona')
-                    .attr('r',10);
 
-            legendContainer.append('text')
-                        .attr('text-anchor','start')
-                        .attr('fill','black')
-                        .attr('x',15)
-                        .attr('y',5)
-                        .text('Persona');
 
-            legendContainer.append('circle')
-                    .attr('class','node')
-                    .classed('node',true)
-                    .attr('class','candidato')
-                    .attr('cx',120)
-                    .attr('r',10);
 
-            legendContainer.append('text')
-                        .attr('text-anchor','start')
-                        .attr('fill','black')
-                        .attr('x',135)
-                        .attr('y',5)
-                        .text('Candidato');
+            // }
 
-            legendContainer.append('circle')
-                    .attr('class','node')
-                    .classed('node',true)
-                    .attr('class','institucion')
-                    .attr('cx',240)
-                    .attr('r',10);
+            // if (me.placelegend){
 
-            legendContainer.append('text')
-                        .attr('text-anchor','start')
-                        .attr('fill','black')
-                        .attr('x',255)
-                        .attr('y',5)
-                        .text('Institución');
-            }
+            // var legendContainer = svgEnter.selectAll('.legend');
+
+            // legendContainer.attr('class','network-chart');
+
+            // legendContainer.append('circle')
+            //         .attr('class','node')
+            //         .classed('node',true)
+            //         .attr('class','persona')
+            //         .attr('r',10);
+
+            // legendContainer.append('text')
+            //             .attr('text-anchor','start')
+            //             .attr('fill','black')
+            //             .attr('x',15)
+            //             .attr('y',5)
+            //             .text('Persona');
+
+            // legendContainer.append('circle')
+            //         .attr('class','node')
+            //         .classed('node',true)
+            //         .attr('class','candidato')
+            //         .attr('cx',120)
+            //         .attr('r',10);
+
+            // legendContainer.append('text')
+            //             .attr('text-anchor','start')
+            //             .attr('fill','black')
+            //             .attr('x',135)
+            //             .attr('y',5)
+            //             .text('Candidato');
+
+            // legendContainer.append('circle')
+            //         .attr('class','node')
+            //         .classed('node',true)
+            //         .attr('class','institucion')
+            //         .attr('cx',240)
+            //         .attr('r',10);
+
+            // legendContainer.append('text')
+            //             .attr('text-anchor','start')
+            //             .attr('fill','black')
+            //             .attr('x',255)
+            //             .attr('y',5)
+            //             .text('Institución');
+            // }
 
             // Links
             // -----
@@ -292,7 +311,6 @@ pty.chart.network = function() {
                     .attr('y', function(d, i) { return d.y - me.nodeRadius; });
             });
 
-
             // Control Callbacks
             //------------------
 
@@ -375,11 +393,11 @@ pty.chart.network = function() {
             var svgEnter = d3.select(this),
                 gContainer = svgEnter.append('g').attr('class', 'network-chart'),
                 gBackground = gContainer.append('g').attr('class', 'background'),
-                gControls = gContainer.append('g').attr('class', 'controls'),
                 gBrand = gContainer.append('g').attr('class', 'brand'),
                 gZoomCont = gContainer.append('g').attr('class', 'zoom-container'),
+                gControls = gContainer.append('g').attr('class', 'controls'),
                 gChart = gZoomCont.append('g').attr('class', 'network'),
-                gLegend = svgEnter.append('g').attr('class','legend');
+                gLegend = gContainer.append('g').attr('class','legend');
 
             // Set the SVG element width and height
             svgEnter.attr('width', me.width).attr('height', me.height);
@@ -477,7 +495,36 @@ pty.chart.network = function() {
                 .text('');
 
             // Legend
-            gLegend.attr('transform','translate(' + [me.width-330,15] + ')');
+            var legendX = me.width - me.legend.width - me.legend.margin.right,
+                legendY = me.legend.margin.top;
+
+            gLegend.attr('transform', pty.svg.translate(legendX, legendY));
+
+            var gLegendItems = gLegend.selectAll('g.legend-item')
+                .data(me.legendItems);
+
+            var legendScale = d3.scale.ordinal()
+                .domain(d3.range(me.legendItems.length))
+                .rangePoints([0, 15 * me.legendItems.length]);
+
+            gLegendItems.enter().append('g')
+                .attr('class', 'legend-item')
+                .attr('transform', function(d, i) {
+                    return pty.svg.translate(0, legendScale(i));
+                });
+
+            gLegendItems.append('circle')
+                .attr('r', 6)
+                .attr('class', function(d) { return d.type; });
+
+            var legendItemLabel = gLegendItems.append('text')
+                .attr('class', 'legend-label')
+                .attr('x', 10)
+                .text(function(d) { return d.name; });
+
+            legendItemLabel
+                .attr('y', function() { return 0.35 * this.getBBox().height; });
+
         });
     };
 
