@@ -13,5 +13,5 @@ exclude:
 
 # Site
 name: Network Chart
-baseurl: http://masegalab.github.io/panama-network
-github: http://github.com/masegalab/panama-network.git
+baseurl: http://poderopedia.github.io/panama-network
+github: http://github.com/poderopedia/panama-network.git
