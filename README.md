@@ -1,5 +1,5 @@
 # PANAMA NETWORK
-version 0.2.0
+version 0.2.2
 
 PANAMA NETWORK is a data visualization library that allows you to create and manage network visualizations. It is focussed to presenting in a transparent way the contact networks of individuals and organizations from the information collected by the user. It was originally conceived to display information corresponding to the 2014 Panama elections. PANAMA NETWORK is a free open source software (see LICENSE) developed by Pablo Navarro and Gregorio Moreno at MASEGA LTDA (http://www.masega.co) for the Poderomedia Foundation. You can fork this project and deploy it with your own modifications. Please see the LICENSE file for details.
 
