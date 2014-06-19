@@ -2,7 +2,7 @@
 version 0.2.2
 
 NodeMaper is a opinionated D3.js data visualization library that allows you to create and manage network visualizations in a simple way so you can use your time on customizing the library as you see fit, and delivering the end result you expect. NodeMapper provides the basic layer for visualizing the networks of entities you want to map (individuals and organizations, for example) from the information you have or collect. 
-NodeMapper was originally conceived to display information corresponding to the 2014 Panama Elections Candidates for La Prensa newspaper, as part of the Poderopedia Data Mapper project. NodeMapper is a free open source software (see LICENSE) developed by Pablo Navarro and Gregorio Moreno from Masega Ltda. (http://www.masega.co) for the Poderomedia Foundation (http://www.poderomedia.org). You can fork this project and deploy it with your own modifications. Please see the LICENSE file for details.
+NodeMapper was originally conceived to display information corresponding to the 2014 Panama Elections Candidates for La Prensa newspaper, as part of the Poderopedia Data Mapper project. NodeMapper is a free open source software (see LICENSE) by Poderomedia Foundation (http://www.poderomedia.org), developed by Pablo Navarro and Gregorio Moreno from Masega Ltda. (http://www.masega.co). You can fork this project and deploy it with your own modifications. Please see the LICENSE file for details.
 
 ## Features
 
