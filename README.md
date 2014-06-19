@@ -1,11 +1,12 @@
-# PANAMA NETWORK
+# NodeMapper
 version 0.2.2
 
-PANAMA NETWORK is a data visualization library that allows you to create and manage network visualizations. It is focussed to presenting in a transparent way the contact networks of individuals and organizations from the information collected by the user. It was originally conceived to display information corresponding to the 2014 Panama elections. PANAMA NETWORK is a free open source software (see LICENSE) developed by Pablo Navarro and Gregorio Moreno at Masega Ltda. (http://www.masega.co) for the Poderomedia Foundation (http://www.poderomedia.org). You can fork this project and deploy it with your own modifications. Please see the LICENSE file for details.
+NodeMaper is a opinionated D3.js data visualization library that allows you to create and manage network visualizations in a simple way so you can use your time on customizing the library as you see fit, so you can focus on delivering the end result you expect. NodeMapper provides the basic layer for visualizing the networks of entities you want to map (individuals and organizations, for example) from the information you have or collect. 
+NodeMapper was originally conceived to display information corresponding to the 2014 Panama Elections Candidates for La Prensa newspaper, as part of the Poderopedia Data Mapper project. NodeMapper is a free open source software (see LICENSE) developed by Pablo Navarro and Gregorio Moreno from Masega Ltda. (http://www.masega.co) for the Poderomedia Foundation (http://www.poderomedia.org). You can fork this project and deploy it with your own modifications. Please see the LICENSE file for details.
 
 ## Features
 
-PANAMA NETWORK basic functionalities include:
+NodeMapper basic functionalities include:
 
 - Displaying a force layout from information contained in a JSON file (see the Documentation for precise format instructions) .
 - Customizing the appearance of the layout through basic CSS.
@@ -15,7 +16,7 @@ PANAMA NETWORK basic functionalities include:
 
 ## Documentation and Examples
 
-You can find a complete documentation in the PANAMA NETWORK repository. Please, follow the links below:
+You can find a complete documentation in the NodeMapper repository. Please, follow the links below:
 
 - [Index](http://poderopedia.github.io/panama-network)
 - [Documentation and Examples](http://poderopedia.github.io/panama-network/docs)
@@ -24,7 +25,7 @@ You can find a complete documentation in the PANAMA NETWORK repository. Please, 
 
 ## Usage
 
-PANAMA NETWORK was developed using  [D3.js](http://d3js.org/). The fullscreen functionality was implemented using Modal windows from [Twitter Bootstrap](http://getbootstrap.com). Overall design and craft by [Masega](http://www.masega.co). To create a network chart, you need to include the following:
+NodeMapper was developed using  [D3.js](http://d3js.org/). The fullscreen functionality was implemented using Modal windows from [Twitter Bootstrap](http://getbootstrap.com). Overall design and craft by [Masega](http://www.masega.co). To create a network chart, you need to include the following:
 
 - [D3.js]
 - [Bootstrap](http://getbootstrap.com) (for modal and fullscreen)
@@ -32,15 +33,23 @@ PANAMA NETWORK was developed using  [D3.js](http://d3js.org/). The fullscreen fu
 
 The style of the visualization can be customized by modifying the pty.css file. See the [docs](http://poderopedia.github.io/panama-network/docs) for usage examples.
 
-## Contribute and Get Help
+## Contributions and Help Requests
 
-If you would like to contribute to PANAMA NETWORK or need some assistance, please open an issue or do a pull request. We will do our best to answer and include your changes when possible. You can also write to the [Poderopedia Team](team@poderopedia.com)
+If you would like to contribute to NodeMapper 
+
+* Fork the repo
+* Clone your fork
+* Make a branch of your changes
+* Make a pull request through GitHub, and clearly describe your changes
+
+NodeMapper relies on contributions from people and organizations. Please, use it, comment on it and make improvements by pulling requests in 'GitHub <http://github.com/poderomedia/nodemapper>'.
+
+If you need some assistance, please open an issue or write to the [Poderopedia Team](team@poderopedia.com)
 
 ## License
 
-PANAMA NETWORK was developed by Pablo Navarro and Gregorio Moreno for Poderomedia Foundation (Copyright 2014). It`s available under MIT License. See [LICENSE.md](LICENSE.md) for details.
+NodeMapper is a project by Poderomedia Foundation (Copyright 2014), developed by Pablo Navarro and Gregorio Moreno. It`s available under MIT License. See [LICENSE.md](LICENSE.md) for details.
 
 ## Contact
 
 Poderomedia Fundation: team@poderopedia.com
-Masega Data Visualization: contact@masega.co
