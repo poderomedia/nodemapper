@@ -12,6 +12,6 @@ exclude:
     - README.md
 
 # Site
-name: Network Chart
+name: NodeMapper
 baseurl: http://poderopedia.github.io/panama-network
 github: http://github.com/poderopedia/panama-network.git
