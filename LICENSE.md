@@ -1,7 +1,9 @@
 
+NodeMapper is provided under MIT License. 
+
 The MIT License (MIT)
 
-NodeMapper is provided under MIT License. Copyright (c) 2014 Poderomedia Foundation and contributors.
+Copyright (c) 2014 Poderomedia Foundation and contributors.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
