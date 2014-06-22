@@ -44,7 +44,7 @@ If you would like to contribute to NodeMapper
 
 NodeMapper relies on contributions from people and organizations. Please, use it, comment on it and make improvements by pulling requests in 'GitHub <http://github.com/poderomedia/nodemapper>'.
 
-If you need some assistance, please open an issue or write to the [Poderopedia Team](team@poderopedia.com)
+If you need some assistance, please open an issue or write to the [Poderomedia Team](team@poderopedia.com)
 
 ## License
 
