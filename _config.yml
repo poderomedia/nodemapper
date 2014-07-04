@@ -13,5 +13,5 @@ exclude:
 
 # Site
 name: NodeMapper
-baseurl: http://poderopedia.github.io/nodemapper
-github: http://github.com/poderopedia/nodemapper.git
+baseurl: http://poderomedia.github.io/nodemapper
+github: http://github.com/poderomedia/nodemapper.git
