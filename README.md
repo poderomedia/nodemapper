@@ -18,20 +18,20 @@ NodeMapper basic functionalities include:
 
 You can find a complete documentation in the NodeMapper repository. Please, follow the links below:
 
-- [Index](http://poderopedia.github.io/panama-network)
-- [Documentation and Examples](http://poderopedia.github.io/panama-network/docs)
-- [Embed Example](http://poderopedia.github.io/panama-network/pages/embed-demo)
-- [Fullscreen Example](http://poderopedia.github.io/panama-network/pages/fullscreen-demo)
+- [Index](http://poderomedia.github.io/nodemapper)
+- [Documentation and Examples](http://poderomedia.github.io/nodemapper/docs)
+- [Embed Example](http://poderomedia.github.io/nodemapper/pages/embed-demo)
+- [Fullscreen Example](http://poderomedia.github.io/nodemapper/pages/fullscreen-demo)
 
 ## Usage
 
-NodeMapper was developed using  [D3.js](http://d3js.org/). The fullscreen functionality was implemented using Modal windows from [Twitter Bootstrap](http://getbootstrap.com). Overall design and craft by [Masega](http://www.masega.co). To create a network chart, you need to include the following:
+NodeMapper was developed using  [D3.js](http://d3js.org/). The fullscreen functionality was implemented using Modal windows from [Twitter Bootstrap](http://getbootstrap.com). Overall design and craft by [Masega](http://www.masega.co) for [Poderomedia Foundation](http://www.poderomedia.org). To create a network chart, you need to include the following:
 
 - [D3.js]
 - [Bootstrap](http://getbootstrap.com) (for modal and fullscreen)
 - `pty.js` and `pty.css`
 
-The style of the visualization can be customized by modifying the pty.css file. See the [docs](http://poderopedia.github.io/panama-network/docs) for usage examples.
+The style of the visualization can be customized by modifying the pty.css file. See the [docs](http://poderomedia.github.io/nodemapper/docs) for usage examples.
 
 ## Contributions and Help Requests
 
@@ -48,8 +48,8 @@ If you need some assistance, please open an issue or write to the [Poderomedia T
 
 ## License
 
-NodeMapper is a project by Poderomedia Foundation (Copyright 2014), developed by Pablo Navarro and Gregorio Moreno. It`s available under MIT License. See [LICENSE.md](LICENSE.md) for details.
+NodeMapper is a project by [Poderomedia Foundation](http://www.poderomedia.org) (Copyright 2014), developed by Pablo Navarro and Gregorio Moreno. It`s available under MIT License. See [LICENSE.md](LICENSE.md) for details.
 
 ## Contact
 
-Poderomedia Fundation: team@poderopedia.com
+Poderomedia Foundation: team@poderopedia.com
