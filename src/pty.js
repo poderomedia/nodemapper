@@ -203,6 +203,11 @@ pty.chart.network = function() {
                     nodeUrlLabel.text('' + me.nodeLabel(d));
                 });
 
+            // Add the class has-conflict if the attribute exists
+            circles.classed('has-conflict', function(d) {
+                return ((d.hasOwnProperty('has_conflict')) && (d.has_conflict === true));
+            });
+
             circles.call(force.drag);
 
             // Drop the circles on exit

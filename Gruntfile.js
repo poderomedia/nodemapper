@@ -52,8 +52,13 @@ module.exports = function(grunt) {
             },
 
             jquery: {
-                src: 'bower_components/jquery/dist/jquery.min.js',
+                src:'bower_components/jquery/dist/jquery.min.js',
                 dest: 'js/lib/jquery.min.js'
+            },
+
+            jqueryMap: {
+                src:'bower_components/jquery/dist/jquery.min.map',
+                dest: 'js/lib/jquery.min.map'
             },
 
             d3: {
