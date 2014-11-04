@@ -1,6 +1,6 @@
 # NodeMapper
 
-_version 0.2.5_
+_version 0.2.6_
 
 NodeMaper is a opinionated D3.js data visualization library that allows you to create and manage network visualizations in a simple way so you can use your time on customizing the library as you see fit, to deliver the end result you expect. NodeMapper provides the basic layer for visualizing the networks of entities you want to map (individuals and organizations, for example) from the information you have or collect. 
 
