@@ -1,26 +1,23 @@
 ---
-layout: main
-title: Panama
+layout: embed
+title: Node A
 ---
-
+<div>
 <link href="{{ site.baseurl }}/css/pty.css" rel="stylesheet">
 <script src="{{ site.baseurl }}/js/lib/d3.min.js"></script>
 <script src="{{ site.baseurl }}/src/pty.js"></script>
-<link href="{{ site.baseurl }}/css/font-awesome.min.css" rel="stylesheet">
-
-<div class="row">
-    <div class="col-md-12">
-        <div id="demo"></div>
-    </div>
+<link href="{{ site.baseurl }}/css/font-awesome.min.css" rel="stylesheet">    
 </div>
+
+<div id="demo"></div>
 
 <script>
 d3.json('{{ site.baseurl }}/data/A.json', function(error, data) {
 
     if (error) { return error; }
 
-    var width = parseInt(d3.select('#demo').style('width'), 10),
-        height = 400;
+    var width  = 640,
+        height = 480;
 
     var legend = [
         {name: 'Persona',     type: 'persona'},
@@ -33,10 +30,10 @@ d3.json('{{ site.baseurl }}/data/A.json', function(error, data) {
         .height(height)
         .nodeRadius(15)
         .nodeLabel(function(d) { return d.name; })
-        .nodeClass(function(d) { return d.type; })
         .nodeBaseURL(function(d) { return '{{site.baseurl}}/data/' + d.id + '.json'; })
         .nodeURL(function(d) { return '{{site.baseurl}}/pages/' + d.id; })
-        .legendItems(legend);
+        .nodeDescription(function(d) { return d.description; })
+        .textBox({x: 10, y: 220, width: 220, height: 300});
 
     d3.select('div#demo').data([data]).call(chart01);
 });

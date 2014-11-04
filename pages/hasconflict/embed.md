@@ -4,13 +4,15 @@ title: Embed Demo
 ---
 
 <link href="{{ site.baseurl }}/css/pty.css" rel="stylesheet">
-<script src="{{ site.baseurl }}/js/lib/d3.min.js"></script>
-<script src="{{ site.baseurl }}/src/pty.js"></script>
 <link href="{{ site.baseurl }}/css/font-awesome.min.css" rel="stylesheet">
 
+<script src="{{ site.baseurl }}/js/lib/d3.min.js"></script>
+<script src="{{ site.baseurl }}/src/pty.js"></script>
 <script src="{{ site.baseurl }}/js/lib/underscore.js"></script>
 
 # {{ page.title }}
+
+[Embed Target]({{site.baseurl}}/pages/hasconflict/embed-target/A)
 
 <!-- Modal -->
 <div class="modal fade" id="embed-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -18,18 +20,18 @@ title: Embed Demo
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">Embed the Network Chart</h4>
+                <h4 class="modal-title" id="myModalLabel">Embed the Chart</h4>
             </div>
             <!-- Modal Body -->
             <div class="modal-body">
                 <form role="form" class="form">
                     <div class="form-group">
                         <label class="" for="embed-width">Width</label>
-                        <input type="text" class="form-control" id="embed-width" value="600">
+                        <input type="text" class="form-control" id="embed-width" value="640">
                     </div>
                     <div class="form-group">
                         <label class="" for="embed-height">Height</label>
-                        <input type="text" class="form-control" id="embed-height" value="400">
+                        <input type="text" class="form-control" id="embed-height" value="480">
                     </div>
                     <div class="form-group">
                         Copy the following code in your page to embed the visualization.
@@ -50,7 +52,7 @@ title: Embed Demo
 <script>
 
 // Define templates for the url and text area content
-var urlTpl = _.template('{{site.baseurl}}/embed/<%= id %>.html'),
+var urlTpl = _.template('{{site.baseurl}}/pages/hasconflict/<%= id %>.html'),
     embedTpl = _.template('<embed type="text/html" src="<%= src %>" width="<%= width %>" height="<%= height %>">');
 
 // Update the embed code when the width or height changes
@@ -71,7 +73,7 @@ d3.json('{{ site.baseurl }}/data/A.json', function(error, data) {
     var width = parseInt(d3.select('#demo').style('width'), 10),
         height = 400;
 
-    var embedUrl = '{{site.baseurl}}/embed/' + data.root + '.html';
+    var embedUrl = '{{site.baseurl}}/pages/hasconflict/embed-target/' + data.root + '.html';
 
     var chart01 = pty.chart.network()
         .width(width)
@@ -80,6 +82,8 @@ d3.json('{{ site.baseurl }}/data/A.json', function(error, data) {
         .nodeLabel(function(d) { return d.name; })
         .nodeBaseURL(function(d) { return '{{site.baseurl}}/data/' + d.id + '.json'; })
         .nodeURL(function(d) { return '{{site.baseurl}}/pages/' + d.id; })
+        .nodeDescription(function(d) { return d.description; })
+        .textBox({x: 10, y: 220, width: 220, height: 300})
         .embedCallback(function() { $('#embed-modal').modal(); });
 
     d3.select('div#demo').data([data]).call(chart01);

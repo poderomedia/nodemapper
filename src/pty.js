@@ -44,6 +44,7 @@ pty.chart.network = function() {
         nodeBaseURL: function(d) { return ''; },
         nodeURL: function(d) { return ''; },
         nodeLabel: function(d, i) { return ''; },
+        nodeDescription: function(d) { return false; },
         fixCenter: true,
         duration: 2000,
         delay: 200,
@@ -62,8 +63,7 @@ pty.chart.network = function() {
             y:      120,
             width:  300,
             height: 250
-        },
-        nodeDescription: function(d) { return false; }
+        }
     };
 
     // Flag to know if the network chart has been drawn
@@ -216,8 +216,8 @@ pty.chart.network = function() {
                     nodeUrlLink.attr('xlink:href', me.nodeURL(d));
                     nodeUrlLabel.text('' + me.nodeLabel(d));
 
-                    if (d.hasOwnProperty('description')) {
-                        gTextBox.select('body').html(d.description).style('opacity', 0.8);
+                    if (me.nodeDescription(d)) {
+                        gTextBox.select('body').html(me.nodeDescription(d)).style('opacity', 0.8);
                     } else {
                         gTextBox.select('body').html('').style('opacity', 0);
                     }

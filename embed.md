@@ -9,7 +9,12 @@ title: Embed
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 </div>
 
-<div id="chart01"></div>
+<div class="row">
+    <div class="col-md-12">
+        <div id="chart01"></div>
+    </div>
+</div>
+
 <script>
     d3.json('{{ site.baseurl }}/data/A.json', function(error, data) {
 

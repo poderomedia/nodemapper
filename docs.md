@@ -64,7 +64,7 @@ The `root` attribute indicates which is the central node. For instance, a valid 
 }
 {% endhighlight %}
 
-Optionally, the nodes may have additional attributes that will control other aspects. The `has_conflict` attribute (boolean) will add the class `has-conflict` to the nodes, allowing to set visual attributes for this kind of nodes via CSS.
+Optionally, the nodes may have additional attributes that will control other aspects. The `has_conflict` attribute (boolean) will add the class `has-conflict` to the nodes, allowing to set visual attributes for this kind of nodes via CSS. Nodes can also have a description, which can be used to add a text box with the attribute information. See below for more details on how to configure the chart to display node descriptions.
 
 ### Default settings
 
