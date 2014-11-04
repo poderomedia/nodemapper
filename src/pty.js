@@ -37,7 +37,7 @@ pty.chart.network = function() {
         height: 400,
         nodeRadius: 20,
         charge: function(d, i) { return -4e3; },
-        friction: 0.5,
+        friction: 0.6,
         linkStrength: 0.2,
         linkDistance: 120,
         nodeClass: function(d, i) { return ''; },
@@ -154,6 +154,12 @@ pty.chart.network = function() {
                 .nodes(networkData.nodes)
                 .links(networkData.links)
                 .start();
+
+            for (var k = 0; k < 250; k += 1) {
+                if (force.alpha() > 0.05) {
+                    force.tick();
+                }
+            }
 
             // Set the label to the root node
             if (!svgEnter.empty()) {
