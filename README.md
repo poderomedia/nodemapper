@@ -1,9 +1,10 @@
 # NodeMapper
 
-_version 0.2.5_
+_version 0.2.6_
 
 NodeMaper is a opinionated D3.js data visualization library that allows you to create and manage network visualizations in a simple way so you can use your time on customizing the library as you see fit, to deliver the end result you expect. NodeMapper provides the basic layer for visualizing the networks of entities you want to map (individuals and organizations, for example) from the information you have or collect. 
-NodeMapper was originally conceived to display information corresponding to the 2014 Panama Elections Candidates for La Prensa newspaper, as part of the Poderopedia Data Mapper project. NodeMapper is a free open source software (see LICENSE) by Poderomedia Foundation (http://www.poderomedia.org), developed by Pablo Navarro and Gregorio Moreno from Masega Ltda. (http://www.masega.co). You can fork this project and deploy it with your own modifications. Please see the LICENSE file for details.
+
+NodeMapper was originally conceived to display information corresponding to the 2014 Panama Elections Candidates for La Prensa newspaper, as part of the Poderopedia Data Mapper project. NodeMapper is a free open source software (see LICENSE) by [Poderomedia Foundation](http://www.poderomedia.org), developed by Pablo Navarro and Gregorio Moreno from [Masega](http://www.masega.co). You can fork this project and deploy it with your own modifications. Please see the LICENSE file for details.
 
 ## Features
 
@@ -28,7 +29,7 @@ You can find a complete documentation in the NodeMapper repository. Please, foll
 
 NodeMapper was developed using  [D3.js](http://d3js.org/). The fullscreen functionality was implemented using Modal windows from [Twitter Bootstrap](http://getbootstrap.com). Overall design and craft by [Masega](http://www.masega.co) for [Poderomedia Foundation](http://www.poderomedia.org). To create a network chart, you need to include the following:
 
-- [D3.js]
+- [D3.js](http://d3js.org/)
 - [Bootstrap](http://getbootstrap.com) (for modal and fullscreen)
 - `pty.js` and `pty.css`
 
@@ -43,9 +44,9 @@ If you would like to contribute to NodeMapper
 * Make a branch of your changes
 * Make a pull request through GitHub, and clearly describe your changes
 
-NodeMapper relies on contributions from people and organizations. Please, use it, comment on it and make improvements by pulling requests in 'GitHub <http://github.com/poderomedia/nodemapper>'.
+NodeMapper relies on contributions from people and organizations. Please, use it, comment on it and make improvements by pulling requests in [GitHub](http://github.com/poderomedia/nodemapper).
 
-If you need some assistance, please open an issue or write to the [Poderomedia Team](team@poderopedia.com)
+If you need some assistance, please open an issue or write to the [Poderomedia Team](mailto:team@poderopedia.com)
 
 ## License
 
@@ -53,4 +54,4 @@ NodeMapper is a project by [Poderomedia Foundation](http://www.poderomedia.org) 
 
 ## Contact
 
-Poderomedia Foundation: team@poderopedia.com
+Poderomedia Foundation: [team@poderopedia.com](mailto:team@poderopedia.com)
