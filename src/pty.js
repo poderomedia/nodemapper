@@ -66,6 +66,8 @@ pty.chart.network = function() {
         }
     };
 
+    var textBoxContent = '';
+
     // Flag to know if the network chart has been drawn
     var initialData = false;
     // Flag to know if we are in fullscreen mode
@@ -217,8 +219,10 @@ pty.chart.network = function() {
                     nodeUrlLabel.text('' + me.nodeLabel(d));
 
                     if (me.nodeDescription(d)) {
-                        gTextBox.select('body').html(me.nodeDescription(d)).style('opacity', 0.8);
+                        textBoxContent = me.nodeDescription(d);
+                        gTextBox.select('body').html(textBoxContent).style('opacity', 0.8);
                     } else {
+                        textBoxContent = '';
                         gTextBox.select('body').html('').style('opacity', 0);
                     }
                 });
@@ -236,6 +240,13 @@ pty.chart.network = function() {
                 .duration(me.duration)
                 .attr('cy', me.width)
                 .remove();
+
+            // TextBox
+            if (textBoxContent.length > 0) {
+                gTextBox.select('body').html(textBoxContent).style('opacity', 0.75);
+            } else {
+                gTextBox.select('body').html('').style('opacity', 0);
+            }
 
             // Labels
             // ------
@@ -426,12 +437,13 @@ pty.chart.network = function() {
             // -----
             gBrand.attr('transform', pty.svg.translate(me.width - 4, me.height - 4));
 
-            var brandLabel = gBrand.append('a')
-                .attr('xlink:href', 'http://www.masega.co')
-                .append('text')
-                .attr('class', 'masega-brand')
-                .attr('text-anchor', 'end')
-                .text('masega.co');
+            // var brandLabel = gBrand.append('a')
+            //     .attr('xlink:href', 'http://www.masega.co')
+            //     .append('text')
+            //     .attr('class', 'masega-brand')
+            //     .attr('text-anchor', 'end')
+            //     .text('masega.co')
+            //     .style('opacity', 0);
 
             // Node Label and Link
             // -------------------
