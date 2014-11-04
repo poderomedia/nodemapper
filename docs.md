@@ -225,45 +225,45 @@ d3.select('div#example04')
 To add a legend, the user has to provide a list of all the node types as follows and submit the list to `.legendItems()`.
 
 {% highlight javascript %}
-     var legend = [
-        {name: 'Persona',     type: 'persona'},
-        {name: 'Candidato',   type: 'candidato'},
-        {name: 'Institución', type: 'institucion'}
-    ];
+var legend = [
+    {name: 'Persona',     type: 'persona'},
+    {name: 'Candidato',   type: 'candidato'},
+    {name: 'Institución', type: 'institucion'}
+];
 
-    var chart01 = pty.chart.network()
-        .legendItems(legend);
+var chart01 = pty.chart.network()
+    .legendItems(legend);
 {% endhighlight %}
 
 The style of the circles representing each node type in the legend has to be set separately form the style for the nodes in the graph. This allows for instance to draw a stroke around the legend circles in order to differentiate them from the background without altering the style of the nodes of the graph.
 
 {% highlight javascript %}
-// Legend
-    .legend {
+/* Legend */
+.legend {
 
-        .persona {
-            fill: #75507b;
-            stroke: @grey-light;
-            stroke-width: 1;
-        }
-
-        .candidato {
-            fill: #729fcf;
-            stroke: @grey-light;
-            stroke-width: 1;
-        }
-
-        .institucion {
-            fill: #8ae234;
-            stroke: @grey-light;
-            stroke-width: 1;
-        }
-
-        text {
-            font-size: 11px;
-            fill: @grey-light;
-        }
+    .persona {
+        fill: #75507b;
+        stroke: @grey-light;
+        stroke-width: 1;
     }
+
+    .candidato {
+        fill: #729fcf;
+        stroke: @grey-light;
+        stroke-width: 1;
+    }
+
+    .institucion {
+        fill: #8ae234;
+        stroke: @grey-light;
+        stroke-width: 1;
+    }
+
+    text {
+        font-size: 11px;
+        fill: @grey-light;
+    }
+}
 {% endhighlight %}
 
 <div>
@@ -301,7 +301,6 @@ The style of the circles representing each node type in the legend has to be set
 <div id="example05" class="example"></div>
 
 <script>
-
     var legend = [
         {name: 'Persona',     type: 'persona'},
         {name: 'Candidato',   type: 'candidato'},
@@ -321,7 +320,7 @@ The style of the circles representing each node type in the legend has to be set
     });
 </script>
 
-### Adding Labels
+### Adding labels
 
 {% highlight javascript %}
 var chart = pty.chart.network()
@@ -335,7 +334,6 @@ d3.select('div#example05')
 <div class="example" id="example06"></div>
 
 <script>
-
     d3.json('{{ site.baseurl }}/data/A.json', function(error, data) {
 
         // Create a chart with the default options
@@ -348,8 +346,53 @@ d3.select('div#example05')
     });
 </script>
 
+### Adding a text box
 
-### Basic Settings of the Force Layout
+It's possible to add a description for each node by setting an accessor for the description attribute. If our nodes have an attribute `description`, we can set the accessor for the node description as shown in the following code block. The position of the text box can be modified by using the `textBox` method, and passing the `x` and `y` offset and the text box size, in pixels.
+
+{% highlight javascript %}
+var chart = pty.chart.network()
+    .nodeDescription(function(d) { return d.description; })
+    .textBox({x: 10, y: 260, width: 340, height: 250);
+
+d3.select('div#example05')
+    .data([data])
+    .call(chart);
+{% endhighlight %}
+
+<div class="example" id="example-7a"></div>
+
+<script>
+    d3.json('{{ site.baseurl }}/data/A.json', function(error, data) {
+
+        // Create a chart with the default options
+        var chart = pty.chart.network()
+            .nodeDescription(function(d) { return d.description; })
+            .textBox({x: 10, y: 260, width: 340, height: 250});
+
+        d3.select('div#example-7a')
+            .data([data])
+            .call(chart);
+    });
+</script>
+
+The style of the text box can be controlled by setting the style for the class `textbox-background` and `textbox-body`.
+
+{% highlight css %}
+/* Description Text Box */
+.textbox-background {
+    fill: #fff;
+    fill-opacity: 0.5;
+}
+
+.textbox-body {
+    font-size: 11px;
+    padding: 6px;
+    opacity: 0;
+}
+{% endhighlight %}
+
+### Basic Settings of the force layout
 
 The user can change the values of the charge, friction, link distance and link strength using the options `.charge()`, `.friction()`, `.linkDistance()` and `linkStrength()` respectively. These are standard properties of the force layout and a complete documentation can be found in the [D3 force layout documentation](https://github.com/mbostock/d3/wiki/Force-Layout). By default, the central node is initially pinned to the center and stays pinned to any location it is dragged to. This can be changed with the option `.fixCenter(false)`.
 
@@ -388,7 +431,6 @@ d3.select('div#chart')
         d3.select('div#example07').data([data]).call(chart01);
     });
 </script>
-
 
 ### Setting link to a new entity
 

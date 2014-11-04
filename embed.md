@@ -2,14 +2,14 @@
 layout: embed
 title: Embed
 ---
-
+<div>
 <link href="{{ site.baseurl }}/css/pty.css" rel="stylesheet">
 <script src="{{ site.baseurl }}/js/lib/d3.min.js"></script>
 <script src="{{ site.baseurl }}/src/pty.js"></script>
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+</div>
 
 <div id="chart01"></div>
-
 <script>
     d3.json('{{ site.baseurl }}/data/A.json', function(error, data) {
 
@@ -22,7 +22,13 @@ title: Embed
             .width(width)
             .height(height)
             .nodeRadius(15)
-            .nodeBaseURL(function(d) { return '{{site.baseurl}}/data/' + d.id + '.json'; });
+            .nodeBaseURL(function(d) { return '{{site.baseurl}}/data/' + d.id + '.json'; })
+            .textBox({
+                x: 10,
+                y: 300,
+                width: 300,
+                height: 200
+            });
 
         d3.select('div#chart01').data([data]).call(chart01);
     });
