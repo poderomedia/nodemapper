@@ -7,7 +7,6 @@ title: Fullscreen Demo
 <link href="{{ site.baseurl }}/css/font-awesome.min.css" rel="stylesheet">
 <script src="{{ site.baseurl }}/js/lib/d3.min.js"></script>
 <script src="{{ site.baseurl }}/src/pty.js"></script>
-
 <script src="{{ site.baseurl }}/js/lib/underscore.js"></script>
 
 # {{ page.title }}

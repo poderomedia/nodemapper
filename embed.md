@@ -1,5 +1,5 @@
 ---
-layout: main
+layout: embed
 title: Embed
 ---
 <div>
