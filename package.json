@@ -1,6 +1,6 @@
 {
   "name": "nodemapper",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "Reusable Network Chart",
   "main": "Gruntfile.js",
   "repository": {
