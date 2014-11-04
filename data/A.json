@@ -6,28 +6,36 @@
       "name": "Mr. A",
       "value": 12,
       "type": "persona",
-      "numcn": 3
+      "numcn": 3,
+      "has_conflict": false,
+      "description": "Lorem A dolor sit Amet, consectetur adipisicing elit. Culpa, sequi, soluta! A et incidunt iusto ratione quam, modi error aut perspiciatis laborum quis natus dolores minus veniam nam sapiente voluptates nihil voluptatum dicta eveniet, vitae cum. Voluptas quae alias, unde libero quam soluta rem tenetur eligendi voluptatum. Eveniet rem, veritatis."
     },
     {
       "id": "B",
       "name": "Miss B",
       "value": 8,
       "type": "persona",
-      "numcn": 3
+      "numcn": 3,
+      "has_conflict": true,
+      "description": "Lorem B dolor sit Bmet, consectetur adipisicing elit. Culpa, sequi, soluta! A et incidunt iusto ratione quam, modi error aut perspiciatis laborum quis natus dolores minus veniam nam sapiente voluptates nihil voluptatum dicta eveniet, vitae cum. Voluptas quae alias, unde libero quam soluta rem tenetur eligendi voluptatum. Eveniet rem, veritatis."
     },
     {
       "id": "C",
       "name": "C corp",
       "value": 2,
       "type": "institucion",
-      "numcn": 2
+      "numcn": 2,
+      "has_conflict": false,
+      "description": "Lorem C dolor sit Cmet, consectetur adipisicing elit. Culpa, sequi, soluta! A et incidunt iusto ratione quam, modi error aut perspiciatis laborum quis natus dolores minus veniam nam sapiente voluptates nihil voluptatum dicta eveniet, vitae cum. Voluptas quae alias, unde libero quam soluta rem tenetur eligendi voluptatum. Eveniet rem, veritatis."
     },
     {
       "id": "D",
       "name": "Dr. D",
       "value": 20,
       "type": "persona",
-      "numcn": 5
+      "numcn": 5,
+      "has_conflict": true,
+      "description": "Lorem D dolor sit Dmet, consectetur adipisicing elit. Culpa, sequi, soluta! A et incidunt iusto ratione quam, modi error aut perspiciatis laborum quis natus dolores minus veniam nam sapiente voluptates nihil voluptatum dicta eveniet, vitae cum. Voluptas quae alias, unde libero quam soluta rem tenetur eligendi voluptatum. Eveniet rem, veritatis."
     }
   ],
   "links": [

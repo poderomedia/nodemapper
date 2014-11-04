@@ -3,11 +3,12 @@
 @grey-dark:   #333;
 @grey-medium: #777;
 @grey-light:  #ddd;
-@white: #fff;
+@white:       #fff;
 
-@slate-dark:   #556270;
-@green-light: #C7F464;
+@slate-dark:  #556270;
+@green-light: #3B8686;
 @aqua-light:  #4ECDC4;
+@yellow:      #EDC951;
 
 .network-chart {
 
@@ -44,15 +45,19 @@
 
     // Node Types
     .persona {
-
+        fill: #00A0B0;
     }
 
     .candidato {
-
+        fill: #EB6841;
     }
 
     .institucion {
+        fill: #CC333F;
+    }
 
+    .has-conflict {
+        fill: @yellow;
     }
 
     // Links
@@ -100,9 +105,21 @@
         }
 
     }
-    .control-highlight{
-            cursor: pointer;
-        }
+    .control-highlight {
+        cursor: pointer;
+    }
+}
+
+// Description Text Box
+.textbox-background {
+    fill: #fff;
+    fill-opacity: 0.5;
+}
+
+.textbox-body {
+    font-size: 11px;
+    padding: 6px;
+    opacity: 0;
 }
 
 

@@ -17,7 +17,6 @@ title: Documentation
     </div>
 </div>
 
-
 <script>
     var width = parseInt(d3.select('#chart01').style('width'), 10),
         height = 400;
@@ -38,7 +37,7 @@ title: Documentation
 	});
 </script>
 
-<h3><span class="glyphicon glyphicon-bookmark"></span> Data Structure</h3>
+### Data Structure
 
 The network chart requires a data object with three attributes: root, nodes and links. The nodes should have an `id` and the number of connection with other nodes `numcn`. The `id` will be used to retrieve additional nodes on click. The number of connections is necessary to determine whether the node has additional connections or not.
 
@@ -65,8 +64,9 @@ The `root` attribute indicates which is the central node. For instance, a valid 
 }
 {% endhighlight %}
 
+Optionally, the nodes may have additional attributes that will control other aspects. The `has_conflict` attribute (boolean) will add the class `has-conflict` to the nodes, allowing to set visual attributes for this kind of nodes via CSS. Nodes can also have a description, which can be used to add a text box with the attribute information. See below for more details on how to configure the chart to display node descriptions.
 
-<h3><span class="glyphicon glyphicon-bookmark"></span> Default settings</h3>
+### Default settings
 
 The following script initiates a force chart using the data contained in the file `A.json`. By default, the central node is colored with aqua-light with and surrounded by a grey stroke. The other nodes are light green and change color when the cursor is on them. A grey stroke around a non-central node indicates that the node has neighbors that are not displayed (as they are not linked to the central node). A different style is used weither the link connects to the central node or not. All the nodes can be dragged.
 
@@ -101,7 +101,7 @@ The following script initiates a force chart using the data contained in the fil
     });
 </script>
 
-<h3><span class="glyphicon glyphicon-bookmark"></span> Setting the chart size</h3>
+### Setting the chart size
 
 The width and height of the chart can be set by using the options `.width()` and `.height()` . If omitted, the default parameters are `width = 400` and `height = 400`.
 
@@ -131,7 +131,7 @@ d3.select('div#example02')
     });
 </script>
 
-<h3><span class="glyphicon glyphicon-bookmark"></span> Setting the radius of the nodes</h3>
+### Setting the size of the nodes
 
 The radius of the nodes can be set using the option `.nodeRadius()`. The default value is 20.
 
@@ -160,7 +160,7 @@ d3.select('div#example03')
     });
 </script>
 
-<h3><span class="glyphicon glyphicon-bookmark"></span> Setting the node class</h3>
+### Setting the node class
 
 Set the styles for circles of class `persona` and `institucion`.
 {% highlight css %}
@@ -220,50 +220,50 @@ d3.select('div#example04')
     });
 </script>
 
-<h3><span class="glyphicon glyphicon-bookmark"></span> Adding a Legend</h3>
+### Adding a Legend
 
 To add a legend, the user has to provide a list of all the node types as follows and submit the list to `.legendItems()`.
 
 {% highlight javascript %}
-     var legend = [
-        {name: 'Persona',     type: 'persona'},
-        {name: 'Candidato',   type: 'candidato'},
-        {name: 'Institución', type: 'institucion'}
-    ];
+var legend = [
+    {name: 'Persona',     type: 'persona'},
+    {name: 'Candidato',   type: 'candidato'},
+    {name: 'Institución', type: 'institucion'}
+];
 
-    var chart01 = pty.chart.network()
-        .legendItems(legend);
+var chart01 = pty.chart.network()
+    .legendItems(legend);
 {% endhighlight %}
 
 The style of the circles representing each node type in the legend has to be set separately form the style for the nodes in the graph. This allows for instance to draw a stroke around the legend circles in order to differentiate them from the background without altering the style of the nodes of the graph.
 
 {% highlight javascript %}
-// Legend
-    .legend {
+/* Legend */
+.legend {
 
-        .persona {
-            fill: #75507b;
-            stroke: @grey-light;
-            stroke-width: 1;
-        }
-
-        .candidato {
-            fill: #729fcf;
-            stroke: @grey-light;
-            stroke-width: 1;
-        }
-
-        .institucion {
-            fill: #8ae234;
-            stroke: @grey-light;
-            stroke-width: 1;
-        }
-
-        text {
-            font-size: 11px;
-            fill: @grey-light;
-        }
+    .persona {
+        fill: #75507b;
+        stroke: @grey-light;
+        stroke-width: 1;
     }
+
+    .candidato {
+        fill: #729fcf;
+        stroke: @grey-light;
+        stroke-width: 1;
+    }
+
+    .institucion {
+        fill: #8ae234;
+        stroke: @grey-light;
+        stroke-width: 1;
+    }
+
+    text {
+        font-size: 11px;
+        fill: @grey-light;
+    }
+}
 {% endhighlight %}
 
 <div>
@@ -301,7 +301,6 @@ The style of the circles representing each node type in the legend has to be set
 <div id="example05" class="example"></div>
 
 <script>
-
     var legend = [
         {name: 'Persona',     type: 'persona'},
         {name: 'Candidato',   type: 'candidato'},
@@ -321,7 +320,7 @@ The style of the circles representing each node type in the legend has to be set
     });
 </script>
 
-<h3><span class="glyphicon glyphicon-bookmark"></span> Adding Labels</h3>
+### Adding labels
 
 {% highlight javascript %}
 var chart = pty.chart.network()
@@ -335,7 +334,6 @@ d3.select('div#example05')
 <div class="example" id="example06"></div>
 
 <script>
-
     d3.json('{{ site.baseurl }}/data/A.json', function(error, data) {
 
         // Create a chart with the default options
@@ -348,12 +346,57 @@ d3.select('div#example05')
     });
 </script>
 
+### Adding a text box
 
-<h3><span class="glyphicon glyphicon-bookmark"></span> Basic Settings of the Force Layout</h3>
+It's possible to add a description for each node by setting an accessor for the description attribute. If our nodes have an attribute `description`, we can set the accessor for the node description as shown in the following code block. The position of the text box can be modified by using the `textBox` method, and passing the `x` and `y` offset and the text box size, in pixels.
+
+{% highlight javascript %}
+var chart = pty.chart.network()
+    .nodeDescription(function(d) { return d.description; })
+    .textBox({x: 10, y: 260, width: 340, height: 250);
+
+d3.select('div#example05')
+    .data([data])
+    .call(chart);
+{% endhighlight %}
+
+<div class="example" id="example-7a"></div>
+
+<script>
+    d3.json('{{ site.baseurl }}/data/A.json', function(error, data) {
+
+        // Create a chart with the default options
+        var chart = pty.chart.network()
+            .nodeDescription(function(d) { return d.description; })
+            .textBox({x: 10, y: 260, width: 340, height: 250});
+
+        d3.select('div#example-7a')
+            .data([data])
+            .call(chart);
+    });
+</script>
+
+The style of the text box can be controlled by setting the style for the class `textbox-background` and `textbox-body`.
+
+{% highlight css %}
+/* Description Text Box */
+.textbox-background {
+    fill: #fff;
+    fill-opacity: 0.5;
+}
+
+.textbox-body {
+    font-size: 11px;
+    padding: 6px;
+    opacity: 0;
+}
+{% endhighlight %}
+
+### Basic Settings of the force layout
 
 The user can change the values of the charge, friction, link distance and link strength using the options `.charge()`, `.friction()`, `.linkDistance()` and `linkStrength()` respectively. These are standard properties of the force layout and a complete documentation can be found in the [D3 force layout documentation](https://github.com/mbostock/d3/wiki/Force-Layout). By default, the central node is initially pinned to the center and stays pinned to any location it is dragged to. This can be changed with the option `.fixCenter(false)`.
 
-<h3><span class="glyphicon glyphicon-bookmark" class=""></span> Adding new nodes on click</h3>
+### Adding new nodes on click
 
 In the following example, nodes `B` and `D` have neighbors that are not displayed initially, because they are not connected to the central node `A`. If the `nodeBaseURL` attribute is set, clicking on `B` will retrieve the nodes from `data/B.json` and add them to the chart.
 
@@ -389,8 +432,7 @@ d3.select('div#chart')
     });
 </script>
 
-
-<h3><span class="glyphicon glyphicon-bookmark" class=""></span> Setting link to a new entity</h3>
+### Setting link to a new entity
 
 In the following example, when the user clicks on a node, a link appears on the bottom left of the chart. The text corresponds to the `.nodeLabel()` while the link can be set using `.nodeURL()`.
 
@@ -429,7 +471,7 @@ d3.select('div#chart')
     });
 </script>
 
-<h3><span class="glyphicon glyphicon-bookmark"></span> Embed</h3>
+### Embed
 
 Create a page containing a single network chart (see [here]({{site.baseurl}}/embed) for instance) and insert the `embed` tag with appropiate values.
 

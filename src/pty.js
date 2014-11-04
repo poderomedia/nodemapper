@@ -1,7 +1,7 @@
 /* globals d3:false */
 
 var pty = {
-    version: '0.2.2'  // semver
+    version: '0.2.3'  // semver
 };
 
 // SVG Transformations
@@ -37,13 +37,14 @@ pty.chart.network = function() {
         height: 400,
         nodeRadius: 20,
         charge: function(d, i) { return -4e3; },
-        friction: 0.5,
+        friction: 0.6,
         linkStrength: 0.2,
         linkDistance: 120,
         nodeClass: function(d, i) { return ''; },
         nodeBaseURL: function(d) { return ''; },
         nodeURL: function(d) { return ''; },
         nodeLabel: function(d, i) { return ''; },
+        nodeDescription: function(d) { return false; },
         fixCenter: true,
         duration: 2000,
         delay: 200,
@@ -56,7 +57,13 @@ pty.chart.network = function() {
         fullscreenCallback: false,
         zoomBehavior: d3.behavior.zoom(),
         legendItems: false,
-        legend: {width: 80, margin: {top: 15, right: 10}}
+        legend: {width: 80, margin: {top: 15, right: 10}},
+        textBox: {
+            x:       10,
+            y:      120,
+            width:  300,
+            height: 250
+        }
     };
 
     // Flag to know if the network chart has been drawn
@@ -71,24 +78,25 @@ pty.chart.network = function() {
                 svg = div.selectAll('svg').data([data]),
                 svgEnter = svg.enter().append('svg').call(chart.init);
 
-            var gContainer = svg.select('g.network-chart'),
-                gBackground = gContainer.select('g.background'),
-                gLegend = gContainer.select('g.legend'),
-                gControls = gContainer.select('g.controls'),
-                gZoomCont = gContainer.select('g.zoom-container'),
-                gChart = gZoomCont.select('g.network'),
-                gLinks = gChart.select('g.links'),
-                gNodes = gChart.select('g.nodes'),
-                gLabels = gChart.select('g.labels'),
-                gNodeUrl = gControls.select('g.url-container'),
+            var gContainer   = svg.select('g.network-chart'),
+                gBackground  = gContainer.select('g.background'),
+                gLegend      = gContainer.select('g.legend'),
+                gControls    = gContainer.select('g.controls'),
+                gZoomCont    = gContainer.select('g.zoom-container'),
+                gChart       = gZoomCont.select('g.network'),
+                gLinks       = gChart.select('g.links'),
+                gNodes       = gChart.select('g.nodes'),
+                gLabels      = gChart.select('g.labels'),
+                gNodeUrl     = gControls.select('g.url-container'),
                 nodeUrlLabel = gNodeUrl.select('text.url-container'),
-                nodeUrlLink = gNodeUrl.select('a.url-container');
+                nodeUrlLink  = gNodeUrl.select('a.url-container'),
+                gTextBox     = gContainer.select('g.text-box');
 
             // Controls
-            var gControlRefresh = gControls.select('g.control-item.refresh'),
-                gControlZoomIn = gControls.select('g.control-item.zoom-in'),
-                gControlZoomOut = gControls.select('g.control-item.zoom-out'),
-                gControlEmbed = gControls.select('g.control-item.embed'),
+            var gControlRefresh    = gControls.select('g.control-item.refresh'),
+                gControlZoomIn     = gControls.select('g.control-item.zoom-in'),
+                gControlZoomOut    = gControls.select('g.control-item.zoom-out'),
+                gControlEmbed      = gControls.select('g.control-item.embed'),
                 gControlFullscreen = gControls.select('g.control-item.fullscreen');
 
             // Process the data to remove duplicate links
@@ -155,6 +163,12 @@ pty.chart.network = function() {
                 .links(networkData.links)
                 .start();
 
+            for (var k = 0; k < 250; k += 1) {
+                if (force.alpha() > 0.05) {
+                    force.tick();
+                }
+            }
+
             // Set the label to the root node
             if (!svgEnter.empty()) {
                 nodeUrlLink.attr('xlink:href', me.nodeURL(networkData.rootNode));
@@ -201,7 +215,18 @@ pty.chart.network = function() {
                     // Update the title and link of the lower left label
                     nodeUrlLink.attr('xlink:href', me.nodeURL(d));
                     nodeUrlLabel.text('' + me.nodeLabel(d));
+
+                    if (me.nodeDescription(d)) {
+                        gTextBox.select('body').html(me.nodeDescription(d)).style('opacity', 0.8);
+                    } else {
+                        gTextBox.select('body').html('').style('opacity', 0);
+                    }
                 });
+
+            // Add the class has-conflict if the attribute exists
+            circles.classed('has-conflict', function(d) {
+                return ((d.hasOwnProperty('has_conflict')) && (d.has_conflict === true));
+            });
 
             circles.call(force.drag);
 
@@ -324,14 +349,15 @@ pty.chart.network = function() {
     chart.init = function(selection) {
         selection.each(function(data) {
 
-            var svgEnter = d3.select(this),
-                gContainer = svgEnter.append('g').attr('class', 'network-chart'),
+            var svgEnter    = d3.select(this),
+                gContainer  = svgEnter.append('g').attr('class', 'network-chart'),
                 gBackground = gContainer.append('g').attr('class', 'background'),
-                gBrand = gContainer.append('g').attr('class', 'brand'),
-                gZoomCont = gContainer.append('g').attr('class', 'zoom-container'),
-                gControls = gContainer.append('g').attr('class', 'controls'),
-                gChart = gZoomCont.append('g').attr('class', 'network'),
-                gLegend = gContainer.append('g').attr('class','legend');
+                gBrand      = gContainer.append('g').attr('class', 'brand'),
+                gZoomCont   = gContainer.append('g').attr('class', 'zoom-container'),
+                gControls   = gContainer.append('g').attr('class', 'controls'),
+                gChart      = gZoomCont.append('g').attr('class', 'network'),
+                gLegend     = gContainer.append('g').attr('class','legend'),
+                gTextBox    = gContainer.append('g').attr('class','text-box');
 
             // Set the SVG element width and height
             svgEnter.attr('width', me.width).attr('height', me.height);
@@ -459,6 +485,15 @@ pty.chart.network = function() {
             legendItemLabel
                 .attr('y', function() { return 0.35 * this.getBBox().height; });
 
+            // Text Box
+            var textForeignObject = gTextBox.append('foreignObject')
+                .attr('x',      me.textBox.x)
+                .attr('y',      me.textBox.y)
+                .attr('width',  me.textBox.width)
+                .attr('height', me.textBox.height);
+
+            var textBody = textForeignObject.append('xhtml:body')
+                .classed('textbox-body', true);
         });
     };
 
