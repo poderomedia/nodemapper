@@ -1,6 +1,6 @@
 ---
 layout: main
-title: Panama
+title: Nodemapper
 ---
 
 <link href="{{ site.baseurl }}/css/pty.css" rel="stylesheet">

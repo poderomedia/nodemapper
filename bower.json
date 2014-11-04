@@ -1,10 +1,11 @@
 {
-  "name": "panama-network",
-  "version": "0.2.3",
+  "name": "nodemapper",
+  "version": "0.2.4",
   "authors": [
-    "gregorio <gregorio@masega.co>"
+    "Gregorio Moreno <gregorio@masega.co>",
+    "Pablo Navarro <pablo@masega.co>"
   ],
-  "description": "Redes de influencias en Panamá, Elecciones 2014",
+  "description": "Network Chart",
   "main": "index.md",
   "keywords": [
     "elections",
