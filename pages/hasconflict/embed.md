@@ -3,7 +3,7 @@ layout: main
 title: Embed Demo
 ---
 
-<link href="{{ site.baseurl }}/css/index.css" rel="stylesheet">
+<link href="{{ site.baseurl }}/css/pty.css" rel="stylesheet">
 <link href="{{ site.baseurl }}/css/font-awesome.min.css" rel="stylesheet">
 
 <script src="{{ site.baseurl }}/js/lib/d3.min.js"></script>
@@ -11,6 +11,8 @@ title: Embed Demo
 <script src="{{ site.baseurl }}/js/lib/underscore.js"></script>
 
 # {{ page.title }}
+
+[Embed Target]({{site.baseurl}}/pages/hasconflict/embed-target/A)
 
 <!-- Modal -->
 <div class="modal fade" id="embed-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -80,6 +82,8 @@ d3.json('{{ site.baseurl }}/data/A.json', function(error, data) {
         .nodeLabel(function(d) { return d.name; })
         .nodeBaseURL(function(d) { return '{{site.baseurl}}/data/' + d.id + '.json'; })
         .nodeURL(function(d) { return '{{site.baseurl}}/pages/' + d.id; })
+        .nodeDescription(function(d) { return d.description; })
+        .textBox({x: 10, y: 220, width: 220, height: 300})
         .embedCallback(function() { $('#embed-modal').modal(); });
 
     d3.select('div#demo').data([data]).call(chart01);

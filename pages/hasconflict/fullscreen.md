@@ -3,10 +3,10 @@ layout: main
 title: Fullscreen Demo
 ---
 
-<link href="{{ site.baseurl }}/css/index.css" rel="stylesheet">
+<link href="{{ site.baseurl }}/css/pty.css" rel="stylesheet">
+<link href="{{ site.baseurl }}/css/font-awesome.min.css" rel="stylesheet">
 <script src="{{ site.baseurl }}/js/lib/d3.min.js"></script>
 <script src="{{ site.baseurl }}/src/pty.js"></script>
-<link href="{{ site.baseurl }}/css/font-awesome.min.css" rel="stylesheet">
 
 <script src="{{ site.baseurl }}/js/lib/underscore.js"></script>
 
@@ -51,6 +51,8 @@ d3.json('{{ site.baseurl }}/data/A.json', function(error, data) {
         .nodeLabel(function(d) { return d.name; })
         .nodeBaseURL(function(d) { return '{{site.baseurl}}/data/' + d.id + '.json'; })
         .nodeURL(function(d) { return '{{site.baseurl}}/pages/' + d.id; })
+        .nodeDescription(function(d) { return d.description; })
+        .textBox({x: 10, y: 220, width: 220, height: 300})
         .fullscreenCallback(toFullScreen);
 
         function toNormal() {
@@ -69,6 +71,8 @@ d3.json('{{ site.baseurl }}/data/A.json', function(error, data) {
             chart
                 .width(screen.width)
                 .height(screen.height)
+                .nodeDescription(function(d) { return d.description; })
+                .textBox({x: 10, y: 220, width: 220, height: 300})
                 .fullscreenCallback(toNormal);
 
             d3.select('#fs-modal-chart')
